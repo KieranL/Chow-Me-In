@@ -1,1 +1,1 @@
-# comp4350
+# COMP4350 Winter 2018 Group Project
