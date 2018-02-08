@@ -23,7 +23,6 @@
      "meetLocation": "",
      "meetTime": "yyyy-mm-ddThh:mm:ss",
      "notes": ""
-     "status": ""
   }
 }
    
