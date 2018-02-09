@@ -92,7 +92,7 @@ class DatabaseManager:
 
 #### TESTS ####
 
-db = DatabaseManager('prod')
+db = DatabaseManager('local')
 
 user_table = 'User'
 chow_table = 'Chow'
