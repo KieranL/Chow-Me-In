@@ -101,7 +101,8 @@ class DatabaseManager:
                     'Id': key
                 }
             )
-            return response['Item']
+            return response.get('Item')
+
         except ClientError as e:
             print('Failed to get item: ', key)
             print('Error: ', e.response['Error']['Message'])
@@ -123,3 +124,26 @@ class DatabaseManager:
     def update_item(self, table_name):
         #TODO: Joshua Klassen-implement this function
         return
+
+    #TODO: Joshua Klassen-test this
+    def batch_write(self, table_name, items):
+        if self.table_exists(table_name):
+        
+            table = self.get_table(table_name)
+            with table.batch_writer() as batch:
+                for item in items:
+                    batch.put_item(Item=item)
+            return True
+
+    def delete_item(self, table_name, key):
+        table = self.get_table(table_name)
+        response = table.delete_item(
+            Key={'Id': key}
+        )
+        return response['ResponseMetadata']['HTTPStatusCode'] == 200
+
+    def scan(self, table_name):
+        if self.table_exists(table_name):
+            response = self.get_table(table_name).scan()
+
+            return response.get('Items')
