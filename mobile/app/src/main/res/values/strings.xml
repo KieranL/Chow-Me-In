@@ -5,4 +5,10 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="title_activity_view_chow">ViewChowActivity</string>
+    <string name="food_post_name_here">Chow Post Name Here</string>
+    <string name="food_post_location_here">Chow Post Location Here</string>
+    <string name="food_post_time_here">Chow Post Time Here</string>
+    <string name="food_post_description_here">Chow Post Description Here</string>
+    <string name="chow_me_in">Chow Me In</string>
 </resources>
