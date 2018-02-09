@@ -6,18 +6,38 @@ import database_configuration as config
 from botocore.exceptions import ClientError
 
 class DatabaseManager:
+    """
+    DatabaseManager:
+        Handles interactions with an AWS DynamoDB instance.
+    """
 
     def __init__(self, env):
         self.dynamoDb = boto3.resource('dynamodb', endpoint_url=config.dbenv[env]['endpoint_url'])
-        self.env = env
+        self.env = env # used to check permissions with deleting tables
 
     def get_table(self, table_name):
+        """
+        Returns a table object for the given table_name.
+        *Note: this table might not exist. Use table_exists before get_table.
+        """
         return self.dynamoDb.Table(table_name)
 
     def table_exists(self, table_name):
+        """
+        Checks if a table with the given name exists.
+        Returns true if a table with the given table_name exists, false otherwise,
+        """
         return self.get_table(table_name) in self.dynamoDb.tables.all()
 
-    def create_table(self, table_name, read_capacity=5, write_capacity=5):
+    def create_table(self, table_name):
+        """
+        Creates a table with the given name.
+        The table's key will be 'Id' with type 'Number'.
+        Returns:
+            true if the table was created.
+            false if the table existed before or if the table failed to be created.
+        """
+        
         if self.table_exists(table_name):
             print(table_name, ' already exists!')
             return False
@@ -36,14 +56,23 @@ class DatabaseManager:
                 },
             ],
             ProvisionedThroughput={
-                'ReadCapacityUnits': read_capacity,
-                'WriteCapacityUnits': write_capacity
+                'ReadCapacityUnits': config.read_capacity_units,
+                'WriteCapacityUnits': config.write_capacity_units
             }
         )
 
         return self.table_exists(table_name)
 
     def delete_table(self, table_name):
+        """
+        Deletes the table with the given name.
+
+        Returns:
+            +1: Successfully delete the table.
+            -1: Cannot delete the table.
+            -2: Table does not exist.
+            -3: Other error.
+        """
         if self.env == 'prod':
             print('You can\'t delete a database in prod')
             return -1
@@ -65,6 +94,7 @@ class DatabaseManager:
                 return -3
 
     def get_item(self, table_name, key):
+        """ Gets the item with the given key from the given table """
         try:
             response = self.get_table(table_name).get_item(
                 Key={
@@ -78,8 +108,8 @@ class DatabaseManager:
 
     def put_item(self, table_name, item):
         """
-            Create a new item
-            If item already exists (same key), then this will delete and create a new item
+            Create a new item.
+            If item already exists (same key), then this will delete and create a new item.
         """
         try:
             response = self.get_table(table_name).put_item(
@@ -90,37 +120,6 @@ class DatabaseManager:
             print('Failed to put item: ', item)
             print('Error: ', e.response['Error']['Message'])
 
-#### TESTS ####
-
-db = DatabaseManager('local')
-
-user_table = 'User'
-chow_table = 'Chow'
-
-if not db.table_exists(user_table):
-    db.create_table(user_table)
-    db.put_item(user_table, {'Id': 420})
-
-if not db.table_exists(chow_table):
-    db.create_table(chow_table)
-    db.put_item(chow_table, {'Id': 1})
-
-#print('Creating table test')
-#print(db.create_table('Josh_test'))
-
-#should fail
-#db.delete_table('Josh_test')
-
-#should succeed
-print(db.table_exists(chow_table))
-
-print(db.get_item('Chow', 1))
-print(db.get_item('User', 420))
-
-#print(db.put_item('User', {"FName":"Bob"}))
-
-#print(db.get_table('Josh_test'))
-
-#db.create_table('Josh_test')
-
-#db.delete_table('Josh_test')
+    def update_item(self, table_name):
+        #TODO: Joshua Klassen-implement this function
+        return
