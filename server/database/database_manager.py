@@ -1,9 +1,21 @@
 import boto3
+import json
+import decimal
 import time
 
 import database_configuration as config
 
 from botocore.exceptions import ClientError
+
+# Helper class to convert a DynamoDB item to JSON.
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, decimal.Decimal):
+            if o % 1 > 0:
+                return float(o)
+            else:
+                return int(o)
+        return super(DecimalEncoder, self).default(o)
 
 class DatabaseManager:
     """
@@ -101,7 +113,7 @@ class DatabaseManager:
                     'Id': key
                 }
             )
-            return response.get('Item')
+            return json.loads(json.dumps(response.get('Item'), indent=4, cls=DecimalEncoder))
 
         except ClientError as e:
             print('Failed to get item: ', key)

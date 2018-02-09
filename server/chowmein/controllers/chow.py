@@ -1,4 +1,6 @@
 from flask import jsonify
+import json
+from database.database_manager import DatabaseManager
 
 class ChowController():
     @classmethod
@@ -8,5 +10,6 @@ class ChowController():
     
     @classmethod
     def get_chow(cls, chow_id):
-        chow = {"id": chow_id}
+        db = DatabaseManager('local')
+        chow = db.get_item('Chow', chow_id)
         return jsonify({"success":{"chow": chow}}) #TODO use real data
