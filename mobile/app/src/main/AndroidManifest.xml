@@ -22,6 +22,14 @@
         <activity
             android:name=".ViewChowActivity"
             android:label="@string/title_activity_view_chow"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CreateChowActivity"
+            android:label="@string/title_activity_create_chow"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SearchChowActivity"
+            android:label="@string/title_activity_search_chow"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

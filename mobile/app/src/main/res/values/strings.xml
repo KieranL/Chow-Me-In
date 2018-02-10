@@ -11,4 +11,6 @@
     <string name="food_post_time_here">Chow Post Time Here</string>
     <string name="food_post_description_here">Chow Post Description Here</string>
     <string name="chow_me_in">Chow Me In</string>
+    <string name="title_activity_create_chow">CreateChowActivity</string>
+    <string name="title_activity_search_chow">SearchChowActivity</string>
 </resources>

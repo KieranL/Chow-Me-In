@@ -10,22 +10,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.SearchView;
 
-public class ViewChowActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import java.util.ArrayList;
 
-    TextView chowPostNameTextView;
-    TextView chowPostLocationTextView;
-    TextView chowPostTimeTextView;
-    TextView chowPostDescriptionTextView;
-    Button acceptChowButton;
+import business.SearchChowsHandler;
+
+public class SearchChowActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener, SearchView.OnQueryTextListener {
+
+    SearchView chowSearchView;
+    ListView chowSearchResults;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_chow);
+        setContentView(R.layout.activity_search_chow);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initVariables();
@@ -39,12 +43,26 @@ public class ViewChowActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    private void populateList(CharSequence query) {
+        ArrayList<String> searchResultsAdapter = SearchChowsHandler.searchForChow(query);
+        final ArrayAdapter listAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, searchResultsAdapter);
+        chowSearchResults.setAdapter(listAdapter);
+    }
+
     private void initVariables() {
-        chowPostNameTextView = findViewById(R.id.chowPostNameTextView);
-        chowPostLocationTextView = findViewById(R.id.chowPostLocationTextView);
-        chowPostTimeTextView = findViewById(R.id.chowPostTimeTextView);
-        chowPostDescriptionTextView = findViewById(R.id.chowPostDescriptionTextView);
-        acceptChowButton = findViewById(R.id.acceptChowButton);
+        chowSearchView = findViewById(R.id.chowSearchView);
+        chowSearchResults = findViewById(R.id.chowSearchResults);
+        chowSearchView.setOnQueryTextListener(this);
+        chowSearchResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                viewChow();
+            }
+        });
+    }
+
+    private void viewChow() {
+        startActivity(new Intent(this,ViewChowActivity.class));
     }
 
     @Override
@@ -60,7 +78,7 @@ public class ViewChowActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.view_chow, menu);
+        getMenuInflater().inflate(R.menu.search_chow, menu);
         return true;
     }
 
@@ -85,7 +103,9 @@ public class ViewChowActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_create_chow) {
+        if (id == R.id.nav_home) {
+            startActivity(new Intent(this, MainActivity.class));
+        } else if (id == R.id.nav_create_chow) {
             startActivity(new Intent(this, CreateChowActivity.class));
         } else if (id == R.id.nav_search_chow) {
             startActivity(new Intent(this, SearchChowActivity.class));
@@ -94,5 +114,17 @@ public class ViewChowActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        populateList(s);
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s) {
+        //populateList(s);
+        return false;
     }
 }
