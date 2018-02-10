@@ -108,8 +108,8 @@ class DatabaseManager:
             Deletes the table with the given name.
 
             Returns:
-                +1: Successfully delete the table.
-                -1: Cannot delete the table.
+                 0: Successfully deleted the table.
+                -1: Not allowed to delete the table.
                 -2: Table does not exist.
                 -3: Other error.
             """
@@ -127,7 +127,7 @@ class DatabaseManager:
                     time.sleep(5) #allow for deletion
 
                     print('Table:', table_name, 'deleted!')
-                    return 1
+                    return 0
                 except ClientError as e:
                     print('Failed to delete table:', table_name)
                     print('Error:', e.response['Error']['Message'])
