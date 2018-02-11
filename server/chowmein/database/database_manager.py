@@ -6,7 +6,7 @@ import json
 import decimal
 import time
 
-import database_configuration as config
+import database.database_configuration as config
 
 from botocore.exceptions import ClientError
 
@@ -52,7 +52,7 @@ class DatabaseManager:
         """
 
         def __init__(self, env):
-            self.dynamoDb = boto3.resource('dynamodb', endpoint_url=config.dbenv[env]['endpoint_url'])
+            self.dynamoDb = boto3.resource('dynamodb', endpoint_url=config.dbenv[env]['endpoint_url'], region_name='ca-central-1')
             self.env = env # used to check permissions with deleting tables
 
         def get_table(self, table_name):
