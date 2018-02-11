@@ -1,10 +1,13 @@
 #!/usr/bin/python3
 
+import sys
+sys.path.insert(0, '/opt/python/current/app/server/chowmein')
+
 from flask import Flask
+from database.database_manager import DatabaseManager as database
+
 from apis.chow import chow_api_bp
 from apis.user import user_api_bp
-
-from database.database_manager import DatabaseManager as database
 
 # EB looks for an 'application' callable by default.
 application = Flask(__name__)

@@ -1,0 +1,18 @@
+.chow {
+  background-color: lightgray;
+  margin: 20px;
+}
+
+.right {
+  float: right;
+}
+
+.chow-list {
+  width: 50%;
+  float: left;
+}
+
+app-chow-detail {
+  width: 50%;
+  float: right;
+}
