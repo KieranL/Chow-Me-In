@@ -5,12 +5,15 @@ from database.database_manager import DatabaseManager as database
 class ChowController():
     @classmethod
     def create_chow(cls, chow):
-        return chow #TODO use real data
+        db = database.getInstance()
+        success = db.put_item('Chow', chow)
+        return jsonify({"success": success})
 
     @classmethod
     def get_chows(cls):
-        chows = [{"id": 1}, {"id": 2}]
-        return jsonify({"success":{"chows": chows}}) #TODO use real data
+        db = database.getInstance()
+        chows = db.scan_as_json('Chow')
+        return jsonify({"success":{"chows": chows}})
     
     @classmethod
     def get_chow(cls, chow_id):
@@ -20,7 +23,10 @@ class ChowController():
 
     @classmethod
     def update_chow(cls, chow_id, chow):
-        return chow #TODO use real data
+        db = database.getInstance()
+        chow['Id'] = chow_id
+        success = db.put_item('Chow', chow)
+        return jsonify({"success": success, "chow": chow})
 
     @classmethod
     def delete_chow(cls, chow_id):
