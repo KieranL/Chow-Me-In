@@ -1,0 +1,13 @@
+<div class="chow">
+  <div *ngIf="!chow">Click a Chow to view details</div>
+  <div *ngIf="chow">
+    <span>{{chow.food}}</span>
+    <span class="right">Last updated: {{chow.lastUpdated}}</span>
+    <div>Location: {{chow.meetLocation}}</div>
+    <div>Time: {{chow.meetTime}}</div>
+    <br>
+    <div class="include-newline">{{chow.notes}}</div>
+    <br>
+    <button>Chow Me-In!</button>
+  </div>
+</div>

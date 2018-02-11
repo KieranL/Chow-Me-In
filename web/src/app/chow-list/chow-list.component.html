@@ -1,6 +1,9 @@
-<div class="chow" *ngFor="let chow of chows">
-  <span>{{chow.food}}</span>
-  <span class="right">Last updated: {{chow.lastUpdated}}</span>
-  <div>Location: {{chow.meetLocation}}</div>
-  <div>Time: {{chow.meetTime}}</div>
+<div class="chow-list">
+  <div class="chow" *ngFor="let chow of chows" (click)="onSelect(chow)">
+    <span>{{chow.food}}</span>
+    <span class="right">Last updated: {{chow.lastUpdated}}</span>
+    <div>Location: {{chow.meetLocation}}</div>
+    <div>Time: {{chow.meetTime}}</div>
+  </div>
 </div>
+<app-chow-detail [chow]="selectedChow"></app-chow-detail>
