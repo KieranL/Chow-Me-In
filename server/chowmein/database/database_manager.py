@@ -9,6 +9,7 @@ import time
 import database.database_configuration as config
 
 from botocore.exceptions import ClientError
+from boto3.dynamodb.conditions import Key, Attr
 
 class DecimalEncoder(json.JSONEncoder):
     """
@@ -152,6 +153,13 @@ class DatabaseManager:
                 Create a new item.
                 If item already exists (same key), then this will delete and create a new item.
             """
+
+            #This is a hack
+            #if item doesn't have an idea, it tries to get the next available id
+            #should probably change the id in that case to something we can determine on our own
+            if not 'Id' in item:
+                item['Id'] = self.get_max_primarykey(table_name)
+
             try:
                 response = self.get_table(table_name).put_item(
                     Item=item
@@ -195,6 +203,21 @@ class DatabaseManager:
 
                 return response.get('Items')
 
+        def get_max_primarykey(self, table_name):
+            table = self.get_table(table_name)
+
+            response = table.scan(
+                ProjectionExpression="#id",
+                ExpressionAttributeNames={ "#id": "Id", }
+            )
+
+            MaxValue = 0
+            for item in response['Items']:
+                key = item['Id']
+                MaxValue = max(key, MaxValue)
+
+            return MaxValue + 1
+
         def dynamodbItem_to_string(self, item):
             """ Convert an item from .get_item() to a string """
             return json.dumps(item, indent=4, cls=DecimalEncoder)
@@ -203,6 +226,16 @@ class DatabaseManager:
             """ Wraps .get_item() to return a string """
             return self.dynamodbItem_to_string(self.get_item(table_name, key))
 
+        #TODO: Joshua Klassen: determine if this should be the default behaviour
         def get_item_as_json(self, table_name, key):
             """ Wraps .get_item() to return a json object """
             return json.loads(self.get_item_as_string(table_name, key))
+
+        #TODO: Joshua Klassen: determine if this should be the default behaviour
+        def scan_as_json(self, table_name):
+            items = self.scan(table_name)
+            response = []
+            for item in items:
+                response.append(json.loads(json.dumps(item, cls=DecimalEncoder)))
+            
+            return response

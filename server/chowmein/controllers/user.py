@@ -4,8 +4,10 @@ from database.database_manager import DatabaseManager as database
 
 class UserController():
     @classmethod
-    def create_user(cls, user):        
-        return jsonify({"success":{"user": user}})    
+    def create_user(cls, user):
+        db = database.getInstance()
+        success = db.put_item('User', user)
+        return jsonify({"success": {"User": user}})        
 
     @classmethod
     def get_user(cls, user_id):        
@@ -15,7 +17,10 @@ class UserController():
 
     @classmethod
     def update_user(cls, user_id, user):        
-        return jsonify({"success":{"user": user}})
+        db = database.getInstance()
+        user['Id'] = user_id
+        success = db.put_item('User', user)
+        return jsonify({"success": success, "user": user})
 
     @classmethod
     def delete_user(cls, user_id):        
