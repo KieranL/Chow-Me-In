@@ -9,6 +9,7 @@ import {Chow} from "../chow";
 })
 export class ChowListComponent implements OnInit {
   chows: Chow[];
+  selectedChow: Chow;
 
   constructor(private chowService: ChowService) {
   }
@@ -21,5 +22,9 @@ export class ChowListComponent implements OnInit {
     this.chowService.getChows().subscribe((chows) => {
       this.chows = chows;
     });
+  }
+
+  onSelect(chow: Chow): void {
+    this.selectedChow = chow;
   }
 }

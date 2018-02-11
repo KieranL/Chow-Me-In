@@ -5,11 +5,13 @@ import {AppComponent} from './app.component';
 import {ChowListComponent} from './chow-list/chow-list.component';
 import {ChowService} from './chow.service';
 import {HttpClientModule} from "@angular/common/http";
+import {ChowDetailComponent} from './chow-detail/chow-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ChowListComponent
+    ChowListComponent,
+    ChowDetailComponent
   ],
   imports: [
     BrowserModule,
