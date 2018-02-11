@@ -7,12 +7,14 @@ from flask import Flask
 from database.database_manager import DatabaseManager as database
 
 from apis.chow import chow_api_bp
+from apis.user import user_api_bp
 
 # EB looks for an 'application' callable by default.
 application = Flask(__name__)
 
 #register API endpoint files here
 application.register_blueprint(chow_api_bp)
+application.register_blueprint(user_api_bp)
 
 if __name__ == "__main__":
     db = database.getInstance()
