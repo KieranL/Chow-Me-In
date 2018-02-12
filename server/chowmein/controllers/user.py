@@ -7,7 +7,7 @@ class UserController():
     def create_user(cls, user):
         db = database.getInstance()
         success = db.put_item('User', user)
-        return jsonify({"success": {"User": user}})        
+        return jsonify({"success": success, "user": user})      
 
     @classmethod
     def get_user(cls, user_id):        
