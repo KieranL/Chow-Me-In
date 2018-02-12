@@ -24,7 +24,7 @@ class ChowController():
     @classmethod
     def update_chow(cls, chow_id, chow):
         db = database.getInstance()
-        chow['Id'] = chow_id
+        chow['id'] = chow_id
         success = db.put_item('Chow', chow)
         return jsonify({"success": success, "chow": chow})
 

@@ -73,7 +73,7 @@ class DatabaseManager:
         def create_table(self, table_name):
             """
             Creates a table with the given name.
-            The table's key will be 'Id' with type 'Number'.
+            The table's key will be 'id' with type 'Number'.
             Returns:
                 true if the table was created.
                 false if the table existed before or if the table failed to be created.
@@ -86,13 +86,13 @@ class DatabaseManager:
                 TableName=table_name,
                 KeySchema=[
                     {
-                        'AttributeName': 'Id',
+                        'AttributeName': 'id',
                         'KeyType': 'HASH'
                     }
                 ],
                 AttributeDefinitions=[
                     {
-                        'AttributeName': 'Id',
+                        'AttributeName': 'id',
                         'AttributeType': 'N'
                     },
                 ],
@@ -139,7 +139,7 @@ class DatabaseManager:
             try:
                 response = self.get_table(table_name).get_item(
                     Key={
-                        'Id': key
+                        'id': key
                     }
                 )
                 return response.get('Item')
@@ -157,8 +157,8 @@ class DatabaseManager:
             #This is a hack
             #if item doesn't have an idea, it tries to get the next available id
             #should probably change the id in that case to something we can determine on our own
-            if not 'Id' in item:
-                item['Id'] = self.get_max_primarykey(table_name)
+            if not 'id' in item:
+                item['id'] = self.get_max_primarykey(table_name)
 
             try:
                 response = self.get_table(table_name).put_item(
@@ -188,7 +188,7 @@ class DatabaseManager:
             """ Delete item with the given key from the given table """
             table = self.get_table(table_name)
             response = table.delete_item(
-                Key={'Id': key}
+                Key={'id': key}
             )
             return response['ResponseMetadata']['HTTPStatusCode'] == 200
 
@@ -208,12 +208,12 @@ class DatabaseManager:
 
             response = table.scan(
                 ProjectionExpression="#id",
-                ExpressionAttributeNames={ "#id": "Id", }
+                ExpressionAttributeNames={ "#id": "id", }
             )
 
             MaxValue = 0
             for item in response['Items']:
-                key = item['Id']
+                key = item['id']
                 MaxValue = max(key, MaxValue)
 
             return MaxValue + 1
