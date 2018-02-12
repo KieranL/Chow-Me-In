@@ -2,9 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.chowpals.chowmein">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/chowmein_cat"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -21,7 +23,7 @@
         </activity>
         <activity
             android:name=".ViewChowActivity"
-            android:label="@string/title_activity_view_chow"
+            android:label=""
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CreateChowActivity"
@@ -30,7 +32,7 @@
         <activity
             android:name=".SearchChowActivity"
             android:label="@string/title_activity_search_chow"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

@@ -85,7 +85,9 @@ public class ViewChowActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_create_chow) {
+        if (id == R.id.nav_home) {
+            startActivity(new Intent(this, MainActivity.class));
+        } else if (id == R.id.nav_create_chow) {
             startActivity(new Intent(this, CreateChowActivity.class));
         } else if (id == R.id.nav_search_chow) {
             startActivity(new Intent(this, SearchChowActivity.class));

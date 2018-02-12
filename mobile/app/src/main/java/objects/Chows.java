@@ -14,8 +14,9 @@ Example DynamoDB entry
  */
 
 public class Chows {
-    private int chowID ;
-    private int createdBy ;
+
+    private int chowID;
+    private int createdBy;
     private String createdTime;
     private boolean deleted;
     private String food;
@@ -23,6 +24,9 @@ public class Chows {
     private String meetLocation;
     private String meetTime;
     private String notes;
+
+    public Chows() {
+    }
 
     public Chows(int chowID, int createdBy, String createdTime, boolean deleted, String food, String lastUpdated, String meetLocation, String meetTime, String notes) {
         this.chowID = chowID;
@@ -40,71 +44,37 @@ public class Chows {
         return chowID;
     }
 
-    public void setChowID(int chowID) {
-        this.chowID = chowID;
-    }
-
     public int getCreatedBy() {
         return createdBy;
-    }
-
-    public void setCreatedBy(int createdBy) {
-        this.createdBy = createdBy;
     }
 
     public String getCreatedTime() {
         return createdTime;
     }
 
-    public void setCreatedTime(String createdTime) {
-        this.createdTime = createdTime;
-    }
-
     public boolean isDeleted() {
         return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
     }
 
     public String getFood() {
         return food;
     }
 
-    public void setFood(String food) {
-        this.food = food;
-    }
-
     public String getLastUpdated() {
         return lastUpdated;
-    }
-
-    public void setLastUpdated(String lastUpdated) {
-        this.lastUpdated = lastUpdated;
     }
 
     public String getMeetLocation() {
         return meetLocation;
     }
 
-    public void setMeetLocation(String meetLocation) {
-        this.meetLocation = meetLocation;
-    }
-
     public String getMeetTime() {
         return meetTime;
-    }
-
-    public void setMeetTime(String meetTime) {
-        this.meetTime = meetTime;
     }
 
     public String getNotes() {
         return notes;
     }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
 }
+
+
