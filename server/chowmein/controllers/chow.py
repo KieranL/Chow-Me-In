@@ -8,7 +8,6 @@ class ChowController():
         db = database.getInstance()
         success = db.put_item('Chow', chow)
         response = jsonify({"success": success})
-        response.headers.add('Access-Control-Allow-Origin', '*')
         return response
 
     @classmethod
@@ -16,7 +15,6 @@ class ChowController():
         db = database.getInstance()
         chows = db.scan_as_json('Chow')
         response = jsonify(chows)
-        response.headers.add('Access-Control-Allow-Origin', '*')
         return response
     
     @classmethod

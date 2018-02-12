@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ChowService} from '../chow.service';
 import {Chow} from '../chow';
 
@@ -8,25 +8,32 @@ import {Chow} from '../chow';
   styleUrls: ['./chow-form.component.css']
 })
 export class ChowFormComponent implements OnInit {
-
-  constructor(private chowService: ChowService) { }
+  constructor(private chowService: ChowService) {
+  }
 
   ngOnInit() {
   }
 
   add(food: string, meetLocation: string, meetTime: string, notes: string): void {
-    const newChow = {
-      food: food,
-      meetLocation: meetLocation,
-      meetTime: meetTime,
-      lastUpdated: (new Date()).toISOString().split('.')[0],
-      notes: notes,
+    let newChow: Chow = {
+      lastUpdated: (new Date()).toISOString().split('.')[0]
     };
-    this.chowService.addChow(newChow as Chow)
+    if (food !== "") {
+      newChow.food = food;
+    }
+    if (meetLocation !== "") {
+      newChow.meetLocation = meetLocation;
+    }
+    if (meetTime !== "") {
+      newChow.meetTime = meetTime;
+    }
+    if (notes !== "") {
+      newChow.notes = notes;
+    }
+    this.chowService.addChow(newChow)
       .subscribe(chow => {
         alert('Successfully created new chow!');
         window.location.href = '/chow-list';
       });
   }
-
 }
