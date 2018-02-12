@@ -6,6 +6,7 @@ import json
 
 from server import application as app
 from database.database_manager import DatabaseManager as database
+from dbinit import initialize_local_database as init_db
 
 test_chow = {
         "id": 1,
@@ -39,15 +40,7 @@ class BasicTests(unittest.TestCase):
  
         # Disable sending emails during unit testing
         self.assertEqual(app.debug, False)
-        db = database.getInstance()
-        tables = ['User', 'Chow']
-        for table in tables:
-            if db.table_exists(table):
-                db.delete_table(table)
-        
-        for table in tables:
-            if not db.table_exists(table):
-                db.create_table(table)
+        init_db(True) 
  
     # executed after each test
     def tearDown(self):
@@ -100,7 +93,7 @@ class BasicTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_user_api_create(self):
-        user = {}
+        user = {"fName": "First", "lName": "Last"}
         response = self.app.post('/user', data=dict(user=json.dumps(user)))
         self.assertEqual(response.status_code, 200)
 

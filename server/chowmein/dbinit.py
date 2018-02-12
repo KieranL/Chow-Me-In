@@ -1,7 +1,7 @@
 from __future__ import print_function
 from database.database_manager import DatabaseManager as database
 
-def initialize_local_database():
+def initialize_local_database(testing, require_db_confirm = False):
     
     #map raw_input (python2) to input (python3)
     try:
@@ -9,7 +9,10 @@ def initialize_local_database():
     except NameError:
         pass
 
-    tables = ['User', 'Chow']
+    if(testing):
+        tables = ['UserTest', 'ChowTest']
+    else:
+        tables = ['User', 'Chow']
 
     users = [
 
@@ -44,8 +47,9 @@ def initialize_local_database():
         },
     ]
 
-    print('Make sure DynamoDB Local is running continuing!')
-    input("Press Enter to continue...")
+    if(require_db_confirm):
+        print('Make sure DynamoDB Local is running continuing!')
+        input("Press Enter to continue...")
 
     db = database.getInstance()
 
@@ -73,4 +77,4 @@ def initialize_local_database():
     print('Local db setup complete!')
 
 if __name__ == "__main__":
-    initialize_local_database()
+    initialize_local_database(False, True)
