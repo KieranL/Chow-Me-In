@@ -18,7 +18,7 @@ class UserController():
     @classmethod
     def update_user(cls, user_id, user):        
         db = database.getInstance()
-        user['Id'] = user_id
+        user['id'] = user_id
         success = db.put_item('User', user)
         return jsonify({"success": success, "user": user})
 
