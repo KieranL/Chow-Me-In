@@ -20,7 +20,7 @@ export class ChowFormComponent implements OnInit {
       food: food,
       meetLocation: meetLocation,
       meetTime: meetTime,
-      lastUpdated: Date.now().toString(), // TODO: is lastUpdated determined on the server side or client side?
+      lastUpdated: (new Date()).toISOString().split('.')[0],
       notes: notes,
     };
     this.chowService.addChow(newChow as Chow)
