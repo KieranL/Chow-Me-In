@@ -58,13 +58,14 @@ class BasicTests(unittest.TestCase):
 #### tests ####
 ###############
      
+    ### Chow
+ 
     def test_chow_api_get_all(self):
         response = self.app.get('/chow')
         self.assertEqual(response.status_code, 200)
         
         #how to get response data
         data = json.loads(response.get_data(as_text=True))
-        print(data)
 
     def test_chow_api_get_specific(self):
         chow_id = 1
@@ -72,22 +73,48 @@ class BasicTests(unittest.TestCase):
         response = self.app.get('/chow/' + str(chow_id))
         self.assertEqual(response.status_code, 200)
 
-    def test_chow_api_create_chow(self):
+    def test_chow_api_create(self):
         chow = test_chow
         response = self.app.post('/chow', data=dict(chow=json.dumps(chow)))
         self.assertEqual(response.status_code, 200)
 
-    def test_chow_api_update_chow(self):
+    def test_chow_api_update(self):
         chow = {"notes": "testing"}
         chow_id = 1
 
         response = self.app.post('/chow/' + str(chow_id), data=dict(chow=json.dumps(chow)))
         self.assertEqual(response.status_code, 200)
 
-    def test_chow_api_delete_chow(self):        
+    def test_chow_api_delete(self):        
         chow_id = 1
         
         response = self.app.delete('/chow/' + str(chow_id))
+        self.assertEqual(response.status_code, 200)
+
+    ### User
+
+    def test_user_api_get(self):
+        user_id = 1
+
+        response = self.app.get('/user/' + str(user_id))
+        self.assertEqual(response.status_code, 200)
+
+    def test_user_api_create(self):
+        user = {}
+        response = self.app.post('/user', data=dict(user=json.dumps(user)))
+        self.assertEqual(response.status_code, 200)
+
+    def test_user_api_update(self):
+        user = {}
+        user_id = 1
+
+        response = self.app.post('/user/' + str(user_id), data=dict(user=json.dumps(user)))
+        self.assertEqual(response.status_code, 200)
+
+    def test_user_api_delete(self):        
+        user_id = 1
+        
+        response = self.app.delete('/user/' + str(user_id))
         self.assertEqual(response.status_code, 200)
 
 if __name__ == "__main__":
