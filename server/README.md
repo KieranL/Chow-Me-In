@@ -1,8 +1,12 @@
 # Server
 
-## Setup
+## Server Setup
 
 `pip install -r requirements.txt`
+
+## Local DB Setup
+
+Guide in the database [README](https://github.com/KieranL/Chow-Me-In/tree/master/server/chowmein/database)
 
 ## Running the server
 
