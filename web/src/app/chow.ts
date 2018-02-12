@@ -1,5 +1,5 @@
 export class Chow {
-  id: number;
+  id?: number;
   food: string;
   meetLocation: string;
   meetTime: string;
