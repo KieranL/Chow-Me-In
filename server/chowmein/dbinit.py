@@ -14,16 +14,16 @@ def initialize_local_database():
     users = [
 
         {
-            'FName': 'Snoop',
-            'LName': 'Dogg'
+            'fName': 'Snoop',
+            'lName': 'Dogg'
         },
         {
-            'FName': 'Dat',
-            'LName': 'Boi'
+            'fName': 'Dat',
+            'lName': 'Boi'
         },
         {
-            'FName': 'Mr',
-            'LName': 'Raccoon'
+            'fName': 'Mr',
+            'lName': 'Raccoon'
         },
     ]
 
