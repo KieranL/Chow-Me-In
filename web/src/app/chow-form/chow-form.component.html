@@ -1,3 +1,24 @@
-<p>
-  chow-form works!
-</p>
+<div class="container">
+  <form>
+    <div class="form-group">
+      <label for="food">Food</label>
+      <input type="text" class="form-control" #food />
+    </div>
+    <div class="form-group">
+      <label for="meetLocation">Meeting Location</label>
+      <input type="text" class="form-control" #meetLocation />
+    </div>
+    <div class="form-group">
+      <label for="meetTime">Meeting Time</label>
+      <input type="text" class="form-control" #meetTime />
+    </div>
+    <div class="form-group">
+      <label for="notes">Notes and Contact Information</label>
+      <textarea class="form-control" rows="5" #notes></textarea>
+    </div>
+  </form>
+
+  <button class="btn btn-success" (click)="add(food.value, meetLocation.value, meetTime.value, notes.value)">
+    Create
+  </button>
+</div>

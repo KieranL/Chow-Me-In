@@ -1,8 +1,13 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <ul class="nav navbar-nav navbar-right">
+      <li><a routerLink="/chow-list">Home</a></li>
+      <li><a routerLink="/create-chow">Create a New Chow</a></li>
+    </ul>
+  </div>
+</nav>
+
 <h1>
   Welcome to {{ title }}!
 </h1>
-<nav>
-  <a routerLink="/chow-list">List of Chows</a>
-  <a routerLink="/create-chow">Create a New Chow</a>
-</nav>
 <router-outlet></router-outlet>
