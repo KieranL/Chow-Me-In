@@ -4,12 +4,13 @@ Chow-Me-In uses AWS DynamoDB for it's data storage needs
 
 The production database is hosted in AWS, but thanks to `DynamoDB Local` you can setup your own local database to use.
 
-* **Setup**
+* [**Setup**](#setup)
     * [boto3 installation](#boto3-installation)
     * [aws cli installation](#aws-cli-installation)
     * [aws cli configuration](#aws-cli-configuration)
     * [DynamoDB Local installation](#dynamodb-local-installation)
     * [Putting it all together](#putting-it-all-together)
+* [**Initializing your database**](#initializing-your-database)
 
 ## **SETUP**
 
@@ -32,7 +33,7 @@ or if you are on Mac:
 pip install --ignore-installed six boto3
 ```
 
-If you are having troubles installing this on Mac, you can look [here]((https://github.com/boto/boto3/issues/296))
+If you are having troubles installing this on Mac, you can look [here](https://github.com/boto/boto3/issues/296)
 
 If that does not help, please send an email to _klass130@myumanitoba.ca_
 
@@ -86,4 +87,13 @@ To do so, use a separate console and navigate to where `DynamoDB Local` was down
 
 ```
 java -Djava.library.pathh=./DynamoDBLocal_lib/ -jar DynamoDBLocal.jar -sharedDb
+```
+
+## **Initializing your database**
+
+After installation is complete, and you have `DynamoDB Local` running, you can choose to start from scratch or use our script to pre-populate your local database.
+
+To do so, in the `server` folder run:
+```
+python dbinit.py
 ```
