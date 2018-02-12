@@ -24,12 +24,12 @@
      "meetTime": "yyyy-mm-ddThh:mm:ss",
      "notes": ""
   }
-}```
+}
+```
 
 ## Unit Testing
 
 ### DB unit tests
-Make sure `DynamoDB Local` is running, database README has instructions on set up
 
+Make sure `DynamoDB Local` is running, database README has instructions on set up
 `python db_tests.py`
-   
