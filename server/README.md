@@ -1,8 +1,8 @@
 # **Server**
 
-
 * [How to setup server locally](#how-to-setup-server-locally)
   * [Installation](#installation)
+  * [Local database setup](#local-database-setup)
   * [Running the server](#running-the-server)
 * [Data models](#data-models)
   * [User](#user)
@@ -19,6 +19,8 @@
     * [Getting a chow](#getting-a-chow)
     * [Updating a chow](#updating-a-chow)
     * [Deleting a chow](#deleting-a-chow)
+* [Unit Testing](#unit-testing)
+  * [Database unit tests](#database-unit-tests)
 
 ## **How to setup server locally**
 ---
@@ -26,7 +28,12 @@
 
 `pip install -r requirements.txt`
 
+### ***Local database Setup***
+In order for the server to run locally, you will need a local database.
+To setup one up, see [here](chowmein/database/README.md) 
+
 ### **Running the server**
+Once you have a local database up and running, you can start the server by running:
 
 `python server.py`
 
@@ -132,7 +139,7 @@ Returns: {
   "success": True/False
 }
 ```
-## **Chow Endpoint**
+### **Chow Endpoint**
 For more information on the `chow` object, see [here](#chow)
 
 ### **Creating a chow**
@@ -205,3 +212,12 @@ Returns: {
   "success": True/False
 }
 ```
+
+## Unit Testing
+---
+### Database unit tests
+
+Make sure `DynamoDB Local` is running, see [here](chowmein/database/README.md).
+Then run:
+
+`python db_tests.py`
