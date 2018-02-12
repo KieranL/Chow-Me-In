@@ -52,7 +52,7 @@ class BasicTests(unittest.TestCase):
         self.db.put_item('ChowTest', {'food':'strawberry white chocolate mousse cake'})
         chow = self.db.get_item_as_json('ChowTest', 1)
         self.assertIsNotNone(chow, msg='table should not be empty')
-        self.assertEqual(chow['Id'], 1, msg='id does not match')
+        self.assertEqual(chow['id'], 1, msg='id does not match')
 
     def test_get_chow(self):
         numChows = 2
@@ -60,7 +60,7 @@ class BasicTests(unittest.TestCase):
         self.db.put_item('ChowTest', {'food':'cherry tart'})
 
         chow = self.db.get_item_as_json('ChowTest', 1)
-        self.assertEqual(chow['Id'], 1, msg='id does not match')
+        self.assertEqual(chow['id'], 1, msg='id does not match')
         self.assertEqual(chow['food'],'caramel rum apple cake', msg='unmatched food name')
 
         # test get all chows
@@ -90,35 +90,35 @@ class BasicTests(unittest.TestCase):
         user = self.db.get_item_as_json('UserTest', 1)
         self.assertIsNone(user, msg='table should not contain any item')
 
-        self.db.put_item('UserTest', {'userFName':'rocky'})
+        self.db.put_item('UserTest', {'fName':'rocky'})
         user = self.db.get_item_as_json('UserTest', 1)
         self.assertIsNotNone(user, msg='table should not be empty')
-        self.assertEqual(user['Id'], 1, msg='id does not match')
+        self.assertEqual(user['id'], 1, msg='id does not match')
 
     def test_get_user(self):
         numUsers = 2
-        self.db.put_item('UserTest', {'userFName':'rocky'})
-        self.db.put_item('UserTest', {'userFName':'rocky2'})
+        self.db.put_item('UserTest', {'fName':'rocky'})
+        self.db.put_item('UserTest', {'fName':'rocky2'})
         user = self.db.get_item_as_json('UserTest', 1)
-        self.assertEqual(user['Id'], 1, msg='id does not match')
-        self.assertEqual(user['userFName'], 'rocky', msg='unmatched user first name')
+        self.assertEqual(user['id'], 1, msg='id does not match')
+        self.assertEqual(user['fName'], 'rocky', msg='unmatched user first name')
 
         # test get all users
         users = self.db.scan_as_json('UserTest')
         self.assertEqual(len(users), numUsers)
 
     def test_update_user(self):
-        self.db.put_item('UserTest', {'userFName':'rocky'})
+        self.db.put_item('UserTest', {'fName':'rocky'})
         user = self.db.get_item_as_json('UserTest', 1)
-        self.assertEqual(user['userFName'],'rocky', msg='unmatched user first name')
+        self.assertEqual(user['fName'],'rocky', msg='unmatched user first name')
 
-        user['userFName'] = 'rocky the racoon'
+        user['fName'] = 'rocky the racoon'
         self.db.put_item('UserTest', user)
         user = self.db.get_item_as_json('UserTest', 1)
-        self.assertEqual(user['userFName'],'rocky the racoon', msg='unmatched user first name')
+        self.assertEqual(user['fName'],'rocky the racoon', msg='unmatched user first name')
 
     def test_delete_user(self):
-        self.db.put_item('UserTest', {'userFName':'rocky'})
+        self.db.put_item('UserTest', {'fName':'rocky'})
         user = self.db.get_item_as_json('UserTest', 1)
         self.assertIsNotNone(user, msg='table should not be empty')
 
