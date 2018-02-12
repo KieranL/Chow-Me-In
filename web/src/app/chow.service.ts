@@ -1,13 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Chow} from "./chow";
-import {CHOWS} from "./mock-chows";
 import {Observable} from "rxjs/Observable";
-import {of} from "rxjs/observable/of";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../environments/environment";
 
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({'Content-Type': 'text/plain'})
+  // TODO: Sort out CORS issues and make this application/json
 };
 
 @Injectable()
@@ -18,15 +17,10 @@ export class ChowService {
   }
 
   getChows(): Observable<Chow[]> {
-    return of(CHOWS);
-    // return this.http.get<Chow[]>(this.chowUrl);
-    // TODO: replace mock data with real htp call
+    return this.http.get<Chow[]>(this.chowUrl);
   }
 
-  addChow (chow: Chow): Observable<Chow> {
-    chow.id = 4;
-    return of(chow);
-    // TODO: replace w/ real http call
-    // return this.http.post<Chow>(this.chowUrl, chow, httpOptions);
+  addChow(chow: Chow): Observable<Chow> {
+    return this.http.post<Chow>(this.chowUrl, chow, httpOptions);
   }
 }
