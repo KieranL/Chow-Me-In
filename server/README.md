@@ -32,4 +32,5 @@
 ### DB unit tests
 
 Make sure `DynamoDB Local` is running, database README has instructions on set up
+
 `python db_tests.py`
