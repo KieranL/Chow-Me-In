@@ -16,7 +16,6 @@ export class ChowFormComponent implements OnInit {
 
   add(food: string, meetLocation: string, meetTime: string, notes: string): void {
     const newChow = {
-      id: null,
       food: food,
       meetLocation: meetLocation,
       meetTime: meetTime,

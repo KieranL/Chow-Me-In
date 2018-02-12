@@ -7,13 +7,17 @@ class ChowController():
     def create_chow(cls, chow):
         db = database.getInstance()
         success = db.put_item('Chow', chow)
-        return jsonify({"success": success})
+        response = jsonify({"success": success})
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
 
     @classmethod
     def get_chows(cls):
         db = database.getInstance()
         chows = db.scan_as_json('Chow')
-        return jsonify({"success":{"chows": chows}})
+        response = jsonify(chows)
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
     
     @classmethod
     def get_chow(cls, chow_id):
