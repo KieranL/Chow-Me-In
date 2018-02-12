@@ -6,16 +6,20 @@ import {ChowListComponent} from './chow-list/chow-list.component';
 import {ChowService} from './chow.service';
 import {HttpClientModule} from "@angular/common/http";
 import {ChowDetailComponent} from './chow-detail/chow-detail.component';
+import { ChowFormComponent } from './chow-form/chow-form.component';
+import { AppRoutingModule } from './/app-routing.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     ChowListComponent,
-    ChowDetailComponent
+    ChowDetailComponent,
+    ChowFormComponent
   ],
   imports: [
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule
   ],
   providers: [ChowService],
   bootstrap: [AppComponent]
