@@ -32,18 +32,30 @@ class DatabaseManager:
     """
 
     instance = None
+    debug = False
 
     @staticmethod
     def getInstance():
         """Get the instance of DatabaseConnection"""
         if DatabaseManager.instance is None:
+            DatabaseManager.__initializeInstance()
             
-            env = os.getenv('DB_ENV', 'local')
-            if env != 'prod' and env != 'local':
-                env = 'local'
-
-            DatabaseManager.instance = DatabaseManager.__DatabaseConnection(env)
         return DatabaseManager.instance
+
+    @staticmethod
+    def __initializeInstance():
+        env = os.getenv('DB_ENV', 'local')
+        if env != 'prod' and env != 'local':
+            env = 'local'
+
+        DatabaseManager.instance = DatabaseManager.__DatabaseConnection(env)
+
+    @staticmethod
+    def toggleDebugMessages(debug):
+        if DatabaseManager.instance is None:
+            DatabaseManager.__initializeInstance()
+
+        DatabaseManager.instance.toggleDebugMessages(debug)
 
     class __DatabaseConnection:
         
@@ -52,9 +64,17 @@ class DatabaseManager:
             Handles interactions with an AWS DynamoDB instance.
         """
 
-        def __init__(self, env):
+        def __init__(self, env, debug=False):
             self.dynamoDb = boto3.resource('dynamodb', endpoint_url=config.dbenv[env]['endpoint_url'], region_name='ca-central-1')
             self.env = env # used to check permissions with deleting tables
+            self.debug = debug
+
+        def toggleDebugMessages(self, debug):
+            self.debug = debug
+
+        def log(self, *content):
+            if self.debug:
+                print(*content)
 
         def get_table(self, table_name):
             """
@@ -80,7 +100,7 @@ class DatabaseManager:
             """
             
             if self.table_exists(table_name):
-                print('Table:', table_name,' already exists!')
+                self.log('Table:', table_name,' already exists!')
                 return False
             table = self.dynamoDb.create_table(
                 TableName=table_name,
@@ -102,7 +122,12 @@ class DatabaseManager:
                 }
             )
 
-            return self.table_exists(table_name)
+            success = self.table_exists(table_name)
+
+            if success:
+                self.log('Table',table_name,'created!')
+
+            return success
 
         def delete_table(self, table_name):
             """
@@ -115,19 +140,19 @@ class DatabaseManager:
                 -3: Other error.
             """
             if self.env == 'prod':
-                print('You can\'t delete a database in prod')
+                self.log('You can\'t delete a database in prod')
                 return -1
             elif not self.table_exists(table_name):
-                print('Table:', table_name, 'does not exist!')
+                self.log('Table:', table_name, 'does not exist!')
                 return -2
             else:
                 try:
-                    print('Deleting table:', table_name)
+                    self.log('Deleting table:', table_name)
 
                     self.get_table(table_name).delete()
                     time.sleep(5) #allow for deletion
 
-                    print('Table:', table_name, 'deleted!')
+                    self.log('Table:', table_name, 'deleted!')
                     return 0
                 except ClientError as e:
                     print('Failed to delete table:', table_name)
