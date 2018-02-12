@@ -1,4 +1,8 @@
 <h1>
   Welcome to {{ title }}!
 </h1>
-<app-chow-list></app-chow-list>
+<nav>
+  <a routerLink="/chow-list">List of Chows</a>
+  <a routerLink="/create-chow">Create a New Chow</a>
+</nav>
+<router-outlet></router-outlet>
