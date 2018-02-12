@@ -6,8 +6,7 @@ chow_api_bp = Blueprint('chow', __name__)
 
 @chow_api_bp.route('/chow', methods=['POST'])
 def create_chow():
-    data = request.get_json(True)
-    return ChowController.create_chow(data)
+    return ChowController.create_chow(request.json)
 
 @chow_api_bp.route('/chow', methods=['GET'])
 def get_chows():
