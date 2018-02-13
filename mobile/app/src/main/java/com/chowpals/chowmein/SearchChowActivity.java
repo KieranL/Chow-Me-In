@@ -11,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -18,6 +20,7 @@ import android.widget.SearchView;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import interfaces.ChowMeInService;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -31,7 +34,8 @@ public class SearchChowActivity extends AppCompatActivity
 
     SearchView chowSearchView;
     ListView chowSearchResults;
-    private static final String BASE_URL = "http://chowmein.ca-central-1.elasticbeanstalk.com";
+    List<Chows> chowsListed;
+    private static final String BASE_URL = "https://api.chowme-in.com"//"http://chowmein.ca-central-1.elasticbeanstalk.com";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +64,8 @@ public class SearchChowActivity extends AppCompatActivity
         apiClient.listSelectChows(1).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
                     //for (Chows repo : response) {
-                    searchResultList.add(response.getChowID());
+                    if (response != null)
+                        searchResultList.add(response.getChowID());
                     ArrayAdapter<? extends Integer> resultAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, searchResultList);
                     chowSearchResults.setAdapter(resultAdapter);
                     //}
@@ -70,7 +75,7 @@ public class SearchChowActivity extends AppCompatActivity
     }
 
     private void prepopulateList() {
-        ArrayList<Integer> searchResultList = new ArrayList<>();
+        ArrayList<String> searchResultList = new ArrayList<>();
         Retrofit.Builder builder = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJava2CallAdapterFactory.create());
 
         Retrofit retrofit = builder.build();
@@ -79,13 +84,41 @@ public class SearchChowActivity extends AppCompatActivity
         apiClient.listChows().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
                     for (Chows repo : response) {
-                    searchResultList.add(repo.getChowID());
+                        repo = (verifyChow(repo));
+                        searchResultList.add(repo.getFood());
                     }
-                    ArrayAdapter<? extends Integer> resultAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, searchResultList);
+                    ArrayAdapter<? extends String> resultAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, searchResultList);
                     chowSearchResults.setAdapter(resultAdapter);
                 }, error -> {
                     Log.i("error", "Error");
                 });
+    }
+
+    private Chows verifyChow(Chows repo) {
+        if (repo.getCreatedTime() == null) {
+            repo.setCreatedTime("");
+        }
+
+        if (repo.getFood() == null) {
+            repo.setFood("");
+        }
+
+        if (repo.getLastUpdated() == null) {
+            repo.setLastUpdated("");
+        }
+
+        if (repo.getMeetLocation() == null) {
+            repo.setMeetLocation("");
+        }
+
+        if (repo.getMeetTime() == null) {
+            repo.setMeetTime("");
+        }
+
+        if (repo.getNotes() == null) {
+            repo.setNotes("");
+        }
+        return repo;
     }
 
     private void initVariables() {
@@ -105,7 +138,12 @@ public class SearchChowActivity extends AppCompatActivity
                 return false;
             }
         });
-        chowSearchResults.setOnItemClickListener((adapterView, view, i, l) -> viewChow());
+        chowSearchResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //Chows selectedChow =
+            }
+        });
         prepopulateList();
     }
 

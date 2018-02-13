@@ -13,7 +13,10 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
+        <item name="android:title" > </item>
+    </style>
+
 
     <style name="ViewChowTextView">
         <item name="android:textStyle">bold</item>

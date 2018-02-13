@@ -75,6 +75,42 @@ public class Chows {
     public String getNotes() {
         return notes;
     }
+
+    public void setChowID(int chowID) {
+        this.chowID = chowID;
+    }
+
+    public void setCreatedBy(int createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public void setCreatedTime(String createdTime) {
+        this.createdTime = createdTime;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public void setFood(String food) {
+        this.food = food;
+    }
+
+    public void setLastUpdated(String lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+
+    public void setMeetLocation(String meetLocation) {
+        this.meetLocation = meetLocation;
+    }
+
+    public void setMeetTime(String meetTime) {
+        this.meetTime = meetTime;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
 }
 
 
