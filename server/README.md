@@ -221,3 +221,4 @@ Make sure `DynamoDB Local` is running, see [here](chowmein/database/README.md).
 Then run:
 
 `python db_tests.py`
+`python api_tests.py`
