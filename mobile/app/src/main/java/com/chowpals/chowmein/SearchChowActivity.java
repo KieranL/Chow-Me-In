@@ -2,6 +2,7 @@ package com.chowpals.chowmein;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -11,8 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -34,8 +33,8 @@ public class SearchChowActivity extends AppCompatActivity
 
     SearchView chowSearchView;
     ListView chowSearchResults;
-    List<Chows> chowsListed;
-    private static final String BASE_URL = "https://api.chowme-in.com"//"http://chowmein.ca-central-1.elasticbeanstalk.com";
+    ArrayList<Chows> chowsListed;
+    private static final String BASE_URL = "https://api.chowme-in.com"; //Previous working API location: "http://chowmein.ca-central-1.elasticbeanstalk.com";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,23 +54,13 @@ public class SearchChowActivity extends AppCompatActivity
     }
 
     private void getResultsAdapter(CharSequence query) {
-        ArrayList<Integer> searchResultList = new ArrayList<>();
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJava2CallAdapterFactory.create());
-
-        Retrofit retrofit = builder.build();
-        ChowMeInService apiClient = retrofit.create(ChowMeInService.class);
-
-        apiClient.listSelectChows(1).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> {
-                    //for (Chows repo : response) {
-                    if (response != null)
-                        searchResultList.add(response.getChowID());
-                    ArrayAdapter<? extends Integer> resultAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, searchResultList);
-                    chowSearchResults.setAdapter(resultAdapter);
-                    //}
-                }, error -> {
-                    Log.i("error", "Error");
-                });
+        ArrayList<String> searchResultList = new ArrayList<>();
+        for (int i = 0; i < chowsListed.size(); i++) {
+            if (chowsListed.get(i).getFood().contains(query))
+                searchResultList.add(chowsListed.get(i).getFood());
+        }
+        ArrayAdapter<? extends String> resultAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, searchResultList);
+        chowSearchResults.setAdapter(resultAdapter);
     }
 
     private void prepopulateList() {
@@ -82,16 +71,15 @@ public class SearchChowActivity extends AppCompatActivity
         ChowMeInService apiClient = retrofit.create(ChowMeInService.class);
 
         apiClient.listChows().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> {
+                .subscribe((List<Chows> response) -> {
                     for (Chows repo : response) {
                         repo = (verifyChow(repo));
                         searchResultList.add(repo.getFood());
+                        chowsListed.add(repo);
                     }
                     ArrayAdapter<? extends String> resultAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, searchResultList);
                     chowSearchResults.setAdapter(resultAdapter);
-                }, error -> {
-                    Log.i("error", "Error");
-                });
+                }, error -> Log.i("error", "Error"));
     }
 
     private Chows verifyChow(Chows repo) {
@@ -122,13 +110,13 @@ public class SearchChowActivity extends AppCompatActivity
     }
 
     private void initVariables() {
+        chowsListed = new ArrayList<>();
         chowSearchView = findViewById(R.id.chowSearchView);
         chowSearchResults = findViewById(R.id.chowSearchResults);
         chowSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 getResultsAdapter(s);
-                chowSearchView.onActionViewCollapsed();
                 return false;
             }
 
@@ -138,22 +126,22 @@ public class SearchChowActivity extends AppCompatActivity
                 return false;
             }
         });
-        chowSearchResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //Chows selectedChow =
-            }
+        chowSearchResults.setOnItemClickListener((adapterView, view, i, l) -> {
+            Chows selectedChow = chowsListed.get(i);
+            viewChow(selectedChow);
         });
         prepopulateList();
     }
 
-    private void viewChow() {
-        startActivity(new Intent(this, ViewChowActivity.class));
+    private void viewChow(Chows selectedChow) {
+        Intent viewSelectedChow = new Intent(this, ViewChowActivity.class);
+        viewSelectedChow.putExtra("Selected Chow", selectedChow);
+        startActivity(viewSelectedChow);
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -185,7 +173,7 @@ public class SearchChowActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -195,7 +183,7 @@ public class SearchChowActivity extends AppCompatActivity
             startActivity(new Intent(this, CreateChowActivity.class));
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

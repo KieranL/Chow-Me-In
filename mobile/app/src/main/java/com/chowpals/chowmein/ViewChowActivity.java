@@ -2,6 +2,7 @@ package com.chowpals.chowmein;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,6 +14,8 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
+import objects.Chows;
+
 public class ViewChowActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -21,25 +24,36 @@ public class ViewChowActivity extends AppCompatActivity
     TextView chowPostTimeTextView;
     TextView chowPostDescriptionTextView;
     Button acceptChowButton;
+    Chows selectedChow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_chow);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initVariables();
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        populateChowInfo();
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    private void populateChowInfo() {
+        chowPostNameTextView.setText(selectedChow.getFood());
+        chowPostLocationTextView.setText(selectedChow.getMeetLocation());
+        chowPostTimeTextView.setText(selectedChow.getMeetTime());
+        chowPostDescriptionTextView.setText(selectedChow.getNotes());
+    }
+
     private void initVariables() {
+        Intent searchChowResult = getIntent();
+        selectedChow = (Chows) searchChowResult.getSerializableExtra("Selected Chow");
         chowPostNameTextView = findViewById(R.id.chowPostNameTextView);
         chowPostLocationTextView = findViewById(R.id.chowPostLocationTextView);
         chowPostTimeTextView = findViewById(R.id.chowPostTimeTextView);
@@ -49,7 +63,7 @@ public class ViewChowActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -81,7 +95,7 @@ public class ViewChowActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -93,7 +107,7 @@ public class ViewChowActivity extends AppCompatActivity
             startActivity(new Intent(this, SearchChowActivity.class));
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

@@ -1,32 +1,48 @@
 package com.chowpals.chowmein;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
+
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.Date;
 
+import interfaces.ChowMeInService;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import objects.APISuccessObject;
 import objects.Chows;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CreateChowActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     EditText chowPostNameEditText;
     EditText chowPostLocationEditText;
-    EditText chowPostTimeEditText;
+    DatePicker chowPostDatePicker;
+    TimePicker chowPostTimePicker;
     EditText chowPostDescriptionEditText;
     Button createChowButton;
+    private static final String BASE_URL = "https://api.chowme-in.com"; //Previous working API location: "http://chowmein.ca-central-1.elasticbeanstalk.com";
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,10 +60,12 @@ public class CreateChowActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void initVariables() {
         chowPostNameEditText = findViewById(R.id.chowPostNameEditText);
         chowPostLocationEditText = findViewById(R.id.chowPostLocationEditText);
-        chowPostTimeEditText = findViewById(R.id.chowPostTimeEditText);
+        chowPostTimePicker = findViewById(R.id.chowPostTimePicker);
+        chowPostDatePicker = findViewById(R.id.chowPostDatePicker);
         chowPostDescriptionEditText = findViewById(R.id.chowPostDescriptionEditText);
         createChowButton = findViewById(R.id.createChowButton);
         createChowButton.setOnClickListener(view -> {
@@ -60,8 +78,24 @@ public class CreateChowActivity extends AppCompatActivity
                 Chows newChow = new Chows(1, 1, String.valueOf(new Date()), false,
                         String.valueOf(chowPostNameEditText.getText()), String.valueOf(new Date()),
                         String.valueOf(chowPostLocationEditText.getText()),
-                        String.valueOf(chowPostTimeEditText.getText()),
+                        String.valueOf(chowPostDatePicker.getYear() + "-" + chowPostDatePicker.getMonth() + "-" + chowPostDatePicker.getDayOfMonth()
+                                + " " + chowPostTimePicker.getHour() + ":" + chowPostTimePicker.getMinute()),
                         String.valueOf(chowPostDescriptionEditText.getText()));
+
+                Retrofit.Builder builder = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+
+                Retrofit retrofit = builder.build();
+                ChowMeInService apiClient = retrofit.create(ChowMeInService.class);
+
+                apiClient.createChows(newChow).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                        .subscribe((APISuccessObject response) -> {
+                            if (response.isSuccess())
+                                Log.i("Success", "Success");
+                            else
+                                Log.i("error", "Error");
+                        });
+
+
             }
         });
     }

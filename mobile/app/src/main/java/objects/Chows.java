@@ -13,7 +13,9 @@ Example DynamoDB entry
   "notes": "Hit me up"
  */
 
-public class Chows {
+import java.io.Serializable;
+
+public class Chows implements Serializable{
 
     private int chowID;
     private int createdBy;
