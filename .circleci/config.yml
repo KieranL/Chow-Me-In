@@ -1,0 +1,21 @@
+# Python CircleCI 2.0 configuration file
+version: 2
+jobs:
+  build:
+    docker:
+      # Primary container
+      - image: circleci/python:3.6.1
+      
+      # Service containers
+      - image: cnadiminti/dynamodb-local
+
+    steps:
+      - checkout
+
+      - run:
+          command: |
+            echo environment information
+            echo docker version
+            echo python --version
+            echo pip -V
+          
