@@ -15,7 +15,7 @@ jobs:
       - run:
           command: |
             echo environment information
-            docker version
+            sudo docker version
             python --version
             pip -V
           
