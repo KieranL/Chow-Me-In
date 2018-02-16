@@ -39,7 +39,7 @@ jobs:
             mkdir ~/DynamoDBLocal
             cd ~/DynamoDBLocal
             curl -O https://s3-us-west-2.amazonaws.com/dynamodb-local/dynamodb_local_latest.tar.gz
-            tar xvz dynamodb_local_latest.tar.gz
+            tar -xvzf dynamodb_local_latest.tar.gz
  
       - run:
           name: Start up DynamoDB local
@@ -50,8 +50,9 @@ jobs:
 
       - run:
           name: Run Test
-          command:
+          command: |
             python api_tests.py
+            python db_tests.py
           working_directory: server/chowmein
           
           
