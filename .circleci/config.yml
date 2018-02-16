@@ -39,12 +39,12 @@ jobs:
             mkdir ~/DynamoDBLocal
             cd ~/DynamoDBLocal
             curl -O https://s3-us-west-2.amazonaws.com/dynamodb-local/dynamodb_local_latest.tar.gz
-            tar -xvzf dynamodb_local_latest.tar.gz
+            tar -xzf dynamodb_local_latest.tar.gz
  
       - run:
           name: Start up DynamoDB local
           command: |
-            cd ~/DynamoDBLocal/dynamodb_local_latest
+            cd ~/DynamoDBLocal
             java -Djava.library.pathh=./DynamoDBLocal_lib/ -jar DynamoDBLocal.jar -sharedDb
           background: true
 
