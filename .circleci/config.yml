@@ -10,11 +10,16 @@ jobs:
       - checkout
 
       - run:
+          name: Install Java
+          command: sudo apt-get install default-jdk
+
+       - run:
           name: Display environment information
           command: |
             python --version
             pip -V
-
+            java --version
+  
       - run:
           name: Install requirements
           command: pip install --user -r requirements.txt
@@ -48,7 +53,7 @@ jobs:
             java -Djava.library.pathh=./DynamoDBLocal_lib/ -jar DynamoDBLocal.jar -sharedDb
           background: true
 
-      - run:
+       - run:
           name: Run Test
           command: |
             python api_tests.py
