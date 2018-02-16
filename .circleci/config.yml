@@ -9,9 +9,9 @@ jobs:
     steps:
       - checkout
 
-      - run:
-          name: Install Java
-          command: sudo apt-get install default-jdk
+      # - run:
+          # name: Install Java
+          # command: sudo apt-get install default-jdk
 
       - run:
           name: Display environment information
