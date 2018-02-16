@@ -15,7 +15,7 @@ jobs:
       - run:
           command: |
             echo environment information
-            echo docker version
-            echo python --version
-            echo pip -V
+            docker version
+            python --version
+            pip -V
           
