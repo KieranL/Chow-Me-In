@@ -13,7 +13,7 @@ jobs:
           name: Install Java
           command: sudo apt-get install default-jdk
 
-       - run:
+      - run:
           name: Display environment information
           command: |
             python --version
