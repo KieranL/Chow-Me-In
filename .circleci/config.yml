@@ -19,16 +19,16 @@ jobs:
             python --version
             pip -V
             java --version
-  
+
       - run:
           name: Install requirements
           command: pip install --user -r requirements.txt
           working_directory: server
-         
+
       - run:
           name: Install boto3
           command: pip install --user boto3
-          
+
       - run:
           name: Install and configure awscli
           command: |
@@ -59,4 +59,3 @@ jobs:
             python api_tests.py
             python db_tests.py
           working_directory: server/chowmein
-         
