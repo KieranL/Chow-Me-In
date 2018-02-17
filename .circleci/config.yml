@@ -18,7 +18,7 @@ jobs:
           command: |
             python --version
             pip -V
-            java --version
+            java -version
 
       - run:
           name: Install requirements
