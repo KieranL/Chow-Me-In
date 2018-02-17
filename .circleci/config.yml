@@ -55,8 +55,7 @@ jobs:
       - run:
           name: Start up DynamoDB local
           command: |
-            ls
-            cd ~/DynamoDBLocal && ls
+            cd ~/DynamoDBLocal && pwd
             java -Djava.library.path=~/DynamoDBLocal/DynamoDBLocal_lib/ -jar ~/DynamoDBLocal/DynamoDBLocal.jar -sharedDb
           background: true
 
