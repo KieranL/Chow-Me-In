@@ -22,4 +22,9 @@ export class ChowService {
   addChow(chow: Chow): Observable<Chow> {
     return this.http.post<Chow>(this.chowUrl, chow, httpOptions);
   }
+
+  deleteChow(chowId: number): Observable<{}> {
+    const url = `${this.chowUrl}/${chowId}`;
+    return this.http.delete(url, httpOptions);
+  }
 }
