@@ -63,7 +63,7 @@ jobs:
           name: Install DynamoDB Local
           command: |
             [ -d ~/DynamoDBLocal ] || mkdir ~/DynamoDBLocal && cd ~/DynamoDBLocal
-            [ -f ~/DynamoDBLocal/dynamodb_local_latest ] || curl -O https://s3-us-west-2.amazonaws.com/dynamodb-local/dynamodb_local_latest.tar.gz && tar xzf dynamodb_local_latest.tar.gz
+            [ -f ~/DynamoDBLocal/dynamodb_local_latest.tar.gz ] || curl -O https://s3-us-west-2.amazonaws.com/dynamodb-local/dynamodb_local_latest.tar.gz && tar xzf dynamodb_local_latest.tar.gz
 
       - save_cache:
            key: v1_dynamodb-cache
@@ -73,7 +73,7 @@ jobs:
       - run:
           name: Start up DynamoDB local
           command: |
-            cd ~/DynamoDBLocal && pwd && ls
+            cd ~/DynamoDBLocal && ls
             java -Djava.library.path=~/DynamoDBLocal/DynamoDBLocal_lib/ -jar ~/DynamoDBLocal/DynamoDBLocal.jar -sharedDb
           background: true
 
