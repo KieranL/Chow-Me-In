@@ -18,6 +18,11 @@ jobs:
     docker:
       - image: circleci/python:3.6.4
 
+    branches:
+      only:
+        - master
+        - ph/ci
+
     environment:
       - AWS_ACCESS_KEY_ID: "Some_Key"
       - AWS_SECRET_ACCESS_KEY: "Some_Secret_Key"
