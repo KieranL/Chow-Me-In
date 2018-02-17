@@ -39,7 +39,7 @@ jobs:
           command: pip install --user awscli
 
       - restore_cache:
-          key: dynamodb_cache
+          key: v1-dynamodb_cache
 
       - run:
           name: Install DynamoDB Local
