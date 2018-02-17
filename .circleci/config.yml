@@ -3,8 +3,8 @@ version: 2
 jobs:
   build:
     docker:
-      # Primary container
       - image: circleci/python:3.6.4
+
     environment:
       - AWS_ACCESS_KEY_ID: "Some_Key"
       - AWS_SECRET_ACCESS_KEY: "Some_Secret_Key"
@@ -36,20 +36,21 @@ jobs:
 
       - run:
           name: Install and configure awscli
-          command: |
-            pip install --user awscli
-            # export AWS_ACCESS_KEY_ID=Some_Key
-            # export AWS_SECRET_ACCESS_KEY=Some_Secret_Key
-            # export AWS_DEFAULT_REGION=ca-central-1
-            # export AWS_DEFAULT_OUTPUT=json
+          command: pip install --user awscli
+
+      - restore_cache:
+          key: dynamodb_cache
 
       - run:
           name: Install DynamoDB Local
           command: |
-            mkdir ~/DynamoDBLocal
-            cd ~/DynamoDBLocal
-            curl -O https://s3-us-west-2.amazonaws.com/dynamodb-local/dynamodb_local_latest.tar.gz
-            tar -xzf dynamodb_local_latest.tar.gz
+            [ -d ~/DynamoDBLocal ] || mkdir ~/DynamoDBLocal && cd ~/DynamoDBLocal
+            [ -d ~/DynamoDBLocal ] || curl -O https://s3-us-west-2.amazonaws.com/dynamodb-local/dynamodb_local_latest.tar.gz | tar xzf
+      
+      - save_cache:
+          key: dynamodb_cache
+          paths:
+            - ~/DynamoDBLocal
  
       - run:
           name: Start up DynamoDB local
@@ -58,8 +59,11 @@ jobs:
           background: true
 
       - run:
-          name: Run Test
-          command: |
-            python api_tests.py
-            python db_tests.py
+          name: Run API Test
+          command: python api_tests.py
+          working_directory: server/chowmein
+          
+      - run:
+          name: Run DB Test
+          command: python db_tests.py
           working_directory: server/chowmein
