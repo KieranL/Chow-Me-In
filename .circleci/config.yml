@@ -44,7 +44,8 @@ jobs:
       - run:
           name: Install DynamoDB Local
           command: |
-            [ -d ~/DynamoDBLocal ] || (mkdir ~/DynamoDBLocal && cd ~/DynamoDBLocal && curl -O https://s3-us-west-2.amazonaws.com/dynamodb-local/dynamodb_local_latest.tar.gz | tar xz)
+            [ -d ~/DynamoDBLocal ] || mkdir ~/DynamoDBLocal && cd ~/DynamoDBLocal
+            [ -f ~/DynamoDBLocal/dynamodb_local_latest ] || curl -O https://s3-us-west-2.amazonaws.com/dynamodb-local/dynamodb_local_latest.tar.gz && tar xzf dynamodb_local_latest.tar.gz
             # sudo chmod -R ugo+x ~/DynamoDBLocal
 
      # - save_cache:
