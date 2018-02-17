@@ -4,14 +4,14 @@ jobs:
   build:
     docker:
       # Primary container
-      - image: circleci/python:3.6.1
+      - image: circleci/python:3.6.4
 
     steps:
       - checkout
 
       - run:
           name: Install Java
-          command: sudo apt-get install default-jdk
+          command: sudo apt-get update && sudo apt-get install default-jdk
 
       - run:
           name: Display environment information
