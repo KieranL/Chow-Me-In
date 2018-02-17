@@ -39,7 +39,7 @@ jobs:
           command: pip install --user awscli
 
       - restore_cache:
-          key: v2-dynamodb-cache
+          key: v3-dynamodb-cache
 
       - run:
           name: Install DynamoDB Local
@@ -48,7 +48,7 @@ jobs:
             [ -d ~/DynamoDBLocal ] || curl -O https://s3-us-west-2.amazonaws.com/dynamodb-local/dynamodb_local_latest.tar.gz | tar xz
             [ -d ~/DynamoDBLocal ] || sudo chmod -R ugo+x ~/DynamoDBLocal
       - save_cache:
-          key: v2-dynamodb-cache
+          key: v3-dynamodb-cache
           paths:
             - ~/DynamoDBLocal
  
