@@ -13,4 +13,7 @@
     <string name="chow_me_in">Chow Me In</string>
     <string name="title_activity_create_chow">Create a Chow</string>
     <string name="title_activity_search_chow">Search for a Chow</string>
+    <string name="got_food_to_offer_create_a_chow_here">Got food to offer? Create a Chow here!</string>
+    <string name="welcome_to_chow_me_in">Welcome to Chow Me In!</string>
+    <string name="search_existing_chows_here">Search existing Chows here!</string>
 </resources>

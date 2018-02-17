@@ -34,7 +34,8 @@ public class SearchChowActivity extends AppCompatActivity
     SearchView chowSearchView;
     ListView chowSearchResults;
     ArrayList<Chows> chowsListed;
-    private static final String BASE_URL = "https://api.chowme-in.com"; //Previous working API location: "http://chowmein.ca-central-1.elasticbeanstalk.com";
+    ArrayList<Chows> masterChowList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class SearchChowActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initVariables();
+        prepopulateList();
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -55,10 +57,15 @@ public class SearchChowActivity extends AppCompatActivity
 
     private void getResultsAdapter(CharSequence query) {
         ArrayList<String> searchResultList = new ArrayList<>();
+        ArrayList<Chows> temp = new ArrayList<>();
+        chowsListed = masterChowList;
         for (int i = 0; i < chowsListed.size(); i++) {
-            if (chowsListed.get(i).getFood().contains(query))
+            if (chowsListed.get(i).getFood().contains(query)) {
                 searchResultList.add(chowsListed.get(i).getFood());
+                temp.add(chowsListed.get(i));
+            }
         }
+        chowsListed = temp;
         ArrayAdapter<? extends String> resultAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, searchResultList);
         chowSearchResults.setAdapter(resultAdapter);
     }
@@ -72,45 +79,50 @@ public class SearchChowActivity extends AppCompatActivity
 
         apiClient.listChows().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe((List<Chows> response) -> {
-                    for (Chows repo : response) {
-                        repo = (verifyChow(repo));
-                        searchResultList.add(repo.getFood());
-                        chowsListed.add(repo);
+                    for (Chows currentChow : response) {
+                        currentChow = (verifyChow(currentChow));
+                        chowsListed.add(currentChow);
+                        searchResultList.add(currentChow.getFood());
                     }
+                    masterChowList = chowsListed;
                     ArrayAdapter<? extends String> resultAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, searchResultList);
                     chowSearchResults.setAdapter(resultAdapter);
                 }, error -> Log.i("error", "Error"));
     }
 
-    private Chows verifyChow(Chows repo) {
-        if (repo.getCreatedTime() == null) {
-            repo.setCreatedTime("");
+    private static final String BASE_URL = "https://api.chowme-in.com"; //Previous working API location: "http://chowmein.ca-central-1.elasticbeanstalk.com";
+
+
+    private static Chows verifyChow(Chows currentChow) {
+        if (currentChow.getCreatedTime() == null) {
+            currentChow.setCreatedTime("");
         }
 
-        if (repo.getFood() == null) {
-            repo.setFood("");
+        if (currentChow.getFood() == null) {
+            currentChow.setFood("");
         }
 
-        if (repo.getLastUpdated() == null) {
-            repo.setLastUpdated("");
+        if (currentChow.getLastUpdated() == null) {
+            currentChow.setLastUpdated("");
         }
 
-        if (repo.getMeetLocation() == null) {
-            repo.setMeetLocation("");
+        if (currentChow.getMeetLocation() == null) {
+            currentChow.setMeetLocation("");
         }
 
-        if (repo.getMeetTime() == null) {
-            repo.setMeetTime("");
+        if (currentChow.getMeetTime() == null) {
+            currentChow.setMeetTime("");
         }
 
-        if (repo.getNotes() == null) {
-            repo.setNotes("");
+        if (currentChow.getNotes() == null) {
+            currentChow.setNotes("");
         }
-        return repo;
+        return currentChow;
     }
 
     private void initVariables() {
         chowsListed = new ArrayList<>();
+        masterChowList = new ArrayList<>();
         chowSearchView = findViewById(R.id.chowSearchView);
         chowSearchResults = findViewById(R.id.chowSearchResults);
         chowSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -130,7 +142,6 @@ public class SearchChowActivity extends AppCompatActivity
             Chows selectedChow = chowsListed.get(i);
             viewChow(selectedChow);
         });
-        prepopulateList();
     }
 
     private void viewChow(Chows selectedChow) {

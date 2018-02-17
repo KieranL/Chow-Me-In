@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
@@ -75,18 +76,17 @@ public class CreateChowActivity extends AppCompatActivity
             if (!String.valueOf(chowPostDescriptionEditText.getText()).equals(""))
                 noInputErrors = true;
             if (noInputErrors) {
-                Chows newChow = new Chows(1, 1, String.valueOf(new Date()), false,
-                        String.valueOf(chowPostNameEditText.getText()), String.valueOf(new Date()),
-                        String.valueOf(chowPostLocationEditText.getText()),
-                        String.valueOf(chowPostDatePicker.getYear() + "-" + chowPostDatePicker.getMonth() + "-" + chowPostDatePicker.getDayOfMonth()
-                                + " " + chowPostTimePicker.getHour() + ":" + chowPostTimePicker.getMinute()),
-                        String.valueOf(chowPostDescriptionEditText.getText()));
-
                 Retrofit.Builder builder = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJava2CallAdapterFactory.create());
 
                 Retrofit retrofit = builder.build();
                 ChowMeInService apiClient = retrofit.create(ChowMeInService.class);
 
+                Chows newChow = new Chows(-1, 1, String.valueOf(new Date()), false,
+                        String.valueOf(chowPostNameEditText.getText()), String.valueOf(new Date()),
+                        String.valueOf(chowPostLocationEditText.getText()),
+                        String.valueOf(chowPostDatePicker.getYear() + "-" + chowPostDatePicker.getMonth() + "-" + chowPostDatePicker.getDayOfMonth()
+                                + " " + chowPostTimePicker.getHour() + ":" + chowPostTimePicker.getMinute()),
+                        String.valueOf(chowPostDescriptionEditText.getText()));
                 apiClient.createChows(newChow).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                         .subscribe((APISuccessObject response) -> {
                             if (response.isSuccess())
@@ -94,8 +94,8 @@ public class CreateChowActivity extends AppCompatActivity
                             else
                                 Log.i("error", "Error");
                         });
-
-
+                Toast.makeText(this, "Your chow has been created!", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }

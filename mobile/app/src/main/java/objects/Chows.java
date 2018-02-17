@@ -2,7 +2,7 @@ package objects;
 
 /*
 Example DynamoDB entry
-  "chowId": 1,
+  "id": 1,
   "createdBy": 420,
   "createdTime": "2018-02-08T13:36:00",
   "deleted": false,
@@ -17,7 +17,7 @@ import java.io.Serializable;
 
 public class Chows implements Serializable{
 
-    private int chowID;
+    private int id;
     private int createdBy;
     private String createdTime;
     private boolean deleted;
@@ -30,8 +30,8 @@ public class Chows implements Serializable{
     public Chows() {
     }
 
-    public Chows(int chowID, int createdBy, String createdTime, boolean deleted, String food, String lastUpdated, String meetLocation, String meetTime, String notes) {
-        this.chowID = chowID;
+    public Chows(int id, int createdBy, String createdTime, boolean deleted, String food, String lastUpdated, String meetLocation, String meetTime, String notes) {
+        this.id = id;
         this.createdBy = createdBy;
         this.createdTime = createdTime;
         this.deleted = deleted;
@@ -42,8 +42,8 @@ public class Chows implements Serializable{
         this.notes = notes;
     }
 
-    public int getChowID() {
-        return chowID;
+    public int getid() {
+        return id;
     }
 
     public int getCreatedBy() {
@@ -78,8 +78,8 @@ public class Chows implements Serializable{
         return notes;
     }
 
-    public void setChowID(int chowID) {
-        this.chowID = chowID;
+    public void setid(int id) {
+        this.id = id;
     }
 
     public void setCreatedBy(int createdBy) {
