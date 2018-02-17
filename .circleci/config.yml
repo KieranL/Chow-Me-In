@@ -1,4 +1,17 @@
-# Python CircleCI 2.0 configuration file
+# I wanna develop the very best
+# software there ever was
+# To cache them is my real test
+# To build them is my cause
+# I will travel across the web
+# Searching far and wide
+# Teach developers to understand
+# The power that's CircleCi
+# Dependencies! Gotta cache 'em all
+# It's you and me
+# I know it's my destiny
+# Dependencies! Oh, you're my best friend
+# In a codebase we must build
+
 version: 2
 jobs:
   build:
@@ -39,17 +52,16 @@ jobs:
           command: pip install --user awscli
 
       - restore_cache:
-          key: v5-dynamodb-cache-1
+          key: v1_dynamodb-cache
 
       - run:
           name: Install DynamoDB Local
           command: |
             [ -d ~/DynamoDBLocal ] || mkdir ~/DynamoDBLocal && cd ~/DynamoDBLocal
             [ -f ~/DynamoDBLocal/dynamodb_local_latest ] || curl -O https://s3-us-west-2.amazonaws.com/dynamodb-local/dynamodb_local_latest.tar.gz && tar xzf dynamodb_local_latest.tar.gz
-            # sudo chmod -R ugo+x ~/DynamoDBLocal
 
       - save_cache:
-           key: v5-dynamodb-cache-1
+           key: v1_dynamodb-cache
            paths:
              - ~/DynamoDBLocal
  
