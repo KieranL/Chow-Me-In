@@ -11,7 +11,6 @@ Translator's note: "Chow" means an offer to share food
 * [Future](#future)
 
 ## **What is Chow Me-In?**
----
 Chow Me-In is a food-sharing service that people can use to find local consumers that have an
 excess of food from a restaurant willing to be shared. From here a consumer may bid or buy the
 excess food from the seller where the consumer and seller are geographically close to one
@@ -29,7 +28,6 @@ Chow Me-In will be considered successful if users’ monthly budget spent on foo
 the app and after using the app is reduced by at least 10%.
 
 ## **Technology**
----
 
 ### **Our teck stack**
 

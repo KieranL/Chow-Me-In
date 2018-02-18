@@ -1,0 +1,83 @@
+# I wanna develop the very best
+# software there ever was
+# To cache them is my real test
+# To build them is my cause
+# I will travel across the web
+# Searching far and wide
+# Teach developers to understand
+# The power that's CircleCi
+# Dependencies! Gotta cache 'em all
+# It's you and me
+# I know it's my destiny
+# Dependencies! Oh, you're my best friend
+# In a codebase we must build
+
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.6.4
+
+    environment:
+      - AWS_ACCESS_KEY_ID: "Some_Key"
+      - AWS_SECRET_ACCESS_KEY: "Some_Secret_Key"
+      - AWS_DEFAULT_REGION: "ca-central-1"
+      - AWS_DEFAULT_OUTPUT: "json"
+
+    steps:
+      - checkout
+
+      - run:
+          name: Install Java
+          command: sudo apt-get update && sudo apt-get install default-jdk
+
+      - run:
+          name: Display environment information
+          command: |
+            python --version
+            pip -V
+            java -version
+
+      - run:
+          name: Install requirements
+          command: pip install --user -r requirements.txt
+          working_directory: server
+
+      - run:
+          name: Install boto3
+          command: pip install --user boto3
+
+      - run:
+          name: Install and configure awscli
+          command: pip install --user awscli
+
+      - restore_cache:
+          key: v1_dynamodb-cache
+
+      - run:
+          name: Install DynamoDB Local
+          command: |
+            [ -d ~/DynamoDBLocal ] || mkdir ~/DynamoDBLocal && cd ~/DynamoDBLocal
+            [ -f ~/DynamoDBLocal/dynamodb_local_latest.tar.gz ] || curl -O https://s3-us-west-2.amazonaws.com/dynamodb-local/dynamodb_local_latest.tar.gz && tar xzf dynamodb_local_latest.tar.gz
+
+      - save_cache:
+           key: v1_dynamodb-cache
+           paths:
+             - ~/DynamoDBLocal
+ 
+      - run:
+          name: Start up DynamoDB local
+          command: |
+            cd ~/DynamoDBLocal && ls
+            java -Djava.library.path=~/DynamoDBLocal/DynamoDBLocal_lib/ -jar ~/DynamoDBLocal/DynamoDBLocal.jar -sharedDb
+          background: true
+
+      - run:
+          name: Run API Test
+          command: python api_tests.py
+          working_directory: server/chowmein
+          
+      - run:
+          name: Run DB Test
+          command: python db_tests.py
+          working_directory: server/chowmein
