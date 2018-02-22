@@ -1,12 +1,15 @@
 <nav class="navbar navbar-default">
   <div class="container-fluid">
-    <ul class="nav navbar-nav navbar-right">
+    <ul class="nav navbar-nav navbar-left">
       <li><a routerLink="/chow-list">Home</a></li>
+    </ul>
+
+    <ul class="nav navbar-nav navbar-right">
       <li><a routerLink="/create-chow">Create a New Chow</a></li>
 
-      <div *ngIf="checkLoginValidity(); then out else in"></div>
-      <ng-template #in><li><a (click)="login($event)">Login</a></li></ng-template>
-      <ng-template #out><li><a (click)="logout($event)">Logout</a></li></ng-template>
+      <div *ngIf="checkLoginValidity(); then logmeout else logmein"></div>
+      <ng-template #logmein><li><a (click)="login($event)">Login</a></li></ng-template>
+      <ng-template #logmeout><li><a (click)="logout($event)">Logout</a></li></ng-template>
 
     </ul>
   </div>

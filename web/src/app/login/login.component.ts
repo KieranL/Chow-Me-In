@@ -35,8 +35,7 @@ export class LoginComponent implements OnInit {
             console.error(err);
           }        
         );
-    alert('Welcome ' + window.sessionStorage.getItem('username') + '!');
-  // window.location.href = '/chow-list';
+    window.location.href = '/chow-list';
 }
 
 }

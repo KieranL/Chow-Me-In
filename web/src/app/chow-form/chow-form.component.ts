@@ -32,7 +32,6 @@ export class ChowFormComponent implements OnInit {
     }
     this.chowService.addChow(newChow)
       .subscribe(chow => {
-        alert('Successfully created new chow!');
         window.location.href = '/chow-list';
       });
   }
