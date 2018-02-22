@@ -7,7 +7,7 @@
     <ul class="nav navbar-nav navbar-right">
       <li><a routerLink="/create-chow">Create a New Chow</a></li>
 
-      <div *ngIf="checkLoginValidity(); then logmeout else logmein"></div>
+      <div *ngIf="authValid; then logmeout else logmein"></div>
       <ng-template #logmein><li><a (click)="login($event)">Login</a></li></ng-template>
       <ng-template #logmeout><li><a (click)="logout($event)">Logout</a></li></ng-template>
 
@@ -16,8 +16,8 @@
 </nav>
 
 <h1>
-  <div *ngIf="checkLoginValidity(); then user else nouser"></div>
+  <div *ngIf="authValid; then user else nouser"></div>
   <ng-template #nouser>Welcome to {{ title }}!</ng-template>
   <ng-template #user>Welcome to {{ title }}, {{ getUser() }}!</ng-template>
 </h1>
-<router-outlet></router-outlet>
+<router-outlet (activate)="checkLoginValidity()"></router-outlet>

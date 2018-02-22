@@ -13,7 +13,8 @@ export class UserService {
 	constructor(private http: HttpClient) {
 	}
 
-	getUsername(token: string): Observable<User> {
+	getUsername(tok: string): Observable<User> {
+    var token = tok != null ? tok : "INVALIDTOKEN";
 		return this.http.get<User>(this.userUrl + '/token/' + token);
 	}
 
