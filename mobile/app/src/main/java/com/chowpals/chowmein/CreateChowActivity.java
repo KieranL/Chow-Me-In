@@ -86,7 +86,7 @@ public class CreateChowActivity extends AppCompatActivity
                         String.valueOf(chowPostLocationEditText.getText()),
                         String.valueOf(chowPostDatePicker.getYear() + "-" + chowPostDatePicker.getMonth() + "-" + chowPostDatePicker.getDayOfMonth()
                                 + " " + chowPostTimePicker.getHour() + ":" + chowPostTimePicker.getMinute()),
-                        String.valueOf(chowPostDescriptionEditText.getText()));
+                        String.valueOf(chowPostDescriptionEditText.getText()), "John Doe","555-555-5555");
                 apiClient.createChows(newChow).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                         .subscribe((APISuccessObject response) -> {
                             if (response.isSuccess())

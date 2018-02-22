@@ -15,7 +15,7 @@ Example DynamoDB entry
 
 import java.io.Serializable;
 
-public class Chows implements Serializable{
+public class Chows implements Serializable {
 
     private int id;
     private int createdBy;
@@ -26,11 +26,13 @@ public class Chows implements Serializable{
     private String meetLocation;
     private String meetTime;
     private String notes;
+    private String contactName;
+    private String phoneNumber;
 
     public Chows() {
     }
 
-    public Chows(int id, int createdBy, String createdTime, boolean deleted, String food, String lastUpdated, String meetLocation, String meetTime, String notes) {
+    public Chows(int id, int createdBy, String createdTime, boolean deleted, String food, String lastUpdated, String meetLocation, String meetTime, String notes, String contactName, String phoneNumber) {
         this.id = id;
         this.createdBy = createdBy;
         this.createdTime = createdTime;
@@ -40,6 +42,8 @@ public class Chows implements Serializable{
         this.meetLocation = meetLocation;
         this.meetTime = meetTime;
         this.notes = notes;
+        this.contactName = contactName;
+        this.phoneNumber = phoneNumber;
     }
 
     public int getid() {
@@ -78,6 +82,14 @@ public class Chows implements Serializable{
         return notes;
     }
 
+    public String getContactName() {
+        return contactName;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
     public void setid(int id) {
         this.id = id;
     }
@@ -112,6 +124,19 @@ public class Chows implements Serializable{
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public void setContactName(String contactName) {
+        this.contactName = contactName;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "Chow name: " + getFood() + "\nMeet Location: " + getMeetLocation() + "\nMeet Time: " + getMeetTime() + "\nAdditional Notes: " + getNotes() + "\nContact Name: " + getContactName() + "\nContact Phone: " + getPhoneNumber();
     }
 }
 

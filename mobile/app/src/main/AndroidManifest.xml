@@ -3,6 +3,7 @@
     package="com.chowpals.chowmein">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -33,6 +34,7 @@
             android:name=".SearchChowActivity"
             android:label="@string/title_activity_search_chow"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".SignupActivity"></activity>
     </application>
 
 </manifest>

@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import com.amazonaws.mobile.client.AWSMobileClient;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.ArrayList;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initVariables() {
+        AWSMobileClient.getInstance().initialize(this).execute();
         chowsListedMain = new ArrayList<>();
         masterChowListMain = new ArrayList<>();
         chowSearchResultsMain = findViewById(R.id.searchChowListViewMain);

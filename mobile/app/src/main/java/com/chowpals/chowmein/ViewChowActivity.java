@@ -19,10 +19,7 @@ import objects.Chows;
 public class ViewChowActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    TextView chowPostNameTextView;
-    TextView chowPostLocationTextView;
-    TextView chowPostTimeTextView;
-    TextView chowPostDescriptionTextView;
+    TextView chowInfoTextView;
     Button acceptChowButton;
     Chows selectedChow;
 
@@ -45,19 +42,13 @@ public class ViewChowActivity extends AppCompatActivity
     }
 
     private void populateChowInfo() {
-        chowPostNameTextView.setText(selectedChow.getFood());
-        chowPostLocationTextView.setText(selectedChow.getMeetLocation());
-        chowPostTimeTextView.setText(selectedChow.getMeetTime());
-        chowPostDescriptionTextView.setText(selectedChow.getNotes());
+        chowInfoTextView.setText(selectedChow.toString());
     }
 
     private void initVariables() {
         Intent searchChowResult = getIntent();
         selectedChow = (Chows) searchChowResult.getSerializableExtra("Selected Chow");
-        chowPostNameTextView = findViewById(R.id.chowPostNameTextView);
-        chowPostLocationTextView = findViewById(R.id.chowPostLocationTextView);
-        chowPostTimeTextView = findViewById(R.id.chowPostTimeTextView);
-        chowPostDescriptionTextView = findViewById(R.id.chowPostDescriptionTextView);
+        chowInfoTextView = findViewById(R.id.chowInfoTextView);
         acceptChowButton = findViewById(R.id.acceptChowButton);
     }
 

@@ -42,7 +42,7 @@
                     android:layout_marginTop="20dp"
                     android:hint="@string/food_post_name_here"
                     android:inputType="textCapWords|textAutoCorrect|textAutoComplete"
-                    android:labelFor="@+id/chowPostNameTextView"
+                    android:labelFor="@+id/chowInfoTextView"
                     card_view:layout_constraintBottom_toTopOf="@+id/chowPostLocationEditText"
                     card_view:layout_constraintLeft_toLeftOf="parent"
                     card_view:layout_constraintRight_toRightOf="parent"

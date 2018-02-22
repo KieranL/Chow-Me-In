@@ -11,12 +11,12 @@
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="318dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         card_view:cardCornerRadius="10dp"
         card_view:layout_constraintBottom_toBottomOf="parent"
         card_view:layout_constraintLeft_toLeftOf="parent"
@@ -28,76 +28,35 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/chowPostNameTextView"
+                android:id="@+id/chowInfoTextView"
                 style="@style/ViewChowTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
                 android:text="@string/food_post_name_here"
-                card_view:layout_constraintBottom_toTopOf="@+id/chowPostLocationTextView"
                 card_view:layout_constraintLeft_toLeftOf="parent"
                 card_view:layout_constraintRight_toRightOf="parent"
                 card_view:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/chowPostLocationTextView"
-                style="@style/ViewChowTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:text="@string/food_post_location_here"
-                card_view:layout_constraintBottom_toTopOf="@+id/chowPostTimeTextView"
-                card_view:layout_constraintLeft_toLeftOf="parent"
-                card_view:layout_constraintRight_toRightOf="parent"
-                card_view:layout_constraintTop_toBottomOf="@+id/chowPostNameTextView" />
-
-            <TextView
-                android:id="@+id/chowPostTimeTextView"
-                style="@style/ViewChowTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:text="@string/food_post_time_here"
-                card_view:layout_constraintBottom_toTopOf="@+id/chowPostDescriptionTextView"
-                card_view:layout_constraintLeft_toLeftOf="parent"
-                card_view:layout_constraintRight_toRightOf="parent"
-                card_view:layout_constraintTop_toBottomOf="@+id/chowPostLocationTextView" />
-
-            <TextView
-                android:id="@+id/chowPostDescriptionTextView"
-                style="@style/ViewChowTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:text="@string/food_post_description_here"
-                card_view:layout_constraintBottom_toTopOf="@+id/acceptChowButton"
-                card_view:layout_constraintLeft_toLeftOf="parent"
-                card_view:layout_constraintRight_toRightOf="parent"
-                card_view:layout_constraintTop_toBottomOf="@+id/chowPostTimeTextView" />
 
             <Button
                 android:id="@+id/acceptChowButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="40dp"
+                android:layout_marginBottom="32dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
+                android:layout_marginTop="24dp"
                 android:background="@android:color/holo_red_light"
                 android:text="@string/chow_me_in"
                 android:textSize="40sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintRight_toRightOf="parent"
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@+id/chowInfoTextView" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
