@@ -4,6 +4,10 @@ import json
 
 user_api_bp = Blueprint('user', __name__)
 
+@user_api_bp.route('/user/token/<string:userToken>', methods=['GET'])
+def get_username(userToken):
+    return UserController.get_username(userToken)
+
 @user_api_bp.route('/user', methods=['POST'])
 def create_user() :
     data = json.loads(request.form['user'])
