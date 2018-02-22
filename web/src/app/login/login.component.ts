@@ -2,7 +2,6 @@ import {Router, ActivatedRoute, Params} from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import {UserService} from "../user.service";
 import {User} from "../user";
-import {AppComponent} from "../app.component";
 
 @Component({
   selector: 'app-login',
@@ -36,6 +35,6 @@ export class LoginComponent implements OnInit {
           }        
         );
     window.location.href = '/chow-list';
-}
+  }
 
 }
