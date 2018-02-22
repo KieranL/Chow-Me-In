@@ -43,11 +43,14 @@ the app and after using the app is reduced by at least 10%.
 
 You can hit our API at:
 
-http://chowmein.ca-central-1.elasticbeanstalk.com/chow
+https://api.chowme-in.com
+
+sample API call:
+https://api.chowme-in.com/chow
 
 You can view our web application at:
 
-http://chowmein.s3-website.ca-central-1.amazonaws.com/chow-list
+https://chowme-in.com
 
 
 ### **How to setup a local environment**

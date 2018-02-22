@@ -3,11 +3,18 @@
     <ul class="nav navbar-nav navbar-right">
       <li><a routerLink="/chow-list">Home</a></li>
       <li><a routerLink="/create-chow">Create a New Chow</a></li>
+
+      <div *ngIf="checkLoginValidity(); then out else in"></div>
+      <ng-template #in><li><a (click)="login($event)">Login</a></li></ng-template>
+      <ng-template #out><li><a (click)="logout($event)">Logout</a></li></ng-template>
+
     </ul>
   </div>
 </nav>
 
 <h1>
-  Welcome to {{ title }}!
+  <div *ngIf="checkLoginValidity(); then user else nouser"></div>
+  <ng-template #nouser>Welcome to {{ title }}!</ng-template>
+  <ng-template #user>Welcome to {{ title }}, {{ getUser() }}!</ng-template>
 </h1>
 <router-outlet></router-outlet>

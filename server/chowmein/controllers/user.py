@@ -1,5 +1,6 @@
 from flask import jsonify
 import json
+import boto3
 from database.database_manager import DatabaseManager as database
 
 class UserController():
@@ -27,3 +28,16 @@ class UserController():
         db = database.getInstance()
         success = db.delete_item('User', user_id)
         return jsonify({"success":success})
+
+    @classmethod
+    def get_username(cls, userToken):
+        username = ""
+        success = False
+
+        try:
+            client = boto3.client('cognito-idp', region_name='us-east-2')
+            username = client.get_user(AccessToken=userToken)["Username"]
+        except:
+            pass
+
+        return jsonify({"success": username != "", "username": username})
