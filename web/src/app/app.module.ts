@@ -5,6 +5,7 @@ import {AppComponent} from './app.component';
 import {ChowListComponent} from './chow-list/chow-list.component';
 import {ChowService} from './chow.service';
 import {UserService} from './user.service';
+import {AuthGuardService} from './auth-guard.service';
 import {HttpClientModule} from "@angular/common/http";
 import {ChowDetailComponent} from './chow-detail/chow-detail.component';
 import { ChowFormComponent } from './chow-form/chow-form.component';
@@ -24,7 +25,7 @@ import { LoginComponent } from './login/login.component';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [ChowService, UserService],
+  providers: [ChowService, UserService, AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
