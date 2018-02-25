@@ -1,7 +1,7 @@
 import {Component, NgZone} from '@angular/core';
 import {Router} from '@angular/router';
 import {environment} from "../environments/environment";
-import {UserService} from "./user.service";
+import {UserService} from "./auth/user.service";
 
 @Component({
 	selector: 'app-root',

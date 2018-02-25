@@ -1,7 +1,7 @@
 import {Router} from '@angular/router';
 import {Component, OnInit} from '@angular/core';
 import {ChowService} from '../chow.service';
-import {UserService} from '../user.service';
+import {UserService} from '../../auth/user.service';
 import {Chow} from '../chow';
 
 @Component({
