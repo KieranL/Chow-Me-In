@@ -4,30 +4,36 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../environments/environment";
 import {User} from "./user";
 
-
 @Injectable()
 export class UserService {
 	private userUrl = `${environment.serverUrl}/user`;
-	public static authValid;
 
-	constructor(private http: HttpClient) {
-	}
+  // Should never be used for verifying auth, used only for view components
+  public static authValid;
 
-	getUser(tok: string): Observable<User> {
-    var token = tok != null ? tok : "INVALIDTOKEN";
-    return this.http.get<User>(this.userUrl + '/token/' + token);
+  constructor(private http: HttpClient) {
   }
 
+  // Grabs entire user object directly from boto3
+  getUserFromToken(tok: string): Observable<User> {
+    var token = tok != null ? tok : "INVALIDTOKEN";
+    return this.http.get(this.userUrl + '/token/' + token);
+  }
+
+  // Used between page loads to verify sessionStorage variables are valid, used only by views
   verifyLoginValidity() {
-    var token = window.sessionStorage.getItem("access_token");
-    this.getUser(token).subscribe(
+    const _this = this;
+    var token = this.getAuthTokenFromStorage();
+
+    this.getUserFromToken(token).subscribe(
       data => {
         if(data['success'] == false) {
+          UserService.authValid = false;
           window.sessionStorage.clear();
         } else {
-          window.sessionStorage.setItem('username', data['user']['Username']);
-          // It's like this because of the way it is... (blame boto3)
-          window.sessionStorage.setItem('name', data['user']['UserAttributes'][2]['Value']);
+          UserService.authValid = true;
+          window.sessionStorage.setItem('username', _this.getUsernameFromObject(data));
+          window.sessionStorage.setItem('name', _this.getUsersNameFromObject(data));
         }
       },
       err => {
@@ -35,22 +41,50 @@ export class UserService {
       }
     );
 
-    UserService.authValid = this.getUsername() != null;
+    UserService.authValid = this.getUsernameFromStorage() != null;
   }
 
+  // Used between page loads to verify sessionStorage variables are valid, used only by views
   getValidity(){
     return UserService.authValid;
   }
 
-  getUsername() {
+  // Grab the auth token, this is pretty much the password and is used to verify identity
+  getAuthTokenFromStorage() {
+    return window.sessionStorage.getItem('access_token');
+  }
+
+  // Grab the cached values from storage, may not be up to date. For up to date values, see *FromObject()
+  getUsernameFromStorage() {
     return window.sessionStorage.getItem('username');
   }
 
-  getUsersName() {
+  // Grab the cached values from storage, may not be up to date. For up to date values, see *FromObject()
+  getUsersNameFromStorage() {
     return window.sessionStorage.getItem('name');
   }
 
-	// Converts a full URI into a JSON mapping of parameters->values
+  // Grab the values from a user object, call getUserFromToken() for the object. OK for verifying identity.
+  getUsernameFromObject(user) {
+    return user['user']['Username'];
+  }
+
+  // Grab the values from a user object, call getUserFromToken() for the object. OK for verifying identity.
+  getUsersNameFromObject(user) {
+    return user['user']['UserAttributes'][2]['Value'];
+  }
+
+  // Grab the values from a user object, call getUserFromToken() for the object. OK for verifying identity.
+  getUsersPhoneFromObject(user) {
+    return user['user']['UserAttributes'][4]['Value'];
+  }
+
+  // Grab the values from a user object, call getUserFromToken() for the object. OK for verifying identity.
+  getUsersEmailFromObject(user) {
+    return user['user']['UserAttributes'][5]['Value'];
+  }
+
+	// Parse params from params-only URI into a JSON mapping of parameters->values
 	parseParams(str) {
 		var pieces = str.split("&"), data = {}, i, parts;
   	

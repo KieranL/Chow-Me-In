@@ -5,11 +5,14 @@
     </ul>
 
     <ul class="nav navbar-nav navbar-right">
-      <li><a routerLink="/create-chow">Create a New Chow</a></li>
 
       <div *ngIf="userService.getValidity(); then logmeout else logmein"></div>
+
       <ng-template #logmein><li><a (click)="login($event)">Login</a></li></ng-template>
-      <ng-template #logmeout><li><a (click)="logout($event)">Logout</a></li></ng-template>
+      <ng-template #logmeout>
+        <li><a routerLink="/create-chow">Create a New Chow</a></li>
+        <li><a (click)="logout($event)">Logout</a></li>
+      </ng-template>
 
     </ul>
   </div>
@@ -18,7 +21,7 @@
 
 <h1>
   <div *ngIf="userService.getValidity(); then user else nouser"></div>
-  <ng-template #user>Howdy, {{ userService.getUsersName() }}!</ng-template>
+  <ng-template #user>Howdy, {{ userService.getUsersNameFromStorage() }}!</ng-template>
   <ng-template #nouser>Welcome to {{ title }}!</ng-template>
 </h1>
 

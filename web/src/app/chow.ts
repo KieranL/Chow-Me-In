@@ -5,4 +5,8 @@ export class Chow {
   meetTime?: string;
   lastUpdated?: string;
   notes?: string;
+  posterUser: string;
+  posterName: string;
+  posterEmail: string;
+  posterPhone: string;
 }
