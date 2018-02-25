@@ -9,7 +9,7 @@ export class UserService {
 	private userUrl = `${environment.serverUrl}/user`;
 
   // Should never be used for verifying auth, used only for view components
-  public static authValid;
+  public static authValid = false;
 
   constructor(private http: HttpClient) {
   }
