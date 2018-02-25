@@ -50,8 +50,7 @@ A `user` consists of:
 ```
 {
   id:     a unique integer used to identify a user,
-  fName:  the first name of the user
-  lName:  the last name of the user
+  name:  the  name of the user
 }
 ```
 More information will be added to this model in the future.
@@ -70,7 +69,11 @@ A `chow` consists of:
   lastUpdated:  the last time the chow was updated in the format: "yyyy-mm-ddThh:mm:ss",
   meetLocation: a description of where to meet in person,
   meetTime:     the time to meet in the format: "yyyy-mm-ddThh:mm:ss",
-  notes:        any additional notes the poster of the chow may want to share
+  notes:        any additional notes the poster of the chow may want to share,
+  posterUser:   the username of the user who posted this chow,
+  posterName:   the name of the user who posted this chow,
+  posterEmail:  the email of the user who posted this chow,
+  posterPhone:  the phone number of the user who posted this chow
 }
 ```
 
@@ -102,14 +105,13 @@ Returns: {
 ```
 
 ### **Getting a user**
-Gets the `user` with the given `id`
+Gets the `user` belonging to a given `access_token`
 ```
-Endpoint: /user/{id}
+Endpoint: /user/token/{access_token}
 Method: GET
 Returns: {
-  "success":{
-    "user": user
-  }
+  "success":  True/False,
+  "User":     User object from boto3
 }
 ```
 ### **Updating a user**
