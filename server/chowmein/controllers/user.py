@@ -11,12 +11,6 @@ class UserController():
         return jsonify({"success": success, "user": user})      
 
     @classmethod
-    def get_user(cls, user_id):        
-        db = database.getInstance()
-        user = db.get_item_as_json('User', user_id)
-        return jsonify({"success":{"user": user}})
-
-    @classmethod
     def update_user(cls, user_id, user):        
         db = database.getInstance()
         user['id'] = user_id
@@ -30,14 +24,14 @@ class UserController():
         return jsonify({"success":success})
 
     @classmethod
-    def get_username(cls, userToken):
-        username = ""
-        success = False
+    def get_user(cls, userToken):
+        user = None
+        success = True
 
         try:
             client = boto3.client('cognito-idp', region_name='us-east-2')
-            username = client.get_user(AccessToken=userToken)["Username"]
+            user = client.get_user(AccessToken=userToken)
         except:
-            pass
+            success = False
 
-        return jsonify({"success": username != "", "username": username})
+        return jsonify({"success": success, "user": user})

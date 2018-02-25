@@ -1,4 +1,5 @@
-import {Component} from '@angular/core';
+import {Component, NgZone} from '@angular/core';
+import {Router} from '@angular/router';
 import {environment} from "../environments/environment";
 import {UserService} from "./user.service";
 
@@ -9,9 +10,8 @@ import {UserService} from "./user.service";
 })
 export class AppComponent {
 	title = 'Chow Me-In';
-  authValid = false;
 
-  constructor(private userService: UserService) {
+  constructor(private router: Router, private ngZone: NgZone, public userService: UserService) {
   }
 
   login(event) {
@@ -21,35 +21,11 @@ export class AppComponent {
 	}
 
   logout(event) {
-    window.sessionStorage.removeItem('access_token');
-    window.sessionStorage.removeItem('id_token');
-    window.sessionStorage.removeItem('username');
-    window.location.reload();
-  }
-
-  getUser() {
-    return window.sessionStorage.getItem('username');
-  }
-
-
-  checkLoginValidity() {
-    var token = window.sessionStorage.getItem("access_token");
-
-    this.userService.getUsername(token).subscribe(
-      data => {
-        if(data['success'] == false) {
-          window.sessionStorage.removeItem('access_token');
-          window.sessionStorage.removeItem('id_token');
-          window.sessionStorage.removeItem('username');
-        } else {
-          window.sessionStorage.setItem('username', data['username']);
-        }},
-        err => {
-          console.error(err);
-        }
-    );
-    
-    this.authValid = this.getUser() != null;
+  	this.ngZone.run(() => {
+	    window.localStorage.clear();
+	    UserService.authValid = false;
+	});
+    this.router.navigate(['chow-list']);
   }
 
 }
