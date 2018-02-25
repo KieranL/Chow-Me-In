@@ -15,16 +15,17 @@ export class AppComponent {
   }
 
   login(event) {
-		// Change location to cognito signin url
-		// Callback URL must be fixed - whitelisted in AWS cognito console
-		window.location.assign("https://chowmein.auth.us-east-2.amazoncognito.com/login?response_type=token&client_id=7pfks1vh7tn778mhqo107ha9g7&redirect_uri=https://chowme-in.com/login");
+  	// Change location to cognito signin url
+  	// Callback URL must be fixed - whitelisted in AWS cognito console
+  	window.location.assign("https://chowmein.auth.us-east-2.amazoncognito.com/login?response_type=token&client_id=7pfks1vh7tn778mhqo107ha9g7&redirect_uri=https://chowme-in.com/login");
 	}
 
   logout(event) {
+    // Update authValid in ngZone.run() to trigger rerender
   	this.ngZone.run(() => {
-	    window.localStorage.clear();
+	    window.sessionStorage.clear();
 	    UserService.authValid = false;
-	});
+	  });
     this.router.navigate(['chow-list']);
   }
 
