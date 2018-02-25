@@ -21,10 +21,13 @@ export class AppComponent {
 	}
 
   logout(event) {
+    const _this = this;
+
     // Update authValid in ngZone.run() to trigger rerender
   	this.ngZone.run(() => {
 	    window.sessionStorage.clear();
 	    UserService.authValid = false;
+      _this.router.navigate(['chow-list']);
 	  });
   }
 
