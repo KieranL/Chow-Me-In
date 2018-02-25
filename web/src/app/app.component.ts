@@ -26,7 +26,6 @@ export class AppComponent {
 	    window.sessionStorage.clear();
 	    UserService.authValid = false;
 	  });
-    this.router.navigate(['chow-list']);
   }
 
 }
