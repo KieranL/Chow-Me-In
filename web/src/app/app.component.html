@@ -22,5 +22,5 @@
   <ng-template #nouser>Welcome to {{ title }}!</ng-template>
 </h1>
 
-
+<!-- Verify user credentials on page reload, helps prevent tampering and show login state properly -->
 <router-outlet (activate)="userService.verifyLoginValidity()"></router-outlet>

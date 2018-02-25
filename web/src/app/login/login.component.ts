@@ -23,22 +23,22 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['chow-list']);
     }
 
-    window.localStorage.setItem("access_token", params['access_token']);
-    window.localStorage.setItem("id_token", params['id_token']);
+    window.sessionStorage.setItem("access_token", params['access_token']);
+    window.sessionStorage.setItem("id_token", params['id_token']);
 
     this.userService.getUser(params['access_token']).subscribe(
       data => {
         if(data['success'] == false) { 
-          window.localStorage.clear();
+          window.sessionStorage.clear();
         } else {
           // Put this in a callback so that changes will be detected on login
           _this.ngZone.run(() => {
             // Set everything since this is async and tokens can be lost before we set these
-            window.localStorage.setItem("access_token", params['access_token']);
-            window.localStorage.setItem("id_token", params['id_token']);
-            window.localStorage.setItem('username', data['user']['Username']);
+            window.sessionStorage.setItem("access_token", params['access_token']);
+            window.sessionStorage.setItem("id_token", params['id_token']);
+            window.sessionStorage.setItem('username', data['user']['Username']);
             // It's like this because of the way it is... (blame boto3)
-            window.localStorage.setItem('name', data['user']['UserAttributes'][2]['Value']);
+            window.sessionStorage.setItem('name', data['user']['UserAttributes'][2]['Value']);
           
             // This changes the value of UserService.authValid which then triggers a rerender
             _this.userService.verifyLoginValidity();

@@ -19,15 +19,15 @@ export class UserService {
   }
 
   verifyLoginValidity() {
-    var token = window.localStorage.getItem("access_token");
+    var token = window.sessionStorage.getItem("access_token");
     this.getUser(token).subscribe(
       data => {
         if(data['success'] == false) {
-          window.localStorage.clear();
+          window.sessionStorage.clear();
         } else {
-          window.localStorage.setItem('username', data['user']['Username']);
+          window.sessionStorage.setItem('username', data['user']['Username']);
           // It's like this because of the way it is... (blame boto3)
-          window.localStorage.setItem('name', data['user']['UserAttributes'][2]['Value']);
+          window.sessionStorage.setItem('name', data['user']['UserAttributes'][2]['Value']);
         }
       },
       err => {
@@ -43,11 +43,11 @@ export class UserService {
   }
 
   getUsername() {
-    return window.localStorage.getItem('username');
+    return window.sessionStorage.getItem('username');
   }
 
   getUsersName() {
-    return window.localStorage.getItem('name');
+    return window.sessionStorage.getItem('name');
   }
 
 	// Converts a full URI into a JSON mapping of parameters->values
