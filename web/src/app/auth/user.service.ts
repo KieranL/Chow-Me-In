@@ -75,13 +75,8 @@ export class UserService {
   }
 
   // Grab the values from a user object, call getUserFromToken() for the object. OK for verifying identity.
-  getUsersPhoneFromObject(user) {
-    return user['user']['UserAttributes'][4]['Value'];
-  }
-
-  // Grab the values from a user object, call getUserFromToken() for the object. OK for verifying identity.
   getUsersEmailFromObject(user) {
-    return user['user']['UserAttributes'][5]['Value'];
+    return user['user']['UserAttributes'][3]['Value'];
   }
 
 	// Parse params from params-only URI into a JSON mapping of parameters->values

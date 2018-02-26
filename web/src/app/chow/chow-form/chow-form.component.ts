@@ -28,7 +28,6 @@ export class ChowFormComponent implements OnInit {
             posterUser: _this.userService.getUsernameFromObject(data),
             posterName: _this.userService.getUsersNameFromObject(data),
             posterEmail: _this.userService.getUsersEmailFromObject(data),
-            posterPhone: _this.userService.getUsersPhoneFromObject(data),
             lastUpdated: (new Date()).toISOString().split('.')[0]
           };
 

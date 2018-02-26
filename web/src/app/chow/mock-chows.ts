@@ -10,8 +10,7 @@ export const CHOWS: Chow[] = [
     notes: "Not actually going to put Penny's contact info here, but this is where it would go",
     posterUser: "Penny",
     posterName: "Penny",
-    posterEmail: "penny@themint.gc.ca",
-    posterPhone: "$0.01"
+    posterEmail: "penny@themint.gc.ca"
   },
   {
     id: 2,
@@ -22,8 +21,7 @@ export const CHOWS: Chow[] = [
     notes: "Posted by Keaton\nPhone: 843-2582",
     posterUser: "Keaton",
     posterName: "Keaton",
-    posterEmail: "keatonliving@thecloud.com",
-    posterPhone: "843-2582"
+    posterEmail: "keatonliving@thecloud.com"
     // not a real phone number - means "the club"
   },
   {
@@ -35,8 +33,7 @@ export const CHOWS: Chow[] = [
     notes: "Posted by Raccon\nPhone: 722-2666\nEmail: fbristow@cs.umanitoba.ca",
     posterUser: "Raccon",
     posterName: "Raccon",
-    posterEmail: "fbristow@cs.umanitoba.ca",
-    posterPhone: "722-2666"
+    posterEmail: "fbristow@cs.umanitoba.ca"
     // not a real phone number - means "raccoon"
   }
 ];
