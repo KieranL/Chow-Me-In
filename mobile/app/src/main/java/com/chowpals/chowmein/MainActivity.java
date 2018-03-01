@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.amazonaws.mobile.client.AWSMobileClient;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity
     ListView chowSearchResultsMain;
     ArrayList<Chows> chowsListedMain;
     ArrayList<Chows> masterChowListMain;
+    static CognitoUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -189,6 +191,8 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this, CreateChowActivity.class));
         } else if (id == R.id.nav_search_chow) {
             startActivity(new Intent(this, SearchChowActivity.class));
+        } else if (id == R.id.nav_login) {
+            startActivity(new Intent(this, LoginActivity.class));
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

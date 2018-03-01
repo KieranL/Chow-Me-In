@@ -34,7 +34,8 @@
             android:name=".SearchChowActivity"
             android:label="@string/title_activity_search_chow"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SignupActivity"></activity>
+        <activity android:name=".SignupActivity" />
+        <activity android:name=".LoginActivity"></activity>
     </application>
 
 </manifest>

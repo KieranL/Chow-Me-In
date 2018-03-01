@@ -43,6 +43,10 @@ dependencies {
     compile('com.amazonaws:aws-android-sdk-mobile-client:2.6.7@aar') { transitive = true; }
     compile 'io.reactivex.rxjava2:rxjava:2.0.2'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    // AWS Mobile SDK for Android
+    compile 'com.amazonaws:aws-android-sdk-core:2.6.16'
+    compile 'com.amazonaws:aws-android-sdk-auth-core:2.6.16@aar'
+    compile 'com.amazonaws:aws-android-sdk-pinpoint:2.6.16'
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support:support-v4:26.1.0'
     implementation 'com.android.support:design:26.1.0'
