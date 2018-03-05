@@ -16,11 +16,12 @@ public class Chows implements Serializable {
     private String posterEmail;
     private String posterName;
     private String posterUser;
+    private String category;
 
     public Chows() {
     }
 
-    public Chows(int id, String createdBy, String createdTime, boolean deleted, String food, String lastUpdated, String meetLocation, String meetTime, String notes, String posterEmail, String posterName, String posterUser) {
+    public Chows(int id, String createdBy, String createdTime, boolean deleted, String food, String lastUpdated, String meetLocation, String meetTime, String notes, String category, String posterName, String posterUser, String posterEmail) {
         this.id = id;
         this.createdBy = createdBy;
         this.createdTime = createdTime;
@@ -30,6 +31,7 @@ public class Chows implements Serializable {
         this.meetLocation = meetLocation;
         this.meetTime = meetTime;
         this.notes = notes;
+        this.category = category;
         this.posterEmail = posterEmail;
         this.posterName = posterName;
         this.posterUser = posterUser;
@@ -130,6 +132,20 @@ public class Chows implements Serializable {
     public void setPosterUser(String posterUser) {
         this.posterUser = posterUser;
     }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    @Override
+    public String toString() {
+        return "Chow name: " + getFood() + "\nMeet Location: " + getMeetLocation() + "\nMeet Time: " + getMeetTime() + "\nAdditional Notes: " + getNotes() + "\nContact Name: " + getPosterName() + "\nContact Phone: " + getPosterEmail();
+    }
+
 }
 
 

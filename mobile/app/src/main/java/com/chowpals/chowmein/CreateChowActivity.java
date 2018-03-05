@@ -14,16 +14,20 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
+import java.util.ArrayList;
 import java.util.Date;
 
+import business.ChowHandler;
 import interfaces.ChowMeInService;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -41,6 +45,7 @@ public class CreateChowActivity extends AppCompatActivity
     TimePicker chowPostTimePicker;
     EditText chowPostDescriptionEditText;
     Button createChowButton;
+    Spinner categorySpinner;
     private static final String BASE_URL = "https://api.chowme-in.com"; //Previous working API location: "http://chowmein.ca-central-1.elasticbeanstalk.com";
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -69,6 +74,9 @@ public class CreateChowActivity extends AppCompatActivity
         chowPostDatePicker = findViewById(R.id.chowPostDatePicker);
         chowPostDescriptionEditText = findViewById(R.id.chowPostDescriptionEditText);
         createChowButton = findViewById(R.id.createChowButton);
+        categorySpinner = findViewById(R.id.categorySpinner);
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, ChowHandler.getAllCategories());
+        categorySpinner.setAdapter(categoryAdapter);
         createChowButton.setOnClickListener(view -> {
             boolean noInputErrors = false;
             if (!String.valueOf(chowPostNameEditText.getText()).equals(""))
@@ -81,12 +89,14 @@ public class CreateChowActivity extends AppCompatActivity
                 Retrofit retrofit = builder.build();
                 ChowMeInService apiClient = retrofit.create(ChowMeInService.class);
 
+                ArrayList<String> categories = ChowHandler.getAllCategories();
+
                 Chows newChow = new Chows(-1, "John Doe", String.valueOf(new Date()), false,
                         String.valueOf(chowPostNameEditText.getText()), String.valueOf(new Date()),
                         String.valueOf(chowPostLocationEditText.getText()),
                         String.valueOf(chowPostDatePicker.getYear() + "-" + chowPostDatePicker.getMonth() + "-" + chowPostDatePicker.getDayOfMonth()
                                 + " " + chowPostTimePicker.getHour() + ":" + chowPostTimePicker.getMinute()),
-                        String.valueOf(chowPostDescriptionEditText.getText()), "JohnDoe@gmail.com", "John Doe", "JDoe");
+                        String.valueOf(chowPostDescriptionEditText.getText()), categories.get(categorySpinner.getSelectedItemPosition()), "John Doe", "JDoe", "JohnDoe@gmail.com");
                 apiClient.createChows(newChow).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                         .subscribe((APISuccessObject response) -> {
                             if (response.isSuccess())

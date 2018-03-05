@@ -112,11 +112,24 @@
                     android:layout_marginRight="16dp"
                     android:hint="@string/food_post_description_here"
                     android:inputType="textCapWords|textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
-                    card_view:layout_constraintBottom_toTopOf="@+id/createChowButton"
+                    card_view:layout_constraintBottom_toTopOf="@+id/categorySpinner"
                     card_view:layout_constraintLeft_toLeftOf="parent"
                     card_view:layout_constraintRight_toRightOf="parent"
                     card_view:layout_constraintTop_toBottomOf="@+id/chowPostTimeEditText"
                     tools:ignore="LabelFor" />
+
+                <Spinner
+                    android:id="@+id/categorySpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="8dp"
+                    card_view:layout_constraintBottom_toTopOf="@+id/createChowButton"
+                    card_view:layout_constraintLeft_toLeftOf="parent"
+                    card_view:layout_constraintRight_toRightOf="parent"
+                    card_view:layout_constraintTop_toBottomOf="@+id/chowPostDescriptionEditText" />
 
                 <Button
                     android:id="@+id/createChowButton"
@@ -125,14 +138,15 @@
                     android:layout_marginBottom="40dp"
                     android:layout_marginLeft="40dp"
                     android:layout_marginRight="40dp"
+                    android:layout_marginTop="8dp"
                     android:background="@android:color/holo_red_light"
                     android:text="@string/chow_me_in"
                     android:textSize="40sp"
                     android:textStyle="bold"
-                    app:layout_constraintTop_toBottomOf="@+id/chowPostDescriptionEditText"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent" />
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/chowPostDescriptionEditText" />
 
             </android.support.constraint.ConstraintLayout>
 
