@@ -1,0 +1,4 @@
+#Sun Mar 04 17:49:57 CST 2018
+base.0=/Users/R/Downloads/Chowme-in-aws-my-sample-app-android/MySampleApp/app/build/intermediates/transforms/dexMerger/debug/10
+path.0=classes.dex
+renamed.0=classes.dex

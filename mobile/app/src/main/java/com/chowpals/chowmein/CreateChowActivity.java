@@ -81,12 +81,12 @@ public class CreateChowActivity extends AppCompatActivity
                 Retrofit retrofit = builder.build();
                 ChowMeInService apiClient = retrofit.create(ChowMeInService.class);
 
-                Chows newChow = new Chows(-1, 1, String.valueOf(new Date()), false,
+                Chows newChow = new Chows(-1, "John Doe", String.valueOf(new Date()), false,
                         String.valueOf(chowPostNameEditText.getText()), String.valueOf(new Date()),
                         String.valueOf(chowPostLocationEditText.getText()),
                         String.valueOf(chowPostDatePicker.getYear() + "-" + chowPostDatePicker.getMonth() + "-" + chowPostDatePicker.getDayOfMonth()
                                 + " " + chowPostTimePicker.getHour() + ":" + chowPostTimePicker.getMinute()),
-                        String.valueOf(chowPostDescriptionEditText.getText()), "John Doe","555-555-5555");
+                        String.valueOf(chowPostDescriptionEditText.getText()), "JohnDoe@gmail.com", "John Doe", "JDoe");
                 apiClient.createChows(newChow).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                         .subscribe((APISuccessObject response) -> {
                             if (response.isSuccess())

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_margin="5dp"
+    android:gravity="center_horizontal">
+
+    <LinearLayout
+        android:id="@+id/appAnalytics_linearLayout_textFields"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:ems="10"
+            android:id="@+id/appAnalytics_editText_description"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/app_analytics_long_description"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:layout_weight="12"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/appAnalytics_linearLayout_buttons"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_weight="1.0"
+        android:layout_margin="0dp">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/linearLayout_demoAnalytics_customEvent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_margin="0dp"
+            android:gravity="center_horizontal|bottom"
+            android:layout_gravity="center_horizontal|bottom"
+            >
+
+            <ImageButton
+                android:id="@+id/imageButton_demoAnalytics_customEvent"
+                android:layout_width="142dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@mipmap/button_sendgraph"
+                android:scaleType="fitXY"
+                />
+
+            <TextView
+                android:id="@+id/textView_demoAnalytics_customEvent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/generate_custom_event"
+                android:textSize="@dimen/demo_mobile_analytics_button_text_size"
+                />
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/linearLayout_demoAnalytics_monetizationEvent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_margin="0dp"
+            android:gravity="center_horizontal|bottom"
+            android:layout_gravity="center_horizontal|bottom">
+
+            <ImageButton
+                android:id="@+id/imageButton_demoAnalytics_monetizationEvent"
+                android:layout_width="142dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@mipmap/button_money"
+                android:scaleType="fitXY"
+                android:padding="5dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/textView_demoAnalytics_monetizationEvent"
+                android:text="@string/generate_monetization_event"
+                android:textSize="@dimen/demo_mobile_analytics_button_text_size"
+                />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

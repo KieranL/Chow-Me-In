@@ -1,0 +1,56 @@
+<resources>
+
+  <!-- CUSTOMIZE THESE FOR YOUR APP -->
+
+  <string name="app_name">My Sample App</string>
+  
+  <!-- REQUIRED FOR GENERAL APP FUNCTIONALITY - YOU MAY WANT TO KEEP THESE -->
+
+  <string name="main_nav_menu_item_home">Home</string>
+  <string name="title_activity_item_detail">Item Detail</string>
+  <string name="title_activity_item_list">Item List</string>
+  <string name="title_activity_main">@string/app_name</string>
+  <string name="button_text_sign_in">SIGN IN</string>
+  <string name="button_text_sign_out">SIGN OUT</string>
+
+  <string name="main_nav_menu_default_user_text">\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020</string>
+
+  <!-- USED BY DEMO FEATURES ONLY - YOU CAN DISCARD THESE WITH THE DEMO FOLDER -->
+
+  <string name="fragment_demo_instruction_overview_header">Overview</string>
+  <string name="fragment_demo_instruction_description_header">Sample App Features</string>
+  <string name="feature_sign_in_title">User Sign-in</string>
+  <string name="feature_sign_in_subtitle">Let your users sign in with public identity providers or your own identity system.</string>
+  <string name="feature_sign_in_overview">Whether your users sign in or not, the User sign-in feature configures Amazon Cognito to uniquely identify the user and provide your app the appropriate credentials to access your AWS resources.</string>
+  <string name="feature_sign_in_description">The Sample App demonstrates assignment of a unique identifier for the user, the Amazon Cognito User ID. If optional or mandatory User Sign-in has been enabled in your project, then the Sample App also includes a sign-in screen, with a button for each configured sign-in provider.</string>
+  <string name="feature_sign_in_powered_by">Powered by Amazon Cognito</string>
+  <string name="feature_sign_in_demo_button">Demo User Identity</string>
+  <string name="feature_user_engagement_title">User Engagement</string>
+  <string name="feature_user_engagement_subtitle">Collect app usage information and analyze key metrics.</string> 
+  <string name="feature_user_engagement_overview">Amazon Mobile Analytics allows you to collect, visualize, and export app event data. You can track app usage and monetization in the Amazon Mobile Analytics console, or run custom analysis by automatically exporting app events to Amazon S3 and Amazon Redshift.</string> 
+  <string name="feature_user_engagement_powered_by">Powered by Amazon Mobile Analytics and Amazon Pinpoint</string>
+  <string name="feature_user_engaement_demo_button">Demo User Engagement</string>
+  <string name="pinpoint_winter_switch_text">Winter</string>
+  <string name="pinpoint_spring_switch_text">Spring</string>
+  <string name="pinpoint_summer_switch_text">Summer</string>
+  <string name="pinpoint_fall_switch_text">Fall</string>
+
+  <string name="main_fragment_title_user_identity">User Identity</string>
+  <string name="main_fragment_subtitle_user_identity">Keep track of users</string>
+  <string name="identity_demo_text_view_description">Displays the user identity.</string>
+  <string name="unknown_user">Guest User</string>
+  <string name="user_id">USER IDENTIFIER</string>
+  <string name="identity_demo_textview_username_description">User\'s name</string>
+  <string name="identity_demo_textview_userid_description">User\'s unique identifier</string>
+  <string name="identity_demo_unknown_identity_text">&lt;UNKNOWN IDENTITY&gt;</string>
+  <string name="identity_demo_dialog_dismiss_text">DISMISS</string>
+  <string name="identity_demo_error_dialog_title">Failed Identity Retrieval</string>
+  <string name="identity_demo_error_message_failed_get_identity">Could not retrieve the user identity:\u0020</string>
+  <string name="main_fragment_title_app_analytics">App Analytics</string>
+  <string name="main_fragment_subtitle_app_analytics">Understand customer usage</string>
+  <string name="feature_app_analytics_demo_button">Demo App Analytics</string>
+  <string name="app_analytics_long_description">Note that events are batch processed and may take up to 60 minutes to display in the console.</string> 
+  <string name="generate_custom_event">Generate Custom Event</string>
+  <string name="generate_monetization_event">Generate Monetization Event</string>
+  
+</resources>

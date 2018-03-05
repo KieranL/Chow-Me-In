@@ -1,7 +1,9 @@
 package com.chowpals.chowmein;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,13 +18,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 
-import com.amazonaws.mobile.client.AWSMobileClient;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
+import com.amazonaws.mobile.auth.core.DefaultSignInResultHandler;
+import com.amazonaws.mobile.auth.core.IdentityManager;
+import com.amazonaws.mobile.auth.core.IdentityProvider;
+import com.amazonaws.mobile.auth.ui.SignInActivity;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import business.Application;
 import interfaces.ChowMeInService;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -37,13 +43,17 @@ public class MainActivity extends AppCompatActivity
     ListView chowSearchResultsMain;
     ArrayList<Chows> chowsListedMain;
     ArrayList<Chows> masterChowListMain;
-    static CognitoUser currentUser;
+    private IdentityManager identityManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        identityManager = IdentityManager.getDefaultIdentityManager();
+
         Toolbar toolbar = findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
         initVariables();
         prepopulateList();
@@ -58,7 +68,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initVariables() {
-        AWSMobileClient.getInstance().initialize(this).execute();
         chowsListedMain = new ArrayList<>();
         masterChowListMain = new ArrayList<>();
         chowSearchResultsMain = findViewById(R.id.searchChowListViewMain);
@@ -183,7 +192,7 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -192,7 +201,25 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_search_chow) {
             startActivity(new Intent(this, SearchChowActivity.class));
         } else if (id == R.id.nav_login) {
-            startActivity(new Intent(this, LoginActivity.class));
+            final WeakReference<MainActivity> self = new WeakReference<MainActivity>(this);
+
+            identityManager.setUpToAuthenticate(this, new DefaultSignInResultHandler() {
+
+                @Override
+                public void onSuccess(Activity activity, IdentityProvider identityProvider) {
+                    // User has signed in
+                    Log.e("Success", "User signed in");
+                    activity.finish();
+                }
+
+                @Override
+                public boolean onCancel(Activity activity) {
+                    return true;
+                }
+            });
+
+            SignInActivity.startSignInActivity(this, Application.sAuthUIConfiguration);
+
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

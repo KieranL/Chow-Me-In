@@ -1,38 +1,26 @@
 package objects;
 
-/*
-Example DynamoDB entry
-  "id": 1,
-  "createdBy": 420,
-  "createdTime": "2018-02-08T13:36:00",
-  "deleted": false,
-  "food": "Mom's spaghetti",
-  "lastUpdated": "2018-02-08T13:36:01",
-  "meetLocation": "Da hood",
-  "meetTime": "Whenever yo",
-  "notes": "Hit me up"
- */
-
 import java.io.Serializable;
 
 public class Chows implements Serializable {
 
-    private int id;
-    private int createdBy;
-    private String createdTime;
-    private boolean deleted;
-    private String food;
-    private String lastUpdated;
-    private String meetLocation;
-    private String meetTime;
-    private String notes;
-    private String contactName;
-    private String phoneNumber;
+    private int id;           //a unique integer used to identify a chow,
+    private String createdBy;    //an integer that corresponds to a user,
+    private String createdTime;  //the time the chow was created in the format: "yyyy-mm-ddThh:mm:ss",
+    private boolean deleted;      //used for soft deletion of chows,
+    private String food;         //a description of the food that is offered,
+    private String lastUpdated;  //the last time the chow was updated in the format: "yyyy-mm-ddThh:mm:ss",
+    private String meetLocation; //a description of where to meet in person,
+    private String meetTime;     //the time to meet in the format: "yyyy-mm-ddThh:mm:ss",
+    private String notes;        //any additional notes the poster of the chow may want to share
+    private String posterEmail;
+    private String posterName;
+    private String posterUser;
 
     public Chows() {
     }
 
-    public Chows(int id, int createdBy, String createdTime, boolean deleted, String food, String lastUpdated, String meetLocation, String meetTime, String notes, String contactName, String phoneNumber) {
+    public Chows(int id, String createdBy, String createdTime, boolean deleted, String food, String lastUpdated, String meetLocation, String meetTime, String notes, String posterEmail, String posterName, String posterUser) {
         this.id = id;
         this.createdBy = createdBy;
         this.createdTime = createdTime;
@@ -42,101 +30,105 @@ public class Chows implements Serializable {
         this.meetLocation = meetLocation;
         this.meetTime = meetTime;
         this.notes = notes;
-        this.contactName = contactName;
-        this.phoneNumber = phoneNumber;
+        this.posterEmail = posterEmail;
+        this.posterName = posterName;
+        this.posterUser = posterUser;
     }
 
-    public int getid() {
+    public int getId() {
         return id;
     }
 
-    public int getCreatedBy() {
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getCreatedBy() {
         return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
     public String getCreatedTime() {
         return createdTime;
     }
 
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public String getFood() {
-        return food;
-    }
-
-    public String getLastUpdated() {
-        return lastUpdated;
-    }
-
-    public String getMeetLocation() {
-        return meetLocation;
-    }
-
-    public String getMeetTime() {
-        return meetTime;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public String getContactName() {
-        return contactName;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setid(int id) {
-        this.id = id;
-    }
-
-    public void setCreatedBy(int createdBy) {
-        this.createdBy = createdBy;
-    }
-
     public void setCreatedTime(String createdTime) {
         this.createdTime = createdTime;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
     }
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
 
+    public String getFood() {
+        return food;
+    }
+
     public void setFood(String food) {
         this.food = food;
+    }
+
+    public String getLastUpdated() {
+        return lastUpdated;
     }
 
     public void setLastUpdated(String lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 
+    public String getMeetLocation() {
+        return meetLocation;
+    }
+
     public void setMeetLocation(String meetLocation) {
         this.meetLocation = meetLocation;
+    }
+
+    public String getMeetTime() {
+        return meetTime;
     }
 
     public void setMeetTime(String meetTime) {
         this.meetTime = meetTime;
     }
 
+    public String getNotes() {
+        return notes;
+    }
+
     public void setNotes(String notes) {
         this.notes = notes;
     }
 
-    public void setContactName(String contactName) {
-        this.contactName = contactName;
+    public String getPosterEmail() {
+        return posterEmail;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPosterEmail(String posterEmail) {
+        this.posterEmail = posterEmail;
     }
 
-    @Override
-    public String toString() {
-        return "Chow name: " + getFood() + "\nMeet Location: " + getMeetLocation() + "\nMeet Time: " + getMeetTime() + "\nAdditional Notes: " + getNotes() + "\nContact Name: " + getContactName() + "\nContact Phone: " + getPhoneNumber();
+    public String getPosterName() {
+        return posterName;
+    }
+
+    public void setPosterName(String posterName) {
+        this.posterName = posterName;
+    }
+
+    public String getPosterUser() {
+        return posterUser;
+    }
+
+    public void setPosterUser(String posterUser) {
+        this.posterUser = posterUser;
     }
 }
 
