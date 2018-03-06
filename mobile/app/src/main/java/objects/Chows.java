@@ -143,7 +143,7 @@ public class Chows implements Serializable {
 
     @Override
     public String toString() {
-        return "Chow name: " + getFood() + "\nMeet Location: " + getMeetLocation() + "\nMeet Time: " + getMeetTime() + "\nAdditional Notes: " + getNotes() + "\nContact Name: " + getPosterName() + "\nContact Phone: " + getPosterEmail();
+        return "Chow name: " + getFood() + "\nCategory: " + getCategory() + "\nMeet Location: " + getMeetLocation() + "\nMeet Time: " + getMeetTime() + "\nAdditional Notes: " + getNotes() + "\nContact Name: " + getPosterName() + "\nContact Phone: " + getPosterEmail();
     }
 
 }

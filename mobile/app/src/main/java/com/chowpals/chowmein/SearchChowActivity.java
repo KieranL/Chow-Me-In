@@ -117,6 +117,22 @@ public class SearchChowActivity extends AppCompatActivity
         if (currentChow.getNotes() == null) {
             currentChow.setNotes("");
         }
+
+        if (currentChow.getCategory() == null) {
+            currentChow.setCategory("None");
+        }
+
+        if (currentChow.getPosterEmail() == null) {
+            currentChow.setPosterEmail("");
+        }
+
+        if (currentChow.getPosterName() == null) {
+            currentChow.setPosterName("");
+        }
+
+        if (currentChow.getPosterUser() == null) {
+            currentChow.setPosterUser("");
+        }
         return currentChow;
     }
 
