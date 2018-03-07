@@ -126,26 +126,6 @@ class BasicTests(unittest.TestCase):
         data = json.loads(response.get_data(as_text=True))
         self.assertTrue(data['success'])
 
-    ### User
-
-    def test_user_api_get(self):
-        user_id = 1
-
-        response = self.app.get('/user/' + str(user_id))
-        self.assertEqual(response.status_code, 200)
-
-        data = json.loads(response.get_data(as_text=True))
-        self.assertEqual(data, json.loads(json.dumps(
-            {'success':
-                {'user':        
-                    {
-                        'id': 1,
-                        'fName': 'Snoop',
-                        'lName': 'Dogg'
-                    },
-                }
-            }
-        )))
 
     #TODO fix this test
     @unittest.skip("json serializing error I can't figure out")

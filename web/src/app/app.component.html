@@ -1,13 +1,29 @@
 <nav class="navbar navbar-default">
   <div class="container-fluid">
-    <ul class="nav navbar-nav navbar-right">
+    <ul class="nav navbar-nav navbar-left">
       <li><a routerLink="/chow-list">Home</a></li>
-      <li><a routerLink="/create-chow">Create a New Chow</a></li>
+    </ul>
+
+    <ul class="nav navbar-nav navbar-right">
+
+      <div *ngIf="userService.getValidity(); then logmeout else logmein"></div>
+
+      <ng-template #logmein><li><a (click)="login($event)">Login</a></li></ng-template>
+      <ng-template #logmeout>
+        <li><a routerLink="/create-chow">Create a New Chow</a></li>
+        <li><a (click)="logout($event)">Logout</a></li>
+      </ng-template>
+
     </ul>
   </div>
 </nav>
+  
 
 <h1>
-  Welcome to {{ title }}!
+  <div *ngIf="userService.getValidity(); then user else nouser"></div>
+  <ng-template #user>Howdy, {{ userService.getUsersNameFromStorage() }}!</ng-template>
+  <ng-template #nouser>Welcome to {{ title }}!</ng-template>
 </h1>
-<router-outlet></router-outlet>
+
+<!-- Verify user credentials on page reload, helps prevent tampering and show login state properly -->
+<router-outlet (activate)="userService.verifyLoginValidity()"></router-outlet>
