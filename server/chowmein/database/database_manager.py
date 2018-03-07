@@ -175,14 +175,14 @@ class DatabaseManager:
 
         def put_item(self, table_name, item):
             """
-                Create a new item.
+                If an item with no id attribute or an id of -1, this will create a new item.
                 If item already exists (same key), then this will delete and create a new item.
             """
 
             #This is a hack
             #if item doesn't have an idea, it tries to get the next available id
             #should probably change the id in that case to something we can determine on our own
-            if not 'id' in item:
+            if not 'id' in item or item['id'] == -1:
                 item['id'] = self.get_max_primarykey(table_name)
 
             try:
