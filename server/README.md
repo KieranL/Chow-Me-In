@@ -151,6 +151,7 @@ Endpoint: /chow
 Method: POST
 Body: {
   chow: {
+    id: -1 (optional)
     ...
   }
 }
