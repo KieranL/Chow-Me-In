@@ -209,6 +209,25 @@ class DatabaseManager:
                         batch.put_item(Item=item)
                 return True
 
+        def soft_delete_item(self, table_name, key):
+            """
+            Soft delete item with the given key from the given table
+            by setting isDeleted = 1
+            """
+
+            
+            table = self.get_table(table_name)
+            response = table.update_item(
+                    Key={
+                        'id': key
+                    },
+                    UpdateExpression='SET deleted = :softDelete',
+                    ExpressionAttributeValues={
+                        ':softDelete': 1
+                    }
+                )
+            return response['ResponseMetadata']['HTTPStatusCode'] == 200
+
         def delete_item(self, table_name, key):
             """ Delete item with the given key from the given table """
             table = self.get_table(table_name)
