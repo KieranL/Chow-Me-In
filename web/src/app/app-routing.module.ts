@@ -9,7 +9,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/chow-list', pathMatch: 'full' },
   { path: 'chow-list', component: ChowListComponent },
   { path: 'chow-form', component: ChowFormComponent, canActivate: [AuthGuard] },
-  { path: 'chow-form/:id', component: ChowFormComponent},
+  { path: 'chow-form/:id', component: ChowFormComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent }
 ];
 
