@@ -1,0 +1,13 @@
+.chow {
+  background-color: lightgray;
+  margin: 20px;
+  padding: 0.666%;
+}
+
+.right {
+  float: right;
+}
+
+.include-newline {
+  white-space: pre-wrap;
+}

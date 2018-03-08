@@ -1,1 +1,3 @@
 Flask>=0.12
+boto3>=1.5.24
+Flask-Cors>=3.0.3
