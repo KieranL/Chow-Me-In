@@ -4,6 +4,9 @@ public class APISuccessObject {
     private boolean success;
     private Chows chow;
 
+    public APISuccessObject() {
+    }
+
     public APISuccessObject(boolean success, Chows chow) {
         this.success = success;
         this.chow = chow;
