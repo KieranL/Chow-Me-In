@@ -11,8 +11,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -22,19 +20,11 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-
 import java.util.ArrayList;
 import java.util.Date;
 
 import business.ChowHandler;
-import interfaces.ChowMeInService;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-import objects.APISuccessObject;
 import objects.Chows;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CreateChowActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -46,7 +36,7 @@ public class CreateChowActivity extends AppCompatActivity
     EditText chowPostDescriptionEditText;
     Button createChowButton;
     Spinner categorySpinner;
-    private static final String BASE_URL = "https://api.chowme-in.com"; //Previous working API location: "http://chowmein.ca-central-1.elasticbeanstalk.com";
+
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -79,33 +69,23 @@ public class CreateChowActivity extends AppCompatActivity
         categorySpinner.setAdapter(categoryAdapter);
         createChowButton.setOnClickListener(view -> {
             boolean noInputErrors = false;
-            if (!String.valueOf(chowPostNameEditText.getText()).equals(""))
-                noInputErrors = true;
-            if (!String.valueOf(chowPostDescriptionEditText.getText()).equals(""))
+            if (!String.valueOf(chowPostNameEditText.getText()).equals("")
+                    && !String.valueOf(chowPostDescriptionEditText.getText()).equals("")
+                    && !String.valueOf(chowPostLocationEditText.getText()).equals(""))
                 noInputErrors = true;
             if (noInputErrors) {
-                Retrofit.Builder builder = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJava2CallAdapterFactory.create());
-
-                Retrofit retrofit = builder.build();
-                ChowMeInService apiClient = retrofit.create(ChowMeInService.class);
-
                 ArrayList<String> categories = ChowHandler.getAllCategories();
-
-                Chows newChow = new Chows(-1, "John Doe", String.valueOf(new Date()), false,
-                        String.valueOf(chowPostNameEditText.getText()), String.valueOf(new Date()),
-                        String.valueOf(chowPostLocationEditText.getText()),
+                Chows newChow = new Chows(-1, "Mobile Guest", String.valueOf(new Date()), false,
+                        String.valueOf(chowPostNameEditText.getText()).trim(), String.valueOf(new Date()),
+                        String.valueOf(chowPostLocationEditText.getText()).trim(),
                         String.valueOf(chowPostDatePicker.getYear() + "-" + chowPostDatePicker.getMonth() + "-" + chowPostDatePicker.getDayOfMonth()
                                 + " " + chowPostTimePicker.getHour() + ":" + chowPostTimePicker.getMinute()),
-                        String.valueOf(chowPostDescriptionEditText.getText()), categories.get(categorySpinner.getSelectedItemPosition()), "John Doe", "JDoe", "JohnDoe@gmail.com");
-                apiClient.createChows(newChow).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                        .subscribe((APISuccessObject response) -> {
-                            if (response.isSuccess())
-                                Log.i("Success", "Success");
-                            else
-                                Log.i("error", "Error");
-                        });
-                Toast.makeText(this, "Your chow has been created!", Toast.LENGTH_SHORT).show();
-                finish();
+                        String.valueOf(chowPostDescriptionEditText.getText()).trim(), categories.get(categorySpinner.getSelectedItemPosition()), "Mobile Guest", "Mobile Guest User", "Poster has no phonenumber");
+                Intent verifyChow = new Intent(this, VerifyChowActivity.class);
+                verifyChow.putExtra("Chow", newChow);
+                startActivity(verifyChow);
+            } else {
+                Toast.makeText(this, "Your Chow seems to be missing some information. Please fill out the empty fields.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -115,31 +95,8 @@ public class CreateChowActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.create_chow, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        startActivity(new Intent(this,MainActivity.class));
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

@@ -13,7 +13,7 @@ public class Chows implements Serializable {
     private String meetLocation; //a description of where to meet in person,
     private String meetTime;     //the time to meet in the format: "yyyy-mm-ddThh:mm:ss",
     private String notes;        //any additional notes the poster of the chow may want to share
-    private String posterEmail;
+    private String posterPhone;
     private String posterName;
     private String posterUser;
     private String category;
@@ -21,7 +21,7 @@ public class Chows implements Serializable {
     public Chows() {
     }
 
-    public Chows(int id, String createdBy, String createdTime, boolean deleted, String food, String lastUpdated, String meetLocation, String meetTime, String notes, String category, String posterName, String posterUser, String posterEmail) {
+    public Chows(int id, String createdBy, String createdTime, boolean deleted, String food, String lastUpdated, String meetLocation, String meetTime, String notes, String category, String posterName, String posterUser, String posterPhone) {
         this.id = id;
         this.createdBy = createdBy;
         this.createdTime = createdTime;
@@ -32,7 +32,7 @@ public class Chows implements Serializable {
         this.meetTime = meetTime;
         this.notes = notes;
         this.category = category;
-        this.posterEmail = posterEmail;
+        this.posterPhone = posterPhone;
         this.posterName = posterName;
         this.posterUser = posterUser;
     }
@@ -109,12 +109,12 @@ public class Chows implements Serializable {
         this.notes = notes;
     }
 
-    public String getPosterEmail() {
-        return posterEmail;
+    public String getPosterPhone() {
+        return posterPhone;
     }
 
-    public void setPosterEmail(String posterEmail) {
-        this.posterEmail = posterEmail;
+    public void setPosterPhone(String posterPhone) {
+        this.posterPhone = posterPhone;
     }
 
     public String getPosterName() {
@@ -143,7 +143,7 @@ public class Chows implements Serializable {
 
     @Override
     public String toString() {
-        return "Chow name: " + getFood() + "\nCategory: " + getCategory() + "\nMeet Location: " + getMeetLocation() + "\nMeet Time: " + getMeetTime() + "\nAdditional Notes: " + getNotes() + "\nContact Name: " + getPosterName() + "\nContact Phone: " + getPosterEmail();
+        return "Chow name: " + getFood() + "\nCategory: " + getCategory() + "\nMeet Location: " + getMeetLocation() + "\nMeet Time: " + getMeetTime() + "\nAdditional Notes: " + getNotes() + "\nContact Name: " + getPosterName() + "\nContact Email: " + getPosterPhone();
     }
 
 }

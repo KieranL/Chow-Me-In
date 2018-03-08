@@ -1,7 +1,9 @@
 package com.chowpals.chowmein;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -11,24 +13,18 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
-import com.amazonaws.mobile.auth.core.DefaultSignInResultHandler;
-import com.amazonaws.mobile.auth.core.IdentityManager;
-import com.amazonaws.mobile.auth.core.IdentityProvider;
-import com.amazonaws.mobile.auth.ui.SignInActivity;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import business.Application;
 import interfaces.ChowMeInService;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -43,15 +39,16 @@ public class MainActivity extends AppCompatActivity
     ListView chowSearchResultsMain;
     ArrayList<Chows> chowsListedMain;
     ArrayList<Chows> masterChowListMain;
-    private IdentityManager identityManager;
+    //private IdentityManager identityManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (!networkConnectionAvailable())
+            Toast.makeText(this, "You are not connected to the Internet. To send and receive Chows please connect to the Internet", Toast.LENGTH_SHORT).show();
 
-        identityManager = IdentityManager.getDefaultIdentityManager();
-
+        //identityManager = IdentityManager.getDefaultIdentityManager();
         Toolbar toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
@@ -117,8 +114,6 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
         }
     }
 
@@ -172,24 +167,6 @@ public class MainActivity extends AppCompatActivity
         return currentChow;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -197,37 +174,56 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_create_chow) {
-            startActivity(new Intent(this, CreateChowActivity.class));
+            if (!networkConnectionAvailable())
+                Toast.makeText(this, "You are not connected to the Internet. To send and receive Chows please connect to the Internet", Toast.LENGTH_SHORT).show();
+            else
+                startActivity(new Intent(this, CreateChowActivity.class));
         } else if (id == R.id.nav_search_chow) {
-            startActivity(new Intent(this, SearchChowActivity.class));
-        } else if (id == R.id.nav_login) {
+            if (!networkConnectionAvailable())
+                Toast.makeText(this, "You are not connected to the Internet. To send and receive Chows please connect to the Internet", Toast.LENGTH_SHORT).show();
+            else
+                startActivity(new Intent(this, SearchChowActivity.class));
+        } /*else if (id == R.id.nav_login) {
             final WeakReference<MainActivity> self = new WeakReference<MainActivity>(this);
+            try {
+                identityManager.setUpToAuthenticate(this, new DefaultSignInResultHandler() {
 
-            identityManager.setUpToAuthenticate(this, new DefaultSignInResultHandler() {
+                    @Override
+                    public void onSuccess(Activity activity, IdentityProvider identityProvider) {
+                        // User has signed in
+                        Log.e("Success", "User signed in");
+                        activity.finish();
+                    }
 
-                @Override
-                public void onSuccess(Activity activity, IdentityProvider identityProvider) {
-                    // User has signed in
-                    Log.e("Success", "User signed in");
-                    activity.finish();
-                }
+                    @Override
+                    public boolean onCancel(Activity activity) {
+                        return true;
+                    }
+                });
 
-                @Override
-                public boolean onCancel(Activity activity) {
-                    return true;
-                }
-            });
-
-            SignInActivity.startSignInActivity(this, Application.sAuthUIConfiguration);
-
+                SignInActivity.startSignInActivity(this, Application.sAuthUIConfiguration);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
+        */
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
+    private boolean networkConnectionAvailable() {
+        ConnectivityManager connectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert connectionManager != null;
+        NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
+    }
+
     public void createChow(View view) {
-        startActivity(new Intent(this, CreateChowActivity.class));
+        if (!networkConnectionAvailable())
+            Toast.makeText(this, "You are not connected to the Internet. To send and receive Chows please connect to the Internet", Toast.LENGTH_SHORT).show();
+        else
+            startActivity(new Intent(this, CreateChowActivity.class));
     }
 }
