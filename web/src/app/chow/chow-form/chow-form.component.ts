@@ -38,7 +38,7 @@ export class ChowFormComponent implements OnInit {
 
     this.userService.getUserFromToken(token).subscribe(
       data => {
-        if (data['success'] == true) {
+        if(data['success'] == true) {
           let newChow: Chow = {
             posterUser: _this.userService.getUsernameFromObject(data),
             posterName: _this.userService.getUsersNameFromObject(data),
