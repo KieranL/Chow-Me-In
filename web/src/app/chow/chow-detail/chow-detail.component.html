@@ -11,11 +11,6 @@
     <br>
     <button>Chow Me-In!</button>
     <button type="button" class="right" (click)="deleteChow(chow.id)">Delete</button>
-    <button type="button" class="right" (click)="showForm=true">Edit</button>
+    <a class="right" routerLink="/chow-form/{{chow.id}}">Edit</a>
   </div>
 </div>
-
-<app-chow-form *ngIf="showForm" [chow]="chow"></app-chow-form>
-<button *ngIf="showForm" class="btn btn-default" (click)="showForm=false">
-  Cancel
-</button>

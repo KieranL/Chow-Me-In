@@ -13,3 +13,7 @@
 .h4, h4 {
 	margin-bottom: 0px;
 }
+
+.clickable:hover {
+  cursor: pointer;
+}

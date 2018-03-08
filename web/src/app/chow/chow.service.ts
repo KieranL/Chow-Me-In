@@ -19,6 +19,11 @@ export class ChowService {
     return this.http.get<Chow[]>(this.chowUrl);
   }
 
+  getChowById(chowId: number): Observable<Chow> {
+    const url = `${this.chowUrl}/${chowId}`;
+    return this.http.get<Chow>(url);
+  }
+
   addChow(chow: Chow): Observable<Chow> {
     return this.http.post<Chow>(this.chowUrl, chow, httpOptions);
   }

@@ -8,16 +8,16 @@
 
       <div *ngIf="userService.getValidity(); then logmeout else logmein"></div>
 
-      <ng-template #logmein><li><a (click)="login($event)">Login</a></li></ng-template>
+      <ng-template #logmein><li><a class="clickable" (click)="login($event)">Login</a></li></ng-template>
       <ng-template #logmeout>
-        <li><a routerLink="/create-chow">Create a New Chow</a></li>
-        <li><a (click)="logout($event)">Logout</a></li>
+        <li><a routerLink="/chow-form">Create a New Chow</a></li>
+        <li><a class="clickable" (click)="logout($event)">Logout</a></li>
       </ng-template>
 
     </ul>
   </div>
 </nav>
-  
+
 
 <h1>
   <div *ngIf="userService.getValidity(); then user else nouser"></div>

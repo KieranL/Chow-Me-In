@@ -21,7 +21,7 @@ class ChowController():
     def get_chow(cls, chow_id):
         db = database.getInstance()
         chow = db.get_item_as_json('Chow', chow_id)
-        return jsonify({"success":{"chow": chow}})
+        return jsonify(chow)
 
     @classmethod
     def update_chow(cls, chow_id, chow):

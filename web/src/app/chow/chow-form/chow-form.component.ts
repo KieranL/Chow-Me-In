@@ -1,8 +1,9 @@
-import {Router} from '@angular/router';
-import {Component, OnInit} from '@angular/core';
+import {Router, ActivatedRoute} from '@angular/router';
+import {Component, Input, OnInit} from '@angular/core';
 import {ChowService} from '../chow.service';
 import {UserService} from '../../auth/user.service';
 import {Chow} from '../chow';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-chow-form',
@@ -10,20 +11,34 @@ import {Chow} from '../chow';
   styleUrls: ['./chow-form.component.css']
 })
 export class ChowFormComponent implements OnInit {
-  constructor(private router: Router, private chowService: ChowService, private userService: UserService) {
+  @Input() chow: Chow;
+
+  constructor(
+    private router: Router,
+    private chowService: ChowService,
+    private userService: UserService,
+    private route: ActivatedRoute,
+    private location: Location
+  ) {
   }
 
   ngOnInit() {
+    const id = +this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.chowService.getChowById(id).subscribe((chow) => {
+        this.chow = chow;
+      });
+    }
   }
 
   add(food: string, meetLocation: string, meetTime: string, notes: string): void {
     const _this = this;
 
-    var token = this.userService.getAuthTokenFromStorage();
+    let token = this.userService.getAuthTokenFromStorage();
 
     this.userService.getUserFromToken(token).subscribe(
       data => {
-        if(data['success'] == true) {
+        if (data['success'] == true) {
           let newChow: Chow = {
             posterUser: _this.userService.getUsernameFromObject(data),
             posterName: _this.userService.getUsersNameFromObject(data),
@@ -55,7 +70,34 @@ export class ChowFormComponent implements OnInit {
         console.error(err);
       }
     );
+  }
 
+  save(food: string, meetLocation: string, meetTime: string, notes: string): void {
+    let chow: Chow = {
+      posterUser: this.chow.posterUser,
+      posterName: this.chow.posterName,
+      posterEmail: this.chow.posterEmail,
+      lastUpdated: (new Date()).toISOString().split('.')[0]
+    };
+    if (food !== "") {
+      chow.food = food;
+    }
+    if (meetLocation !== "") {
+      chow.meetLocation = meetLocation;
+    }
+    if (meetTime !== "") {
+      chow.meetTime = meetTime;
+    }
+    if (notes !== "") {
+      chow.notes = notes;
+    }
+    this.chowService.editChow(this.chow.id, chow)
+      .subscribe(updatedChow => {
+        window.location.href = '/chow-list';
+      });
+  }
 
+  goBack(): void {
+    this.location.back();
   }
 }
