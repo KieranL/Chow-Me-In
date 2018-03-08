@@ -7,10 +7,15 @@ export class AuthGuardService implements CanActivate {
   constructor(private auth: UserService, private router: Router) {}
 
   canActivate(): boolean {
-    if (!this.auth.getValidity()) {
+    this.auth.verifyLoginValidity();
+    var valid = this.auth.getValidity();
+
+    // Verify validity of the user token, redirect if necessary
+    if (valid === false) {
       this.router.navigate(['chow-list']);
       return false;
     }
+
     return true;
   }
 }
