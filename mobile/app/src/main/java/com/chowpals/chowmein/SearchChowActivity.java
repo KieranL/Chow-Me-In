@@ -39,6 +39,8 @@ public class SearchChowActivity extends AppCompatActivity
     ArrayList<Chows> chowsListed;
     ArrayList<Chows> masterChowList;
 
+    private static final String BASE_URL = "https://api.chowme-in.com"; //Previous working API location: "http://chowmein.ca-central-1.elasticbeanstalk.com";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +97,6 @@ public class SearchChowActivity extends AppCompatActivity
                     chowSearchResults.setAdapter(resultAdapter);
                 }, error -> Log.i("error", "Error"));
     }
-
-    private static final String BASE_URL = "https://api.chowme-in.com"; //Previous working API location: "http://chowmein.ca-central-1.elasticbeanstalk.com";
 
 
     private static Chows verifyChow(Chows currentChow) {

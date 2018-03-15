@@ -29,9 +29,9 @@
     </string>
 
     <string name="pref_title_display_name">Display name</string>
-    <string name="pref_default_display_name">John Smith</string>
-    <string name="pref_default_email">JohnSmith@gmail.com</string>
-    <string name="pref_default_user">JohnnyS123</string>
+    <string name="pref_default_display_name">Keaton MacLeod</string>
+    <string name="pref_default_email">cotton_candy_luvr_99@hotmail.com</string>
+    <string name="pref_default_user">sweetcakes24</string>
 
     <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
     <string-array name="pref_example_list_titles">
