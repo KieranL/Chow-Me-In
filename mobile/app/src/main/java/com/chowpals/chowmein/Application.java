@@ -58,7 +58,6 @@ public class Application extends MultiDexApplication {
             IdentityManager.setDefaultIdentityManager(identityManager);
         }
 
-
         // Add UserPools as an SignIn Provider.
         IdentityManager.getDefaultIdentityManager().addSignInProvider(CognitoUserPoolsSignInProvider.class);
     }

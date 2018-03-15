@@ -18,7 +18,8 @@
     <string name="search_existing_chows_here">Search existing Chows here!</string>
     <string name="title_activity_settings">Settings</string>
 
-    <!-- Strings related to Settings -->
+    <!-- Strings related to config -->
+    <string name="base_url">https://api.chowme-in.com</string>
 
     <!-- Example General settings -->
     <string name="pref_header_general">User Settings</string>
