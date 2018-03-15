@@ -1,8 +1,8 @@
-package business;
+package helpers;
 
 import java.util.ArrayList;
 
-public class ChowHandler {
+public class ChowHelper {
     public static ArrayList<String> getAllCategories() {
         ArrayList<String> categories = new ArrayList<>();
         categories.add("None");

@@ -16,8 +16,8 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-import business.NetworkHelper;
-import business.UserHelper;
+import helpers.NetworkHelper;
+import helpers.UserHelper;
 import interfaces.ChowMeInService;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;

@@ -15,7 +15,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Date;
 
-import business.ChowHandler;
+import helpers.ChowHelper;
 import objects.Chows;
 
 public class CreateChowActivity extends NavBarActivity {
@@ -47,7 +47,7 @@ public class CreateChowActivity extends NavBarActivity {
         chowPostDescriptionEditText = findViewById(R.id.chowPostDescriptionEditText);
         createChowButton = findViewById(R.id.createChowButton);
         categorySpinner = findViewById(R.id.categorySpinner);
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, ChowHandler.getAllCategories());
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, ChowHelper.getAllCategories());
         categorySpinner.setAdapter(categoryAdapter);
         createChowButton.setOnClickListener(view -> {
             boolean noInputErrors = false;
@@ -56,7 +56,7 @@ public class CreateChowActivity extends NavBarActivity {
                     && !String.valueOf(chowPostLocationEditText.getText()).equals(""))
                 noInputErrors = true;
             if (noInputErrors) {
-                ArrayList<String> categories = ChowHandler.getAllCategories();
+                ArrayList<String> categories = ChowHelper.getAllCategories();
                 Chows newChow = new Chows(-1, "Mobile Guest", String.valueOf(new Date()), false,
                         String.valueOf(chowPostNameEditText.getText()).trim(), String.valueOf(new Date()),
                         String.valueOf(chowPostLocationEditText.getText()).trim(),

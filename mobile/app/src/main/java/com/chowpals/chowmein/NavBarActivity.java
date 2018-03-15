@@ -18,7 +18,7 @@ import com.amazonaws.mobile.auth.core.IdentityManager;
 import com.amazonaws.mobile.auth.core.IdentityProvider;
 import com.amazonaws.mobile.auth.ui.SignInActivity;
 
-import business.NetworkHelper;
+import helpers.NetworkHelper;
 
 public class NavBarActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
