@@ -16,6 +16,7 @@ public class ViewChowActivity extends NavBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_view_chow);
 
         initVariables();
         populateChowInfo();

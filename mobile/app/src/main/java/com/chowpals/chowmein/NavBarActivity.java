@@ -17,13 +17,15 @@ import com.amazonaws.mobile.auth.core.DefaultSignInResultHandler;
 import com.amazonaws.mobile.auth.core.IdentityManager;
 import com.amazonaws.mobile.auth.core.IdentityProvider;
 import com.amazonaws.mobile.auth.ui.SignInActivity;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 
 import helpers.NetworkHelper;
+import helpers.UserHelper;
 
 public class NavBarActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private IdentityManager identityManager;
+    public IdentityManager identityManager;
     public static String baseUrl;
 
     @Override
@@ -42,8 +44,8 @@ public class NavBarActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
 
-        // Only show either the login or logout button
-        if(identityManager.isUserSignedIn()) {
+        // Only show either the login(3) or logout(4) button
+        if(UserHelper.isUserSignedIn(getApplicationContext())) {
             navigationView.getMenu().getItem(3).setVisible(false);
             navigationView.getMenu().getItem(4).setVisible(true);
         } else {
@@ -117,7 +119,7 @@ public class NavBarActivity extends AppCompatActivity
                 }
             }
         } else if (id == R.id.nav_logout) {
-            identityManager.signOut();
+            UserHelper.getCurrentUser(getApplicationContext()).signOut();
 
             // refresh the activity -- easier to reinit everything this way
             this.finish();
