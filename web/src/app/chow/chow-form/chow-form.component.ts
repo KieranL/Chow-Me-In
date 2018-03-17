@@ -73,6 +73,8 @@ export class ChowFormComponent implements OnInit {
   }
 
   save(food: string, meetLocation: string, meetTime: string, notes: string): void {
+    const _this = this;
+
     let chow: Chow = {
       posterUser: this.chow.posterUser,
       posterName: this.chow.posterName,
@@ -93,7 +95,7 @@ export class ChowFormComponent implements OnInit {
     }
     this.chowService.editChow(this.chow.id, chow)
       .subscribe(updatedChow => {
-        window.location.href = '/chow-list';
+        _this.router.navigate(['chow-list']);
       });
   }
 
