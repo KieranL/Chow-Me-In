@@ -74,22 +74,16 @@ class BasicTests(unittest.TestCase):
 
         data = json.loads(response.get_data(as_text=True))
         self.assertEqual(data, json.loads(json.dumps(
-            {'success':
-                {'chow':        
-                    {
-                        'food': 'Large Pep. Pizza',
-                        'meetLocation': 'Dominos down main',
-                        'lastUpdated':'2018-02-08T17:55:00',
-                        'id':1,
-                        'meetTime':'6:30pm',
-                        'notes':'I ordered this for 2 but my buddy bailed on me. We can work out payment later.'
-                    }
-                }
+            {
+                'food': 'Large Pep. Pizza',
+                'meetLocation': 'Dominos down main',
+                'lastUpdated':'2018-02-08T17:55:00',
+                'id':1,
+                'meetTime':'6:30pm',
+                'notes':'I ordered this for 2 but my buddy bailed on me. We can work out payment later.'
             }
         )))
 
-    #TODO fix this test
-    @unittest.skip("unable to get this working for some reason")
     def test_chow_api_create(self):
         chow = {
             "id": 3,
@@ -102,7 +96,7 @@ class BasicTests(unittest.TestCase):
             "meetTime": "3019-06-30T12:43:55",
             "notes": "yummy"}
 
-        response = self.app.post('/chow', data=dict(chow=json.dumps(chow)))
+        response = self.app.post('/chow', data=json.dumps(chow), content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
         data = json.loads(response.get_data(as_text=True))
@@ -111,7 +105,7 @@ class BasicTests(unittest.TestCase):
         chow = {'id': 1, "notes": "testing"}
         chow_id = 1
 
-        response = self.app.post('/chow/' + str(chow_id), data=dict(chow=json.dumps(chow)))
+        response = self.app.post('/chow/' + str(chow_id), data=json.dumps(chow), content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
         data = json.loads(response.get_data(as_text=True))

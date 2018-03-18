@@ -11,6 +11,7 @@ import {ChowDetailComponent} from './chow/chow-detail/chow-detail.component';
 import { ChowFormComponent } from './chow/chow-form/chow-form.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { LoginComponent } from './auth/login/login.component';
+import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { LoginComponent } from './auth/login/login.component';
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    Ng4LoadingSpinnerModule.forRoot()
   ],
   providers: [ChowService, UserService, AuthGuardService],
   bootstrap: [AppComponent]

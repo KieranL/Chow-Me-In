@@ -104,10 +104,8 @@ Creates a new `chow` in the system
 Endpoint: /chow
 Method: POST
 Body: {
-  chow: {
-    id: -1 (optional)
-    ...
-  }
+  id: -1 (optional)
+  ...
 }
 Returns: {
   "success":  True/False
@@ -120,13 +118,9 @@ Gets all `chow`s in the system
 Endpoint: /chow
 Method: GET
 Returns: {
-  "success":{
-    "chows":{
-      ...
-      a list of all chows
-      ...
-    }
-  }
+  ...
+  a list of all chows
+  ...
 }
 ```
 
@@ -136,9 +130,7 @@ Gets the `chow` with the given `id`
 Endpoint: /chow/{id}
 Method: GET
 Returns: {
-  "success":{
-    "chow": chow
-  }
+  chow
 }
 ```
 
@@ -148,11 +140,7 @@ Updates the `chow` with the given `id`
 Endpoint: /chow/{id}
 Method: POST
 Body: {
-  chow: {
-    ...
-    any key/value listed here will overwrite the existing value
-    ...
-  }
+  any key/value listed here will overwrite the existing value
 }
 Returns: {
   "success":  True/False,
