@@ -1,3 +1,4 @@
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import {Component, OnInit} from '@angular/core';
 import {ChowService} from "../chow.service";
 import {Chow} from "../chow";
@@ -11,15 +12,19 @@ export class ChowListComponent implements OnInit {
   chows: Chow[];
   selectedChow: Chow;
 
-  constructor(private chowService: ChowService) {
+  constructor(
+    private spinnerService: Ng4LoadingSpinnerService,
+    private chowService: ChowService) {
   }
 
   ngOnInit() {
+    this.spinnerService.show();
     this.getChows();
   }
 
   getChows(): void {
     this.chowService.getChows().subscribe((chows) => {
+      this.spinnerService.hide();
       this.chows = chows;
     });
   }

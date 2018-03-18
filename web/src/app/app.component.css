@@ -1,3 +1,8 @@
+.navbar {
+    position: sticky;
+    z-index: 10000 !important;
+}
+
 .navbar-right {
     padding-right: 7px;
 }

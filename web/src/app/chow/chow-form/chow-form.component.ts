@@ -4,6 +4,7 @@ import {ChowService} from '../chow.service';
 import {UserService} from '../../auth/user.service';
 import {Chow} from '../chow';
 import {Location} from '@angular/common';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 @Component({
   selector: 'app-chow-form',
@@ -15,17 +16,21 @@ export class ChowFormComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
+    private location: Location,
     private chowService: ChowService,
     private userService: UserService,
-    private route: ActivatedRoute,
-    private location: Location
+    private spinnerService: Ng4LoadingSpinnerService
   ) {
   }
 
   ngOnInit() {
     const id = +this.route.snapshot.paramMap.get('id');
     if (id) {
+      this.spinnerService.show();
+
       this.chowService.getChowById(id).subscribe((chow) => {
+        this.spinnerService.hide();
         this.chow = chow;
       });
     }

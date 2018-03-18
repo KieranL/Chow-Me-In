@@ -25,5 +25,7 @@
   <ng-template #nouser>Welcome to {{ title }}!</ng-template>
 </h1>
 
+<ng4-loading-spinner style="opacity:0.3;"> </ng4-loading-spinner>
+
 <!-- Verify user credentials on page reload, helps prevent tampering and show login state properly -->
 <router-outlet (activate)="userService.verifyLoginValidity()"></router-outlet>
