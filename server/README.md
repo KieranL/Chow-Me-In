@@ -9,10 +9,7 @@
   * [Chow](#chow)
 * [API](#api)
   * [User Endpoint](#user-endpoint)
-    * [Creating a user](#creating-a-user)
     * [Getting a user](#getting-a-user)
-    * [Updating a user](#updating-a-user)
-    * [Deleting a user](#deleting-a-user)
   * [Chow Endpoint](#chow-endpoint)
     * [Creating a chow](#creating-a-chow)
     * [Getting all chows](#getting-all-chows)
@@ -88,22 +85,6 @@ Currently our 2 endpoints are:
 ## **User Endpoint**
 For more information on the `user` object, see [here](#user)
 
-### **Creating a user**
-Creates a new `user` in the system
-```
-Endpoint: /user
-Method: POST
-Body: {
-  user: {
-    ...
-  }
-}
-Returns: {
-  "success":  True/False,
-  "User":     user #Note this is the same user that was passed in the body
-}  
-```
-
 ### **Getting a user**
 Gets the `user` belonging to a given `access_token`
 ```
@@ -112,33 +93,6 @@ Method: GET
 Returns: {
   "success":  True/False,
   "User":     User object from boto3
-}
-```
-### **Updating a user**
-Updates the `user` with the given `id`
-```
-Endpoint: /user/{id}
-Method: POST
-Body: {
-  user: {
-    ...
-    any key/value listed here will overwrite the existing value
-    ...
-  }
-}
-Returns: {
-  "success":  True/False,
-  "User":     the updated user
-}  
-```
-
-### **Deleting a user**
-Deletes the `user` with the given `id`
-```
-Endpoint: /user/{id}
-Method: DELETE
-Returns: {
-  "success": True/False
 }
 ```
 ### **Chow Endpoint**
