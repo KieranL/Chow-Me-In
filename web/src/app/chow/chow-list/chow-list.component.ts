@@ -11,6 +11,7 @@ import {Chow} from "../chow";
 export class ChowListComponent implements OnInit {
   chows: Chow[];
   selectedChow: Chow;
+  showDetailPane: boolean;
 
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
@@ -18,6 +19,7 @@ export class ChowListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.showDetailPane = false;
     this.spinnerService.show();
     this.getChows();
   }
@@ -25,6 +27,7 @@ export class ChowListComponent implements OnInit {
   getChows(): void {
     this.chowService.getChows().subscribe((chows) => {
       this.spinnerService.hide();
+      this.showDetailPane = true;
       this.chows = chows;
     });
   }
