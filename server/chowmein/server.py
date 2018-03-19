@@ -22,7 +22,7 @@ if __name__ == "__main__":
     db = database.getInstance()
 
     #create any needed tables
-    tables = ['User', 'Chow']
+    tables = ['Chow']
     for table in tables:
         if not db.table_exists(table):
             db.create_table(table)

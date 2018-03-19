@@ -120,36 +120,5 @@ class BasicTests(unittest.TestCase):
         data = json.loads(response.get_data(as_text=True))
         self.assertTrue(data['success'])
 
-
-    #TODO fix this test
-    @unittest.skip("json serializing error I can't figure out")
-    def test_user_api_create(self):
-        user = {"fName": "First", "lName": "Last"}
-        response = self.app.post('/user', data=dict(user=json.dumps(user)))
-        self.assertEqual(response.status_code, 200)
-
-    def test_user_api_update(self):
-        user = {
-            'id': 1,
-            'fName': 'Snoop',
-            'lName': 'Doggo'
-            }
-        user_id = 1
-
-        response = self.app.post('/user/' + str(user_id), data=dict(user=json.dumps(user)))
-        self.assertEqual(response.status_code, 200)
-
-        data = json.loads(response.get_data(as_text=True))
-        self.assertEqual(data, {'success': True, 'user': user})
-
-    def test_user_api_delete(self):        
-        user_id = 1
-        
-        response = self.app.delete('/user/' + str(user_id))
-        self.assertEqual(response.status_code, 200)
-
-        data = json.loads(response.get_data(as_text=True))
-        self.assertTrue(data['success'])
-
 if __name__ == "__main__":
     unittest.main()

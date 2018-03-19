@@ -9,10 +9,7 @@
   * [Chow](#chow)
 * [API](#api)
   * [User Endpoint](#user-endpoint)
-    * [Creating a user](#creating-a-user)
     * [Getting a user](#getting-a-user)
-    * [Updating a user](#updating-a-user)
-    * [Deleting a user](#deleting-a-user)
   * [Chow Endpoint](#chow-endpoint)
     * [Creating a chow](#creating-a-chow)
     * [Getting all chows](#getting-all-chows)
@@ -46,14 +43,7 @@ A `chow` means an offer to share food (see [here](../README.md))
 A `user` is a representation of someone using Chow Me-In.
 A *user* can post *chows*, and accept *chows*.
 
-A `user` consists of:
-```
-{
-  id:     a unique integer used to identify a user,
-  name:  the  name of the user
-}
-```
-More information will be added to this model in the future.
+A `user` is pulled from AWS Cognito, use the Boto3 [CognitoIdentityProvider](http://boto3.readthedocs.io/en/latest/reference/services/cognito-idp.html#CognitoIdentityProvider.Client.get_user) client
 
 ### **Chow**
 A `chow` means an offer to share food (see [here](../README.md))
@@ -88,22 +78,6 @@ Currently our 2 endpoints are:
 ## **User Endpoint**
 For more information on the `user` object, see [here](#user)
 
-### **Creating a user**
-Creates a new `user` in the system
-```
-Endpoint: /user
-Method: POST
-Body: {
-  user: {
-    ...
-  }
-}
-Returns: {
-  "success":  True/False,
-  "User":     user #Note this is the same user that was passed in the body
-}  
-```
-
 ### **Getting a user**
 Gets the `user` belonging to a given `access_token`
 ```
@@ -112,33 +86,6 @@ Method: GET
 Returns: {
   "success":  True/False,
   "User":     User object from boto3
-}
-```
-### **Updating a user**
-Updates the `user` with the given `id`
-```
-Endpoint: /user/{id}
-Method: POST
-Body: {
-  user: {
-    ...
-    any key/value listed here will overwrite the existing value
-    ...
-  }
-}
-Returns: {
-  "success":  True/False,
-  "User":     the updated user
-}  
-```
-
-### **Deleting a user**
-Deletes the `user` with the given `id`
-```
-Endpoint: /user/{id}
-Method: DELETE
-Returns: {
-  "success": True/False
 }
 ```
 ### **Chow Endpoint**
