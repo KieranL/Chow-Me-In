@@ -21,7 +21,7 @@ export class ChowDetailComponent implements OnInit {
       return;
     }
     this.chowService.deleteChow(chowId)
-      .subscribe(({}) => {
+      .subscribe(() => {
         window.location.href = '/chow-list';
       });
   }

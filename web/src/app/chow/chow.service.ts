@@ -19,12 +19,22 @@ export class ChowService {
     return this.http.get<Chow[]>(this.chowUrl);
   }
 
+  getChowById(chowId: number): Observable<Chow> {
+    const url = `${this.chowUrl}/${chowId}`;
+    return this.http.get<Chow>(url);
+  }
+
   addChow(chow: Chow): Observable<Chow> {
     return this.http.post<Chow>(this.chowUrl, chow, httpOptions);
   }
 
-  deleteChow(chowId: number): Observable<{}> {
+  deleteChow(chowId: number): Observable<any> {
     const url = `${this.chowUrl}/${chowId}`;
     return this.http.delete(url, httpOptions);
+  }
+
+  editChow(chowId: number, chow: Chow): Observable<Chow> {
+    const url = `${this.chowUrl}/${chowId}`;
+    return this.http.post<Chow>(url, chow, httpOptions);
   }
 }

@@ -8,7 +8,8 @@ import { AuthGuardService as AuthGuard } from './auth/auth-guard.service';
 const routes: Routes = [
   { path: '', redirectTo: '/chow-list', pathMatch: 'full' },
   { path: 'chow-list', component: ChowListComponent },
-  { path: 'create-chow', component: ChowFormComponent, canActivate: [AuthGuard] },
+  { path: 'chow-form', component: ChowFormComponent, canActivate: [AuthGuard] },
+  { path: 'chow-form/:id', component: ChowFormComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent }
 ];
 
