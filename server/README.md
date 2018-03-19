@@ -43,14 +43,7 @@ A `chow` means an offer to share food (see [here](../README.md))
 A `user` is a representation of someone using Chow Me-In.
 A *user* can post *chows*, and accept *chows*.
 
-A `user` consists of:
-```
-{
-  id:     a unique integer used to identify a user,
-  name:  the  name of the user
-}
-```
-More information will be added to this model in the future.
+A `user` is pulled from AWS Cognito, use the Boto3 [CognitoIdentityProvider](http://boto3.readthedocs.io/en/latest/reference/services/cognito-idp.html#CognitoIdentityProvider.Client.get_user) client
 
 ### **Chow**
 A `chow` means an offer to share food (see [here](../README.md))
