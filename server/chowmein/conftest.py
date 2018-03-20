@@ -1,5 +1,5 @@
 import pytest
-from server import application as app
+from .server import application as app
 from database.database_manager import DatabaseManager as database
 from dbinit import initialize_local_database as init_db
 
