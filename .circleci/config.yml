@@ -73,11 +73,6 @@ jobs:
           background: true
 
       - run:
-          name: Run API Test
-          command: python api_tests.py
-          working_directory: server/chowmein
-          
-      - run:
-          name: Run DB Test
-          command: python db_tests.py
+          name: Run All Tests
+          command: python -m pytest
           working_directory: server/chowmein
