@@ -12,11 +12,16 @@ import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.amazonaws.mobile.auth.core.IdentityManager;
+import com.amazonaws.mobile.auth.google.GoogleButton;
+import com.amazonaws.mobile.auth.google.GoogleSignInProvider;
 import com.amazonaws.mobile.auth.ui.AuthUIConfiguration;
 import com.amazonaws.mobile.auth.userpools.CognitoUserPoolsSignInProvider;
 import com.amazonaws.mobile.config.AWSConfiguration;
+import com.google.android.gms.common.Scopes;
 
 import business.AbstractApplicationLifeCycleHelper;
+
+import static android.graphics.Color.rgb;
 
 /**
  * Application class responsible for initializing singletons and other common components.
@@ -26,18 +31,14 @@ public class Application extends MultiDexApplication {
     public static AWSConfiguration awsConfiguration;
     private AbstractApplicationLifeCycleHelper applicationLifeCycleHelper;
 
-    /**
-     * To change the logo and background color, use the following API
-     *
-     * AuthUIConfiguration sAuthUIConfiguration =
-     *              new AuthUIConfiguration.Builder()
-     *                  .logoResId(R.drawable.image);
-     *                  .backgroundColor(Color.BLACK);
-     *
-     */
+
     public static AuthUIConfiguration sAuthUIConfiguration =
         new AuthUIConfiguration.Builder()
                 .userPools(true)
+                .logoResId(R.drawable.chowmein_cat)
+                .backgroundColor(rgb(245, 245, 245))
+                .isBackgroundColorFullScreen(true)
+                .signInButton(GoogleButton.class)
                 .build();
 
     @Override
@@ -60,6 +61,9 @@ public class Application extends MultiDexApplication {
 
         // Add UserPools as an SignIn Provider.
         IdentityManager.getDefaultIdentityManager().addSignInProvider(CognitoUserPoolsSignInProvider.class);
+        IdentityManager.getDefaultIdentityManager().addSignInProvider(com.amazonaws.mobile.auth.google.GoogleSignInProvider.class);
+
+        GoogleSignInProvider.setPermissions(Scopes.EMAIL, Scopes.PROFILE);
     }
 
     @Override

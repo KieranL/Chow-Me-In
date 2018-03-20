@@ -17,7 +17,6 @@ import com.amazonaws.mobile.auth.core.DefaultSignInResultHandler;
 import com.amazonaws.mobile.auth.core.IdentityManager;
 import com.amazonaws.mobile.auth.core.IdentityProvider;
 import com.amazonaws.mobile.auth.ui.SignInActivity;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 
 import helpers.NetworkHelper;
 import helpers.UserHelper;
@@ -44,7 +43,7 @@ public class NavBarActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
 
-        // Only show either the login(3) or logout(4) button
+        // Only show either the LoginActivity(3) or logout(4) button
         if(UserHelper.isUserSignedIn(getApplicationContext())) {
             navigationView.getMenu().getItem(3).setVisible(false);
             navigationView.getMenu().getItem(4).setVisible(true);
@@ -113,7 +112,7 @@ public class NavBarActivity extends AppCompatActivity
                         }
                     });
 
-                    SignInActivity.startSignInActivity(getApplicationContext(), Application.sAuthUIConfiguration);
+                    LoginActivity.startSignInActivity(getApplicationContext(), Application.sAuthUIConfiguration);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

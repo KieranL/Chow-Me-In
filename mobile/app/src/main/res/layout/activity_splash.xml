@@ -21,7 +21,8 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="30dp"
             android:gravity="center_horizontal"
-            android:scaleType="fitCenter">
+            android:scaleType="fitCenter"
+            android:src="@drawable/chowmein_cat">
 
         </ImageView>
 

@@ -6,10 +6,7 @@ import android.content.SharedPreferences;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSettings;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
-import com.chowpals.chowmein.Application;
-import com.chowpals.chowmein.R;
 
 import org.json.JSONObject;
 
@@ -32,7 +29,7 @@ public class UserHelper {
         boolean signedIn = false;
 
         try {
-            // Apparently the cognito sdk has "isSignedIn" method, found a workaround https://github.com/aws/aws-sdk-android/issues/260
+            // Apparently the cognito sdk has no "isSignedIn" method, found a workaround https://github.com/aws/aws-sdk-android/issues/260
             String appClientId = settings.getString("AppClientId");
             SharedPreferences prefs = context.getSharedPreferences("CognitoIdentityProviderCache", 0);
             String csiIdTokenKey = "CognitoIdentityProvider." + appClientId + "." + user.getUserId() + ".idToken";

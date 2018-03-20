@@ -8,6 +8,7 @@
 //
 package business;
 
+import android.graphics.Color;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
@@ -15,6 +16,8 @@ import com.amazonaws.mobile.auth.core.IdentityManager;
 import com.amazonaws.mobile.auth.ui.AuthUIConfiguration;
 import com.amazonaws.mobile.auth.userpools.CognitoUserPoolsSignInProvider;
 import com.amazonaws.mobile.config.AWSConfiguration;
+import com.chowpals.chowmein.R;
+
 /**
  * Application class responsible for initializing singletons and other common components.
  */
@@ -23,19 +26,12 @@ public class Application extends MultiDexApplication {
     public static AWSConfiguration awsConfiguration;
     private AbstractApplicationLifeCycleHelper applicationLifeCycleHelper;
 
-    /**
-     * To change the logo and background color, use the following API
-     *
-     * AuthUIConfiguration sAuthUIConfiguration =
-     *              new AuthUIConfiguration.Builder()
-     *                  .logoResId(R.drawable.image);
-     *                  .backgroundColor(Color.BLACK);
-     *
-     */
     public static AuthUIConfiguration sAuthUIConfiguration =
-        new AuthUIConfiguration.Builder()
-                .userPools(true)
-                .build();
+            new AuthUIConfiguration.Builder()
+                    .userPools(true)
+                    .logoResId(R.drawable.chowmein_cat)
+                    .backgroundColor(Color.BLACK)
+                    .build();
 
     @Override
     public void onCreate() {
