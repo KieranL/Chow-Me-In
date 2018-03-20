@@ -16,6 +16,7 @@ import com.amazonaws.mobile.auth.google.GoogleButton;
 import com.amazonaws.mobile.auth.google.GoogleSignInProvider;
 import com.amazonaws.mobile.auth.ui.AuthUIConfiguration;
 import com.amazonaws.mobile.config.AWSConfiguration;
+import com.chowpals.chowmein.login.ChowmeinUserPoolsSignInProvider;
 import com.google.android.gms.common.Scopes;
 
 import business.AbstractApplicationLifeCycleHelper;

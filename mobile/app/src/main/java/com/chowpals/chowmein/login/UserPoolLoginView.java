@@ -20,7 +20,7 @@
  */
 
 
-package com.chowpals.chowmein;
+package com.chowpals.chowmein.login;
 
 import android.app.Activity;
 import android.content.Context;
@@ -41,6 +41,7 @@ import android.widget.TextView;
 
 import com.amazonaws.mobile.auth.core.signin.SignInManager;
 import com.amazonaws.mobile.auth.userpools.FormView;
+import com.chowpals.chowmein.R;
 
 import static com.amazonaws.mobile.auth.core.signin.ui.DisplayUtils.dp;
 import static com.amazonaws.mobile.auth.core.signin.ui.DisplayUtils.getRoundedRectangleBackground;
@@ -190,7 +191,7 @@ public class UserPoolLoginView extends LinearLayout {
         signUpTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               context.startActivity(new Intent(context, com.chowpals.chowmein.SignUpActivity.class));
+               context.startActivity(new Intent(context, SignUpActivity.class));
             }
         });
 
@@ -215,15 +216,15 @@ public class UserPoolLoginView extends LinearLayout {
                 DEFAULT_BACKGROUND_COLOR));
     }
 
-    int getBackgroundColor() {
+    public int getBackgroundColor() {
         return this.backgroundColor;
     }
 
-    String getFontFamily() {
+    public String getFontFamily() {
         return this.fontFamily;
     }
 
-    boolean isBackgroundColorFullScreen() {
+    public boolean isBackgroundColorFullScreen() {
         return this.isBackgroundColorFullScreenEnabled;
     }
 

@@ -20,7 +20,7 @@
  * File modified from the AWS Android SDK
  */
 
-package com.chowpals.chowmein;
+package com.chowpals.chowmein.login;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -35,6 +35,7 @@ import com.amazonaws.mobile.auth.core.signin.ui.BackgroundDrawable;
 import com.amazonaws.mobile.auth.core.signin.ui.SplitBackgroundDrawable;
 import com.amazonaws.mobile.auth.core.signin.ui.buttons.SignInButton;
 import com.amazonaws.mobile.auth.ui.AuthUIConfiguration;
+import com.chowpals.chowmein.Application;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -60,7 +61,7 @@ public class LoginView extends LinearLayout {
     private static final String SDK_VERSION = "2.6.17";
 
     /** Common Prefix of the namespaces of different SignIn providers. */
-    private static final String NAMESPACE_COMMON_PREFIX = "com.chowpals.chowmein";
+    private static final String NAMESPACE_COMMON_PREFIX = "com.chowpals.chowmein.login";
 
     /** Group name. */
     private static final String AWS_MOBILE_AUTH_GROUP_NAME = "com.amazonaws";

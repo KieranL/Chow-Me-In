@@ -15,15 +15,17 @@
   * limitations under the License.
   */
 
-package com.chowpals.chowmein;
+/*
+ * File modified from the AWS Android SDK
+ */
+
+
+package com.chowpals.chowmein.login;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amazonaws.mobile.auth.userpools.FormEditText;
 import com.amazonaws.mobile.auth.userpools.FormView;
@@ -41,7 +43,7 @@ public class SignUpActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(com.amazonaws.mobile.auth.userpools.R.layout.activity_sign_up);
 
-        signUpView = (SignUpView) findViewById(com.amazonaws.mobile.auth.userpools.R.id.signup_view);
+        signUpView = findViewById(com.amazonaws.mobile.auth.userpools.R.id.signup_view);
 
         // Remove "phone" field
         FormView form = (FormView) signUpView.getChildAt(1);

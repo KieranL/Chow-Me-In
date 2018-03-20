@@ -15,7 +15,7 @@ import android.util.Log;
 import com.amazonaws.mobile.auth.core.IdentityManager;
 import com.amazonaws.mobile.auth.ui.AuthUIConfiguration;
 import com.amazonaws.mobile.config.AWSConfiguration;
-import com.chowpals.chowmein.ChowmeinUserPoolsSignInProvider;
+import com.chowpals.chowmein.login.ChowmeinUserPoolsSignInProvider;
 import com.chowpals.chowmein.R;
 
 /**

@@ -15,22 +15,23 @@
   * limitations under the License.
   */
 
-package com.chowpals.chowmein;
+
+/*
+ * File modified from the AWS Android SDK
+ */
+
+package com.chowpals.chowmein.login;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amazonaws.mobile.auth.userpools.ForgotPasswordActivity;
 import com.amazonaws.mobile.auth.userpools.MFAActivity;
-import com.amazonaws.mobile.auth.userpools.SignUpConfirmActivity;
 import com.amazonaws.mobile.config.AWSConfiguration;
 
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.VerificationHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
@@ -57,6 +58,7 @@ import com.amazonaws.mobile.auth.core.signin.SignInProviderResultHandler;
 import com.amazonaws.mobile.auth.core.internal.util.ViewHelper;
 
 import com.amazonaws.regions.Regions;
+import com.chowpals.chowmein.R;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -19,7 +19,7 @@
  * File modified from the AWS Android SDK
  */
 
-package com.chowpals.chowmein;
+package com.chowpals.chowmein.login;
 
 import android.content.Intent;
 import android.content.Context;
@@ -32,6 +32,7 @@ import com.amazonaws.mobile.auth.core.signin.SignInManager;
 import com.amazonaws.mobile.auth.core.signin.SignInProviderResultHandler;
 
 import com.amazonaws.mobile.auth.ui.AuthUIConfiguration;
+import com.chowpals.chowmein.R;
 
 
 /**

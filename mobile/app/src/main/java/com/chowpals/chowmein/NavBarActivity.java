@@ -16,7 +16,7 @@ import android.view.MenuItem;
 import com.amazonaws.mobile.auth.core.DefaultSignInResultHandler;
 import com.amazonaws.mobile.auth.core.IdentityManager;
 import com.amazonaws.mobile.auth.core.IdentityProvider;
-import com.amazonaws.mobile.auth.ui.SignInActivity;
+import com.chowpals.chowmein.login.LoginActivity;
 
 import helpers.NetworkHelper;
 import helpers.UserHelper;
