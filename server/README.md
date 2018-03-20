@@ -153,10 +153,15 @@ Returns: {
 
 ## Unit Testing
 ---
-### Database unit tests
 
 Make sure `DynamoDB Local` is running, see [here](chowmein/database/README.md).
-Then run:
 
-`python db_tests.py`
-`python api_tests.py`
+Make sure `Pytest` is installed.
+
+To run all backend unit tests, inside server/chowmein run:
+
+`python -m pytest`
+
+To run a specific backend unit test:
+
+`python -m pytest -k <test_name>.py`
