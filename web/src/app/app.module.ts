@@ -12,6 +12,7 @@ import { ChowFormComponent } from './chow/chow-form/chow-form.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { LoginComponent } from './auth/login/login.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
+import { MaterialModule } from './material/material.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    Ng4LoadingSpinnerModule.forRoot()
+    Ng4LoadingSpinnerModule.forRoot(),
+    MaterialModule
   ],
   providers: [ChowService, UserService, AuthGuardService],
   bootstrap: [AppComponent]
