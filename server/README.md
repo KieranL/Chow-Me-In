@@ -17,7 +17,6 @@
     * [Updating a chow](#updating-a-chow)
     * [Deleting a chow](#deleting-a-chow)
 * [Unit Testing](#unit-testing)
-  * [Database unit tests](#database-unit-tests)
 
 ## **How to setup server locally**
 ---
