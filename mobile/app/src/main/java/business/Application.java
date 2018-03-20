@@ -14,8 +14,8 @@ import android.util.Log;
 
 import com.amazonaws.mobile.auth.core.IdentityManager;
 import com.amazonaws.mobile.auth.ui.AuthUIConfiguration;
-import com.amazonaws.mobile.auth.userpools.CognitoUserPoolsSignInProvider;
 import com.amazonaws.mobile.config.AWSConfiguration;
+import com.chowpals.chowmein.ChowmeinUserPoolsSignInProvider;
 import com.chowpals.chowmein.R;
 
 /**
@@ -53,7 +53,7 @@ public class Application extends MultiDexApplication {
 
 
         // Add UserPools as an SignIn Provider.
-        IdentityManager.getDefaultIdentityManager().addSignInProvider(CognitoUserPoolsSignInProvider.class);
+        IdentityManager.getDefaultIdentityManager().addSignInProvider(ChowmeinUserPoolsSignInProvider.class);
     }
 
     @Override

@@ -67,7 +67,6 @@ public class SignUpActivity extends Activity {
         final String password = signUpView.getPassword();
         final String givenName = signUpView.getGivenName();
         final String email = signUpView.getEmail();
-        final String phone = signUpView.getPhone();
 
         final Intent intent = new Intent();
         intent.putExtra(ChowmeinUserPoolsSignInProvider.AttributeKeys.USERNAME, username);

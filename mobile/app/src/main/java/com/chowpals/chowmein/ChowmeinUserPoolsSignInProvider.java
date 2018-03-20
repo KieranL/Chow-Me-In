@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amazonaws.mobile.auth.userpools.ForgotPasswordActivity;
 import com.amazonaws.mobile.auth.userpools.MFAActivity;
@@ -212,15 +213,6 @@ public class ChowmeinUserPoolsSignInProvider implements SignInProvider {
     };
 
     /**
-     * Start the SignUp Confirm Activity with the attribte keys.
-     */
-    private void startVerificationActivity() {
-        final Intent intent = new Intent(context, SignUpConfirmActivity.class);
-        intent.putExtra(AttributeKeys.USERNAME, username);
-        activity.startActivityForResult(intent, VERIFICATION_REQUEST_CODE);
-    }
-
-    /**
      * Handle callbacks from the Sign Up flow.
      */
     private SignUpHandler signUpHandler = new SignUpHandler() {
@@ -231,10 +223,6 @@ public class ChowmeinUserPoolsSignInProvider implements SignInProvider {
                 Log.d(LOG_TAG, "Signed up. User ID = " + user.getUserId());
                 ViewHelper.showDialog(activity, activity.getString(R.string.title_activity_sign_up),
                         activity.getString(R.string.sign_up_success) + " " + user.getUserId());
-            } else {
-                Log.w(LOG_TAG, "Additional confirmation for sign up.");
-
-                startVerificationActivity();
             }
         }
 
@@ -266,30 +254,6 @@ public class ChowmeinUserPoolsSignInProvider implements SignInProvider {
         }
     };
 
-    /**
-     * Resent the confirmation code on MFA.
-     */
-    private void resendConfirmationCode() {
-        final CognitoUser cognitoUser = cognitoUserPool.getUser(username);
-        cognitoUser.resendConfirmationCodeInBackground(new VerificationHandler() {
-            @Override
-            public void onSuccess(final CognitoUserCodeDeliveryDetails verificationCodeDeliveryMedium) {
-                startVerificationActivity();
-            }
-
-            @Override
-            public void onFailure(final Exception exception) {
-                if (null != resultsHandler) {
-                    ViewHelper.showDialog(activity, activity.getString(R.string.title_activity_sign_in),
-                            activity.getString(R.string.login_failed)
-                                    + "\nUser was not verified and resending confirmation code failed.\n"
-                                    + getErrorMessageFromException(exception));
-
-                    resultsHandler.onError(ChowmeinUserPoolsSignInProvider.this, exception);
-                }
-            }
-        });
-    }
 
     /**
      * Handle callbacks from the Authentication flow. Includes MFA handling.
@@ -304,6 +268,8 @@ public class ChowmeinUserPoolsSignInProvider implements SignInProvider {
             if (null != resultsHandler) {
                 resultsHandler.onSuccess(ChowmeinUserPoolsSignInProvider.this);
             }
+
+            activity.finish();
         }
 
         @Override
@@ -346,7 +312,6 @@ public class ChowmeinUserPoolsSignInProvider implements SignInProvider {
             // is invalid, so this will not create an continuous confirmation loop if the
             // user enters the wrong code.
             if (exception instanceof UserNotConfirmedException) {
-                resendConfirmationCode();
                 return;
             }
 
@@ -402,29 +367,11 @@ public class ChowmeinUserPoolsSignInProvider implements SignInProvider {
 
         if (Activity.RESULT_OK == resultCode) {
             switch (requestCode) {
-                case FORGOT_PASSWORD_REQUEST_CODE:
-                    password = data.getStringExtra(ChowmeinUserPoolsSignInProvider.AttributeKeys.PASSWORD);
-                    verificationCode = data.getStringExtra(ChowmeinUserPoolsSignInProvider.AttributeKeys.VERIFICATION_CODE);
-
-                    if (password.length() < PASSWORD_MIN_LENGTH) {
-                        ViewHelper.showDialog(activity, activity.getString(R.string.title_activity_forgot_password),
-                                activity.getString(R.string.password_change_failed)
-                                        + " " + activity.getString(R.string.password_length_validation_failed));
-                        return;
-                    }
-
-                    Log.d(LOG_TAG, "verificationCode = " + verificationCode);
-
-                    forgotPasswordContinuation.setPassword(password);
-                    forgotPasswordContinuation.setVerificationCode(verificationCode);
-                    forgotPasswordContinuation.continueTask();
-                    break;
                 case SIGN_UP_REQUEST_CODE:
                     username = data.getStringExtra(ChowmeinUserPoolsSignInProvider.AttributeKeys.USERNAME);
                     password = data.getStringExtra(ChowmeinUserPoolsSignInProvider.AttributeKeys.PASSWORD);
                     final String givenName = data.getStringExtra(ChowmeinUserPoolsSignInProvider.AttributeKeys.GIVEN_NAME);
                     final String email = data.getStringExtra(ChowmeinUserPoolsSignInProvider.AttributeKeys.EMAIL_ADDRESS);
-                    final String phone = data.getStringExtra(ChowmeinUserPoolsSignInProvider.AttributeKeys.PHONE_NUMBER);
 
                     if (username.length() < 1) {
                         ViewHelper.showDialog(activity, activity.getString(R.string.title_activity_sign_up),
@@ -437,6 +384,20 @@ public class ChowmeinUserPoolsSignInProvider implements SignInProvider {
                         ViewHelper.showDialog(activity, activity.getString(R.string.title_activity_sign_up),
                                 activity.getString(R.string.sign_up_failed)
                                         + " " + activity.getString(R.string.password_length_validation_failed));
+                        return;
+                    }
+
+                    if (givenName.isEmpty()) {
+                        ViewHelper.showDialog(activity, activity.getString(R.string.title_activity_sign_up),
+                                activity.getString(R.string.sign_up_failed)
+                                        + " Name can not be empty");
+                        return;
+                    }
+
+                    if (email.isEmpty()) {
+                        ViewHelper.showDialog(activity, activity.getString(R.string.title_activity_sign_up),
+                                activity.getString(R.string.sign_up_failed)
+                                        + " Email can not be empty");
                         return;
                     }
 
@@ -448,56 +409,13 @@ public class ChowmeinUserPoolsSignInProvider implements SignInProvider {
                     userAttributes.addAttribute("name", givenName);
                     userAttributes.addAttribute(ChowmeinUserPoolsSignInProvider.AttributeKeys.EMAIL_ADDRESS, email);
 
-                    if (null != phone && phone.length() > 0) {
-                        userAttributes.addAttribute(ChowmeinUserPoolsSignInProvider.AttributeKeys.PHONE_NUMBER, phone);
-                    }
-
                     cognitoUserPool.signUpInBackground(username, password, userAttributes,
                             null, signUpHandler);
 
+                    ViewHelper.showDialog(activity, activity.getString(R.string.title_activity_sign_up),
+                            "Sign up successful! Please confirm your email prior to signing in.");
                     break;
-                case MFA_REQUEST_CODE:
-                    verificationCode = data.getStringExtra(ChowmeinUserPoolsSignInProvider.AttributeKeys.VERIFICATION_CODE);
 
-                    if (verificationCode.length() < 1) {
-                        ViewHelper.showDialog(activity, activity.getString(R.string.title_activity_mfa),
-                                activity.getString(R.string.mfa_failed)
-                                        + " " + activity.getString(R.string.mfa_code_empty));
-                        return;
-                    }
-
-                    Log.d(LOG_TAG, "verificationCode = " + verificationCode);
-
-                    multiFactorAuthenticationContinuation.setMfaCode(verificationCode);
-                    multiFactorAuthenticationContinuation.continueTask();
-
-                    break;
-                case VERIFICATION_REQUEST_CODE:
-                    username = data.getStringExtra(ChowmeinUserPoolsSignInProvider.AttributeKeys.USERNAME);
-                    verificationCode = data.getStringExtra(ChowmeinUserPoolsSignInProvider.AttributeKeys.VERIFICATION_CODE);
-
-                    if (username.length() < 1) {
-                        ViewHelper.showDialog(activity, activity.getString(R.string.title_activity_sign_up_confirm),
-                                activity.getString(R.string.sign_up_confirm_title)
-                                        + " " + activity.getString(R.string.sign_up_username_missing));
-                        return;
-                    }
-
-                    if (verificationCode.length() < 1) {
-                        ViewHelper.showDialog(activity, activity.getString(R.string.title_activity_sign_up_confirm),
-                                activity.getString(R.string.sign_up_confirm_title)
-                                        + " " + activity.getString(R.string.sign_up_confirm_code_missing));
-                        return;
-                    }
-
-                    Log.d(LOG_TAG, "username = " + username);
-                    Log.d(LOG_TAG, "verificationCode = " + verificationCode);
-
-                    final CognitoUser cognitoUser = cognitoUserPool.getUser(username);
-
-                    cognitoUser.confirmSignUpInBackground(verificationCode, true, signUpConfirmationHandler);
-
-                    break;
                 default:
                     Log.e(LOG_TAG, "Unknown Request Code sent.");
             }
@@ -526,21 +444,6 @@ public class ChowmeinUserPoolsSignInProvider implements SignInProvider {
             }
         });
 
-        final TextView forgotPasswordTextView = userPoolSignInView.getForgotPasswordTextView();
-        forgotPasswordTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                username = userPoolSignInView.getEnteredUserName();
-                if (username.length() < 1) {
-                    Log.w(LOG_TAG, "Missing username.");
-                    ViewHelper.showDialog(activity, activity.getString(R.string.title_activity_sign_in), "Missing username.");
-                } else {
-                    final CognitoUser cognitoUser = cognitoUserPool.getUser(username);
-
-                    cognitoUser.forgotPasswordInBackground(forgotPasswordHandler);
-                }
-            }
-        });
 
         final View.OnClickListener listener = new View.OnClickListener() {
             @Override

@@ -15,7 +15,6 @@ import com.amazonaws.mobile.auth.core.IdentityManager;
 import com.amazonaws.mobile.auth.google.GoogleButton;
 import com.amazonaws.mobile.auth.google.GoogleSignInProvider;
 import com.amazonaws.mobile.auth.ui.AuthUIConfiguration;
-import com.amazonaws.mobile.auth.userpools.CognitoUserPoolsSignInProvider;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.google.android.gms.common.Scopes;
 
@@ -60,7 +59,7 @@ public class Application extends MultiDexApplication {
         }
 
         // Add UserPools as an SignIn Provider.
-        IdentityManager.getDefaultIdentityManager().addSignInProvider(CognitoUserPoolsSignInProvider.class);
+        IdentityManager.getDefaultIdentityManager().addSignInProvider(ChowmeinUserPoolsSignInProvider.class);
         IdentityManager.getDefaultIdentityManager().addSignInProvider(com.amazonaws.mobile.auth.google.GoogleSignInProvider.class);
 
         GoogleSignInProvider.setPermissions(Scopes.EMAIL, Scopes.PROFILE);
