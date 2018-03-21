@@ -1,46 +1,52 @@
 package helpers;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.amazonaws.mobile.config.AWSConfiguration;
+import com.amazonaws.mobile.auth.core.IdentityManager;
+import com.amazonaws.mobile.auth.core.IdentityProvider;
+import com.amazonaws.mobile.auth.google.GoogleSignInProvider;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
-
-import org.json.JSONObject;
-
-import java.util.Map;
+import com.chowpals.chowmein.login.ChowmeinUserPoolsSignInProvider;
 
 public class UserHelper {
-
-    public static CognitoUser getCurrentUser(Context context) {
-        CognitoUserPool userPool = new CognitoUserPool(context, new AWSConfiguration(context));
-        return userPool.getCurrentUser();
+    public static boolean isUserSignedIn() {
+        return getIdentityProvider() != null;
     }
 
-    public static void handleUserDetails(Context context, GetDetailsHandler handler) {
-        getCurrentUser(context).getDetailsInBackground(handler);
-    }
+    public static void updateTextViewWithName(TextView view) {
+        IdentityProvider provider = getIdentityProvider();
+        StringBuilder builder = new StringBuilder();
+        builder.append("Howdy, ");
 
-    public static boolean isUserSignedIn(Context context) {
-        CognitoUser user = getCurrentUser(context);
-        JSONObject settings = new AWSConfiguration(context).optJsonObject("CognitoUserPool");
-        boolean signedIn = false;
+        if(provider instanceof GoogleSignInProvider) {
+            builder.append(((GoogleSignInProvider) provider).getSignedInAccount().getGivenName());
+            builder.append("!");
 
-        try {
-            // Apparently the cognito sdk has no "isSignedIn" method, found a workaround https://github.com/aws/aws-sdk-android/issues/260
-            String appClientId = settings.getString("AppClientId");
-            SharedPreferences prefs = context.getSharedPreferences("CognitoIdentityProviderCache", 0);
-            String csiIdTokenKey = "CognitoIdentityProvider." + appClientId + "." + user.getUserId() + ".idToken";
-            Map result = prefs.getAll();
+            view.setText(builder);
+        } else if (provider instanceof ChowmeinUserPoolsSignInProvider) {
+            CognitoUser user = ((ChowmeinUserPoolsSignInProvider) provider).getCognitoUserPool().getCurrentUser();
 
-            signedIn = result.containsKey(csiIdTokenKey);
-        } catch (Exception e) {
-            e.printStackTrace();
+            user.getDetailsInBackground(new GetDetailsHandler() {
+                @Override
+                public void onSuccess(CognitoUserDetails cognitoUserDetails) {
+                    builder.append(cognitoUserDetails.getAttributes().getAttributes().get("name"));
+
+                    builder.append("!");
+                    view.setText(builder);
+                }
+
+                @Override
+                public void onFailure(Exception exception) {
+                    exception.printStackTrace();
+                }
+            });
         }
-
-        return signedIn;
     }
 
+    private static IdentityProvider getIdentityProvider() {
+        return IdentityManager.getDefaultIdentityManager().getCurrentIdentityProvider();
+    }
 }

@@ -9,8 +9,6 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.ArrayList;
@@ -47,22 +45,7 @@ public class MainActivity extends NavBarActivity {
 
         TextView welcomeMsg = findViewById(R.id.welcomeMessageTextView);
 
-        // provide a callback that will update the activity welcome message
-        GetDetailsHandler handler = new GetDetailsHandler() {
-            @Override
-            public void onSuccess(final CognitoUserDetails list) {
-                // Successfully retrieved user details, update welcome message for a friendly greeting!!
-                welcomeMsg.setText("Howdy, " + list.getAttributes().getAttributes().get("name") + "!");
-            }
-
-            @Override
-            public void onFailure(final Exception exception) {
-                // Failed to retrieve the user details, probe exception for the cause
-                System.err.println(exception);
-            }
-        };
-
-        UserHelper.handleUserDetails(getApplicationContext(), handler);
+        UserHelper.updateTextViewWithName(welcomeMsg);
     }
 
     private void initVariables() {

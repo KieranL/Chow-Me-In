@@ -3,10 +3,10 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         config {
-            keyAlias 'chow-key'
-            keyPassword '154356258789'
-            storeFile file('/home/eric/my-release-key.jks')
-            storePassword '154356258789'
+            keyAlias 'key'
+            keyPassword 'frankiebois'
+            storeFile file('/home/eric/Chow-Me-In/mobile/chow-sign.jks')
+            storePassword 'frankiebois'
         }
     }
     compileSdkVersion 26
@@ -24,6 +24,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+        debug {
+            signingConfig signingConfigs.config
         }
     }
     compileOptions {
@@ -53,19 +57,19 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.0'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile fileTree(include: ['*.jar'], dir: 'app/libs')
-    compile 'com.amazonaws:aws-android-sdk-core:2.6.16'
-    compile 'com.amazonaws:aws-android-sdk-mobile-client:2.6.7'
-    compile 'com.amazonaws:aws-android-sdk-cognitoidentityprovider:2.6.16'
+    compile 'com.amazonaws:aws-android-sdk-core:2.6.15'
+    compile 'com.amazonaws:aws-android-sdk-mobile-client:2.6.15'
+    compile 'com.amazonaws:aws-android-sdk-cognitoidentityprovider:2.6.15'
     // Google SignIn
     compile 'com.android.support:support-v4:26.+'
-    compile('com.amazonaws:aws-android-sdk-auth-google:2.6.+@aar') { transitive = true; }
-    compile('com.amazonaws:aws-android-sdk-auth-core:2.6.+@aar') {
+    compile('com.amazonaws:aws-android-sdk-auth-google:2.6.15') { transitive = true; }
+    compile('com.amazonaws:aws-android-sdk-auth-core:2.6.15') {
         transitive = true;
     }
-    compile('com.amazonaws:aws-android-sdk-auth-ui:2.6.+@aar') {
+    compile('com.amazonaws:aws-android-sdk-auth-ui:2.6.15') {
         transitive = true;
     }
-    compile('com.amazonaws:aws-android-sdk-auth-userpools:2.6.+@aar') {
+    compile('com.amazonaws:aws-android-sdk-auth-userpools:2.6.15') {
         transitive = true;
     }
     compile 'com.android.support:multidex:1.0.3'

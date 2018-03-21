@@ -44,7 +44,7 @@ public class NavBarActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         // Only show either the LoginActivity(3) or logout(4) button
-        if(UserHelper.isUserSignedIn(getApplicationContext())) {
+        if(UserHelper.isUserSignedIn()) {
             navigationView.getMenu().getItem(3).setVisible(false);
             navigationView.getMenu().getItem(4).setVisible(true);
         } else {
@@ -118,7 +118,7 @@ public class NavBarActivity extends AppCompatActivity
                 }
             }
         } else if (id == R.id.nav_logout) {
-            UserHelper.getCurrentUser(getApplicationContext()).signOut();
+            IdentityManager.getDefaultIdentityManager().signOut();
 
             // refresh the activity -- easier to reinit everything this way
             this.finish();

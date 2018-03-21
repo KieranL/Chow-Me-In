@@ -19,5 +19,9 @@
       "AppClientSecret": "7kt43skg3flg6ip2hfup5if2of5erqttej10hseahvaihau4p1g",
       "Region": "us-east-2"
     }
+  },
+  "GoogleSignIn": {
+    "ClientId-WebApp": "849307361706-11m4kcqbobhoi7hkqal0hm5kgk4akngo.apps.googleusercontent.com",
+    "Permissions": "email,profile,openid"
   }
 }
