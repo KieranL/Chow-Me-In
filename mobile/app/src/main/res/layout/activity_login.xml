@@ -1,46 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<com.chowpals.chowmein.login.LoginView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:com.amazonaws.mobile.auth.ui="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.chowpals.chowmein.login.LoginActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.chowpals.chowmein.LoginActivity">
-
-    <EditText
-        android:id="@+id/userNameEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="8dp"
-        android:hint="User Name"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/passwordEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="8dp"
-        android:hint="Password"
-        app:layout_constraintLeft_toLeftOf="parent"
-
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userNameEditText" />
-
-    <Button
-        android:id="@+id/submitButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:onClick="authenticateUser"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
-
-</android.support.constraint.ConstraintLayout>
+    com.amazonaws.mobile.auth.ui:signInImageResId="@drawable/default_sign_in_logo">
+</com.chowpals.chowmein.login.LoginView>

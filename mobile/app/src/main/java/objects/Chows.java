@@ -5,145 +5,124 @@ import java.io.Serializable;
 public class Chows implements Serializable {
 
     private int id;           //a unique integer used to identify a chow,
-    private String createdBy;    //an integer that corresponds to a user,
-    private String createdTime;  //the time the chow was created in the format: "yyyy-mm-ddThh:mm:ss",
     private boolean deleted;      //used for soft deletion of chows,
     private String food;         //a description of the food that is offered,
     private String lastUpdated;  //the last time the chow was updated in the format: "yyyy-mm-ddThh:mm:ss",
     private String meetLocation; //a description of where to meet in person,
     private String meetTime;     //the time to meet in the format: "yyyy-mm-ddThh:mm:ss",
     private String notes;        //any additional notes the poster of the chow may want to share
-    private String posterPhone;
     private String posterName;
     private String posterUser;
+    private String posterEmail;
     private String category;
 
     public Chows() {
-    }
-
-    public Chows(int id, String createdBy, String createdTime, boolean deleted, String food, String lastUpdated, String meetLocation, String meetTime, String notes, String category, String posterName, String posterUser, String posterPhone) {
-        this.id = id;
-        this.createdBy = createdBy;
-        this.createdTime = createdTime;
-        this.deleted = deleted;
-        this.food = food;
-        this.lastUpdated = lastUpdated;
-        this.meetLocation = meetLocation;
-        this.meetTime = meetTime;
-        this.notes = notes;
-        this.category = category;
-        this.posterPhone = posterPhone;
-        this.posterName = posterName;
-        this.posterUser = posterUser;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public Chows setId(int id) {
         this.id = id;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public String getCreatedTime() {
-        return createdTime;
-    }
-
-    public void setCreatedTime(String createdTime) {
-        this.createdTime = createdTime;
+        return this;
     }
 
     public boolean isDeleted() {
         return deleted;
     }
 
-    public void setDeleted(boolean deleted) {
+    public Chows setDeleted(boolean deleted) {
         this.deleted = deleted;
+        return this;
     }
 
     public String getFood() {
         return food;
     }
 
-    public void setFood(String food) {
+    public Chows setFood(String food) {
         this.food = food;
+        return this;
     }
 
     public String getLastUpdated() {
         return lastUpdated;
     }
 
-    public void setLastUpdated(String lastUpdated) {
+    public Chows setLastUpdated(String lastUpdated) {
         this.lastUpdated = lastUpdated;
+        return this;
     }
 
     public String getMeetLocation() {
         return meetLocation;
     }
 
-    public void setMeetLocation(String meetLocation) {
+    public Chows setMeetLocation(String meetLocation) {
         this.meetLocation = meetLocation;
+        return this;
     }
 
     public String getMeetTime() {
         return meetTime;
     }
 
-    public void setMeetTime(String meetTime) {
+    public Chows setMeetTime(String meetTime) {
         this.meetTime = meetTime;
+        return this;
     }
 
     public String getNotes() {
         return notes;
     }
 
-    public void setNotes(String notes) {
+    public Chows setNotes(String notes) {
         this.notes = notes;
-    }
-
-    public String getPosterPhone() {
-        return posterPhone;
-    }
-
-    public void setPosterPhone(String posterPhone) {
-        this.posterPhone = posterPhone;
+        return this;
     }
 
     public String getPosterName() {
         return posterName;
     }
 
-    public void setPosterName(String posterName) {
+    public Chows setPosterName(String posterName) {
         this.posterName = posterName;
+        return this;
     }
 
     public String getPosterUser() {
         return posterUser;
     }
 
-    public void setPosterUser(String posterUser) {
+    public Chows setPosterUser(String posterUser) {
         this.posterUser = posterUser;
+        return this;
     }
 
     public String getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public Chows setCategory(String category) {
         this.category = category;
+        return this;
     }
+
+    public String getPosterEmail() {
+        return posterEmail;
+    }
+
+    public Chows setPosterEmail(String posterEmail) {
+        this.posterEmail = posterEmail;
+        return this;
+    }
+
+
 
     @Override
     public String toString() {
-        return "Chow name: " + getFood() + "\nCategory: " + getCategory() + "\nMeet Location: " + getMeetLocation() + "\nMeet Time: " + getMeetTime() + "\nAdditional Notes: " + getNotes() + "\nContact Name: " + getPosterName() + "\nContact Email: " + getPosterPhone();
+        return "Chow name: " + getFood() + "\nCategory: " + getCategory() + "\nMeet Location: " + getMeetLocation() + "\nMeet Time: " + getMeetTime() + "\nAdditional Notes: " + getNotes() + "\nContact Name: " + getPosterName();
     }
 
 }

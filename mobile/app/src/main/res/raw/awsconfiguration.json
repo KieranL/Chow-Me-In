@@ -4,8 +4,8 @@
   "CredentialsProvider": {
     "CognitoIdentity": {
       "Default": {
-        "PoolId": "us-east-1:b8b1fbe0-6d08-41ae-a274-add92bd37793",
-        "Region": "us-east-1"
+        "PoolId": "us-east-2:604611a6-7247-4cbf-8370-31b6ce36703f",
+        "Region": "us-east-2"
       }
     }
   },
@@ -20,15 +20,8 @@
       "Region": "us-east-2"
     }
   },
-  "PinpointAnalytics": {
-    "Default": {
-      "AppId": "1124a4b197de4fd096b0518e69bc68eb",
-      "Region": "us-east-2"
-    }
-  },
-  "PinpointTargeting": {
-    "Default": {
-      "Region": "us-east-2"
-    }
+  "GoogleSignIn": {
+    "ClientId-WebApp": "849307361706-11m4kcqbobhoi7hkqal0hm5kgk4akngo.apps.googleusercontent.com",
+    "Permissions": "email,profile,openid"
   }
 }
