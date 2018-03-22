@@ -1,30 +1,21 @@
 package com.chowpals.chowmein;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import helpers.NetworkHelper;
+import helpers.UserHelper;
 import interfaces.ChowMeInService;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -32,36 +23,49 @@ import objects.Chows;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import static helpers.ChowHelper.ensureChowFields;
+
+public class MainActivity extends NavBarActivity {
 
     SearchView chowSearchViewMain;
     ListView chowSearchResultsMain;
     ArrayList<Chows> chowsListedMain;
     ArrayList<Chows> masterChowListMain;
-    //private IdentityManager identityManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (!networkConnectionAvailable())
-            Toast.makeText(this, "You are not connected to the Internet. To send and receive Chows please connect to the Internet", Toast.LENGTH_SHORT).show();
 
-        //identityManager = IdentityManager.getDefaultIdentityManager();
-        Toolbar toolbar = findViewById(R.id.toolbar);
-
-        setSupportActionBar(toolbar);
         initVariables();
         prepopulateList();
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+    }
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        View createChowConstraintView = findViewById(R.id.createChowConstraintView);
+        TextView welcomeMsg = findViewById(R.id.welcomeMessageTextView);
+        if(UserHelper.isUserSignedIn()) {
+            createChowConstraintView.setAlpha(1.0f);
+
+            // async update the textview
+            new Thread(() -> {
+                StringBuilder sb = new StringBuilder();
+
+                sb.append("Howdy, ");
+                sb.append(UserHelper.getUsersName());
+                sb.append("!");
+
+                runOnUiThread(()-> {
+                    welcomeMsg.setText(sb);
+                });
+
+            }).start();
+        } else {
+            createChowConstraintView.setAlpha(0.3f);
+        }
     }
 
     private void initVariables() {
@@ -91,7 +95,7 @@ public class MainActivity extends AppCompatActivity
     private void viewChow(Chows selectedChow) {
         Intent viewSelectedChow = new Intent(this, ViewChowActivity.class);
         viewSelectedChow.putExtra("Selected Chow", selectedChow);
-        startActivity(viewSelectedChow);
+        NetworkHelper.checkConnectionAndStartActivity(this, viewSelectedChow);
     }
 
     private void getResultsAdapter(CharSequence query) {
@@ -105,21 +109,13 @@ public class MainActivity extends AppCompatActivity
             }
         }
         chowsListedMain = temp;
-        ArrayAdapter<? extends String> resultAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, searchResultList);
+        ArrayAdapter<? extends String> resultAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, searchResultList);
         chowSearchResultsMain.setAdapter(resultAdapter);
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        }
     }
 
     private void prepopulateList() {
         ArrayList<String> searchResultList = new ArrayList<>();
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJava2CallAdapterFactory.create());
 
         Retrofit retrofit = builder.build();
         ChowMeInService apiClient = retrofit.create(ChowMeInService.class);
@@ -127,103 +123,18 @@ public class MainActivity extends AppCompatActivity
         apiClient.listChows().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe((List<Chows> response) -> {
                     for (Chows currentChow : response) {
-                        currentChow = (verifyChow(currentChow));
+                        currentChow = (ensureChowFields(currentChow));
                         chowsListedMain.add(currentChow);
                         searchResultList.add(currentChow.getFood());
                     }
                     masterChowListMain = chowsListedMain;
-                    ArrayAdapter<? extends String> resultAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, searchResultList);
+                    ArrayAdapter<? extends String> resultAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, searchResultList);
                     chowSearchResultsMain.setAdapter(resultAdapter);
                 }, error -> Log.i("error", "Error"));
     }
 
-    private static final String BASE_URL = "https://api.chowme-in.com"; //Previous working API location: "http://chowmein.ca-central-1.elasticbeanstalk.com";
-
-
-    private static Chows verifyChow(Chows currentChow) {
-        if (currentChow.getCreatedTime() == null) {
-            currentChow.setCreatedTime("");
-        }
-
-        if (currentChow.getFood() == null) {
-            currentChow.setFood("");
-        }
-
-        if (currentChow.getLastUpdated() == null) {
-            currentChow.setLastUpdated("");
-        }
-
-        if (currentChow.getMeetLocation() == null) {
-            currentChow.setMeetLocation("");
-        }
-
-        if (currentChow.getMeetTime() == null) {
-            currentChow.setMeetTime("");
-        }
-
-        if (currentChow.getNotes() == null) {
-            currentChow.setNotes("");
-        }
-        return currentChow;
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_create_chow) {
-            if (!networkConnectionAvailable())
-                Toast.makeText(this, "You are not connected to the Internet. To send and receive Chows please connect to the Internet", Toast.LENGTH_SHORT).show();
-            else
-                startActivity(new Intent(this, CreateChowActivity.class));
-        } else if (id == R.id.nav_search_chow) {
-            if (!networkConnectionAvailable())
-                Toast.makeText(this, "You are not connected to the Internet. To send and receive Chows please connect to the Internet", Toast.LENGTH_SHORT).show();
-            else
-                startActivity(new Intent(this, SearchChowActivity.class));
-        } /*else if (id == R.id.nav_login) {
-            final WeakReference<MainActivity> self = new WeakReference<MainActivity>(this);
-            try {
-                identityManager.setUpToAuthenticate(this, new DefaultSignInResultHandler() {
-
-                    @Override
-                    public void onSuccess(Activity activity, IdentityProvider identityProvider) {
-                        // User has signed in
-                        Log.e("Success", "User signed in");
-                        activity.finish();
-                    }
-
-                    @Override
-                    public boolean onCancel(Activity activity) {
-                        return true;
-                    }
-                });
-
-                SignInActivity.startSignInActivity(this, Application.sAuthUIConfiguration);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        */
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    private boolean networkConnectionAvailable() {
-        ConnectivityManager connectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        assert connectionManager != null;
-        NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();
-        return networkInfo != null && networkInfo.isConnected();
-    }
-
     public void createChow(View view) {
-        if (!networkConnectionAvailable())
-            Toast.makeText(this, "You are not connected to the Internet. To send and receive Chows please connect to the Internet", Toast.LENGTH_SHORT).show();
-        else
-            startActivity(new Intent(this, CreateChowActivity.class));
+        NetworkHelper.checkConnectionAndDoRunnable(this, ()->
+                UserHelper.checkLoginAndStartActivity(this, new Intent(getApplicationContext(), CreateChowActivity.class)));
     }
 }

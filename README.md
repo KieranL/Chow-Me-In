@@ -59,6 +59,8 @@ To do so see:
 
 [Web](web/README.md)
 
+[Mobile](/mobile/README.md)
+
 [Server](server/README.md)
 
 [Database](/server/chowmein/database/README.md)
