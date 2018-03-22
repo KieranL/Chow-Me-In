@@ -215,7 +215,6 @@ class DatabaseManager:
             by setting isDeleted = 1
             """
 
-            
             table = self.get_table(table_name)
             response = table.update_item(
                     Key={
