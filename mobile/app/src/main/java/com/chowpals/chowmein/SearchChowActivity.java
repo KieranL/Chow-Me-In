@@ -20,6 +20,8 @@ import objects.Chows;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static helpers.ChowHelper.ensureChowFields;
+
 public class SearchChowActivity extends NavBarActivity {
 
     SearchView chowSearchView;
@@ -61,7 +63,7 @@ public class SearchChowActivity extends NavBarActivity {
         apiClient.listChows().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe((List<Chows> response) -> {
                     for (Chows currentChow : response) {
-                        currentChow = (verifyChow(currentChow));
+                        currentChow = (ensureChowFields(currentChow));
                         chowsListed.add(currentChow);
                         searchResultList.add(currentChow.getFood());
                     }
@@ -71,41 +73,6 @@ public class SearchChowActivity extends NavBarActivity {
                 }, error -> Log.i("error", "Error"));
     }
 
-
-    private static Chows verifyChow(Chows currentChow) {
-        if (currentChow.getFood() == null) {
-            currentChow.setFood("");
-        }
-
-        if (currentChow.getLastUpdated() == null) {
-            currentChow.setLastUpdated("");
-        }
-
-        if (currentChow.getMeetLocation() == null) {
-            currentChow.setMeetLocation("");
-        }
-
-        if (currentChow.getMeetTime() == null) {
-            currentChow.setMeetTime("");
-        }
-
-        if (currentChow.getNotes() == null) {
-            currentChow.setNotes("");
-        }
-
-        if (currentChow.getCategory() == null) {
-            currentChow.setCategory("None");
-        }
-
-        if (currentChow.getPosterName() == null) {
-            currentChow.setPosterName("");
-        }
-
-        if (currentChow.getPosterUser() == null) {
-            currentChow.setPosterUser("");
-        }
-        return currentChow;
-    }
 
     private void initVariables() {
         chowsListed = new ArrayList<>();

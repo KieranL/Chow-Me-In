@@ -23,6 +23,8 @@ import objects.Chows;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static helpers.ChowHelper.ensureChowFields;
+
 public class MainActivity extends NavBarActivity {
 
     SearchView chowSearchViewMain;
@@ -121,7 +123,7 @@ public class MainActivity extends NavBarActivity {
         apiClient.listChows().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe((List<Chows> response) -> {
                     for (Chows currentChow : response) {
-                        currentChow = (verifyChow(currentChow));
+                        currentChow = (ensureChowFields(currentChow));
                         chowsListedMain.add(currentChow);
                         searchResultList.add(currentChow.getFood());
                     }
@@ -129,25 +131,6 @@ public class MainActivity extends NavBarActivity {
                     ArrayAdapter<? extends String> resultAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, searchResultList);
                     chowSearchResultsMain.setAdapter(resultAdapter);
                 }, error -> Log.i("error", "Error"));
-    }
-
-    private static Chows verifyChow(Chows currentChow) {
-        if (currentChow.getFood() == null)
-            currentChow.setFood("");
-
-        if (currentChow.getLastUpdated() == null)
-            currentChow.setLastUpdated("");
-
-        if (currentChow.getMeetLocation() == null)
-            currentChow.setMeetLocation("");
-
-        if (currentChow.getMeetTime() == null)
-            currentChow.setMeetTime("");
-
-        if (currentChow.getNotes() == null)
-            currentChow.setNotes("");
-
-        return currentChow;
     }
 
     public void createChow(View view) {
