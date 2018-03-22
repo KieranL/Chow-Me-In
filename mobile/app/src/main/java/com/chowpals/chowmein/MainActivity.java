@@ -43,8 +43,11 @@ public class MainActivity extends NavBarActivity {
     protected void onResume() {
         super.onResume();
 
+        View createChowConstraintView = findViewById(R.id.createChowConstraintView);
         TextView welcomeMsg = findViewById(R.id.welcomeMessageTextView);
         if(UserHelper.isUserSignedIn()) {
+            createChowConstraintView.setAlpha(1.0f);
+
             // async update the textview
             new Thread(() -> {
                 StringBuilder sb = new StringBuilder();
@@ -58,6 +61,8 @@ public class MainActivity extends NavBarActivity {
                 });
 
             }).start();
+        } else {
+            createChowConstraintView.setAlpha(.3f);
         }
     }
 
@@ -149,6 +154,7 @@ public class MainActivity extends NavBarActivity {
     }
 
     public void createChow(View view) {
-        NetworkHelper.checkConnectionAndStartActivity(this, new Intent(getApplicationContext(), CreateChowActivity.class));
+        NetworkHelper.checkConnectionAndDoRunnable(this, ()->
+                UserHelper.checkLoginAndStartActivity(this, new Intent(getApplicationContext(), CreateChowActivity.class)));
     }
 }

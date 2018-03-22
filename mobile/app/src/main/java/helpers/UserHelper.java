@@ -1,10 +1,11 @@
 package helpers;
 
-import android.widget.TextView;
+import android.app.Activity;
+import android.content.Intent;
+import android.widget.Toast;
 
 import com.amazonaws.mobile.auth.core.IdentityManager;
 import com.amazonaws.mobile.auth.core.IdentityProvider;
-import com.amazonaws.mobile.auth.core.signin.SignInProvider;
 import com.amazonaws.mobile.auth.google.GoogleSignInProvider;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
@@ -14,6 +15,34 @@ import com.chowpals.chowmein.login.ChowmeinUserPoolsSignInProvider;
 public class UserHelper {
     public static boolean isUserSignedIn() {
         return getIdentityProvider() != null;
+    }
+
+    public static void checkLoginAndStartActivity(Activity activity, Intent newActivity) {
+        if (isUserSignedIn())
+            activity.startActivity(newActivity);
+        else
+            showToast(activity);
+    }
+
+    public static void checkLoginAndDoRunnable(Activity activity, Runnable func) {
+        if (isUserSignedIn()) {
+            try {
+                Thread thread = new Thread(func);
+                thread.start();
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } else
+            showToast(activity);
+    }
+
+    public static void showToast(Activity activity) {
+        activity.runOnUiThread(()-> Toast.makeText(
+                activity.getApplicationContext(),
+                "You must be signed in first.",
+                Toast.LENGTH_SHORT
+        ).show());
     }
 
     public static String getUsersName() {

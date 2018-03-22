@@ -16,14 +16,12 @@ import android.util.Log;
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.mobile.auth.core.IdentityManager;
 import com.amazonaws.mobile.auth.google.GoogleButton;
-import com.amazonaws.mobile.auth.google.GoogleSignInProvider;
 import com.amazonaws.mobile.auth.ui.AuthUIConfiguration;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.regions.Regions;
 import com.chowpals.chowmein.login.ChowmeinUserPoolsSignInProvider;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.common.Scopes;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -73,19 +71,6 @@ public class Application extends MultiDexApplication {
                 "us-east-2:604611a6-7247-4cbf-8370-31b6ce36703f",
                 Regions.US_EAST_2
         );
-
-        try {
-            GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
-            AccountManager am = AccountManager.get(this);
-            Account[] accounts = am.getAccountsByType(GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE);
-            String token = GoogleAuthUtil.getToken(getApplicationContext(), accounts[0].name,
-                    "audience:server:client_id:849307361706-11m4kcqbobhoi7hkqal0hm5kgk4akngo.apps.googleusercontent.com");
-            Map<String, String> logins = new HashMap<String, String>();
-            logins.put("accounts.google.com", token);
-            credentialsProvider.setLogins(logins);
-        } catch (Exception err) {
-            err.printStackTrace();
-        }
 
         // Add UserPools as an SignIn Provider.
         IdentityManager.getDefaultIdentityManager().addSignInProvider(ChowmeinUserPoolsSignInProvider.class);

@@ -20,6 +20,7 @@ import com.chowpals.chowmein.login.LoginActivity;
 
 import helpers.NetworkHelper;
 import helpers.UserHelper;
+import objects.NavBarItems;
 
 public class NavBarActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -43,13 +44,14 @@ public class NavBarActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
 
-        // Only show either the LoginActivity(3) or logout(4) button
         if(UserHelper.isUserSignedIn()) {
-            navigationView.getMenu().getItem(3).setVisible(false);
-            navigationView.getMenu().getItem(4).setVisible(true);
+            navigationView.getMenu().getItem(NavBarItems.CREATE_CHOW.ordinal()).setVisible(true);
+            navigationView.getMenu().getItem(NavBarItems.LOGIN.ordinal()).setVisible(false);
+            navigationView.getMenu().getItem(NavBarItems.LOGOUT.ordinal()).setVisible(true);
         } else {
-            navigationView.getMenu().getItem(3).setVisible(true);
-            navigationView.getMenu().getItem(4).setVisible(false);
+            navigationView.getMenu().getItem(NavBarItems.CREATE_CHOW.ordinal()).setVisible(false);
+            navigationView.getMenu().getItem(NavBarItems.LOGIN.ordinal()).setVisible(true);
+            navigationView.getMenu().getItem(NavBarItems.LOGOUT.ordinal()).setVisible(false);
         }
     }
 

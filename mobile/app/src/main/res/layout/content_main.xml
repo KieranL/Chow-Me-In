@@ -56,7 +56,8 @@
         <android.support.constraint.ConstraintLayout
             android:id="@+id/createChowConstraintView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:onClick="createChow">
 
             <Button
                 android:id="@+id/createChowButton"
@@ -64,11 +65,10 @@
                 android:layout_height="0dp"
                 android:background="@android:drawable/ic_input_add"
                 android:backgroundTint="@android:color/darker_gray"
-                android:onClick="createChow"
+
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
             <TextView
                 android:id="@+id/createChowTextView"
                 android:layout_width="0dp"
