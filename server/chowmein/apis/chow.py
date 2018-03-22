@@ -18,8 +18,7 @@ def get_chow(chow_id):
 
 @chow_api_bp.route('/chow/<int:chow_id>', methods=['POST'])
 def update_chow(chow_id): 
-    data = json.loads(request.form['chow'])
-    return ChowController.update_chow(chow_id, data)
+    return ChowController.update_chow(chow_id, request.json)
 
 @chow_api_bp.route('/chow/<int:chow_id>', methods=['DELETE'])
 def delete_chow(chow_id): 

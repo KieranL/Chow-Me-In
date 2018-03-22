@@ -10,20 +10,21 @@
 
       <ng-template #logmein><li><a (click)="login($event)">Login</a></li></ng-template>
       <ng-template #logmeout>
-        <li><a routerLink="/create-chow">Create a New Chow</a></li>
+        <li><a routerLink="/chow-form">Create a New Chow</a></li>
         <li><a (click)="logout($event)">Logout</a></li>
       </ng-template>
 
     </ul>
   </div>
 </nav>
-  
 
 <h1>
   <div *ngIf="userService.getValidity(); then user else nouser"></div>
   <ng-template #user>Howdy, {{ userService.getUsersNameFromStorage() }}!</ng-template>
   <ng-template #nouser>Welcome to {{ title }}!</ng-template>
 </h1>
+
+<ng4-loading-spinner style="opacity:0.25;"> </ng4-loading-spinner>
 
 <!-- Verify user credentials on page reload, helps prevent tampering and show login state properly -->
 <router-outlet (activate)="userService.verifyLoginValidity()"></router-outlet>
