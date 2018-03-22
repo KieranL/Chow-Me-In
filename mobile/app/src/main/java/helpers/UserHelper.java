@@ -1,10 +1,10 @@
 package helpers;
 
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amazonaws.mobile.auth.core.IdentityManager;
 import com.amazonaws.mobile.auth.core.IdentityProvider;
+import com.amazonaws.mobile.auth.core.signin.SignInProvider;
 import com.amazonaws.mobile.auth.google.GoogleSignInProvider;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
@@ -16,26 +16,33 @@ public class UserHelper {
         return getIdentityProvider() != null;
     }
 
-    public static void updateTextViewWithName(TextView view) {
+    public static String getUsersName() {
         IdentityProvider provider = getIdentityProvider();
-        StringBuilder builder = new StringBuilder();
-        builder.append("Howdy, ");
+        String name = null;
 
-        if(provider instanceof GoogleSignInProvider) {
-            builder.append(((GoogleSignInProvider) provider).getSignedInAccount().getGivenName());
-            builder.append("!");
+        if(provider instanceof GoogleSignInProvider)
+            name = getUsersName((GoogleSignInProvider) provider);
+        else if(provider instanceof ChowmeinUserPoolsSignInProvider)
+            name = getUsersName((ChowmeinUserPoolsSignInProvider) provider);
 
-            view.setText(builder);
-        } else if (provider instanceof ChowmeinUserPoolsSignInProvider) {
-            CognitoUser user = ((ChowmeinUserPoolsSignInProvider) provider).getCognitoUserPool().getCurrentUser();
+        return name;
+    }
 
-            user.getDetailsInBackground(new GetDetailsHandler() {
+    private static String getUsersName(GoogleSignInProvider provider) {
+        return provider.getSignedInAccount().getGivenName();
+    }
+
+    private static String getUsersName(ChowmeinUserPoolsSignInProvider provider) {
+        // Synchronously get the users name from the user pool
+        final String[] username = {getUsername(provider)};
+
+        Thread cognitoDetails = new Thread(() -> {
+            CognitoUser user = provider.getCognitoUserPool().getCurrentUser();
+
+            user.getDetails(new GetDetailsHandler() {
                 @Override
                 public void onSuccess(CognitoUserDetails cognitoUserDetails) {
-                    builder.append(cognitoUserDetails.getAttributes().getAttributes().get("name"));
-
-                    builder.append("!");
-                    view.setText(builder);
+                    username[0] = cognitoUserDetails.getAttributes().getAttributes().get("name");
                 }
 
                 @Override
@@ -43,7 +50,36 @@ public class UserHelper {
                     exception.printStackTrace();
                 }
             });
+        });
+
+        try {
+            cognitoDetails.start();
+            cognitoDetails.join();
+        } catch (InterruptedException err) {
+            err.printStackTrace();
         }
+
+        return username[0];
+    }
+
+    public static String getUsername() {
+        IdentityProvider provider = getIdentityProvider();
+        String username = null;
+
+        if(provider instanceof GoogleSignInProvider)
+            username = getUsername((GoogleSignInProvider) provider);
+        else if(provider instanceof ChowmeinUserPoolsSignInProvider)
+            username = getUsername((ChowmeinUserPoolsSignInProvider) provider);
+
+        return username;
+    }
+
+    private static String getUsername(GoogleSignInProvider provider) {
+        return provider.getSignedInAccount().getId();
+    }
+
+    private static String getUsername(ChowmeinUserPoolsSignInProvider provider) {
+        return provider.getCognitoUserPool().getCurrentUser().getUserId();
     }
 
     private static IdentityProvider getIdentityProvider() {

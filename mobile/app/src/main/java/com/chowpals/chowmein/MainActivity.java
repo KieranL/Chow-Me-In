@@ -44,8 +44,21 @@ public class MainActivity extends NavBarActivity {
         super.onResume();
 
         TextView welcomeMsg = findViewById(R.id.welcomeMessageTextView);
+        if(UserHelper.isUserSignedIn()) {
+            // async update the textview
+            new Thread(() -> {
+                StringBuilder sb = new StringBuilder();
 
-        UserHelper.updateTextViewWithName(welcomeMsg);
+                sb.append("Howdy, ");
+                sb.append(UserHelper.getUsersName());
+                sb.append("!");
+
+                runOnUiThread(()-> {
+                    welcomeMsg.setText(sb);
+                });
+
+            }).start();
+        }
     }
 
     private void initVariables() {
