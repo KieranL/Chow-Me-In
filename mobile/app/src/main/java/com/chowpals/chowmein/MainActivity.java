@@ -62,7 +62,7 @@ public class MainActivity extends NavBarActivity {
 
             }).start();
         } else {
-            createChowConstraintView.setAlpha(.3f);
+            createChowConstraintView.setAlpha(0.3f);
         }
     }
 
@@ -132,9 +132,6 @@ public class MainActivity extends NavBarActivity {
     }
 
     private static Chows verifyChow(Chows currentChow) {
-        if (currentChow.getCreatedTime() == null)
-            currentChow.setCreatedTime("");
-
         if (currentChow.getFood() == null)
             currentChow.setFood("");
 

@@ -12,10 +12,13 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import helpers.ChowHelper;
+import helpers.UserHelper;
 import objects.Chows;
 
 public class CreateChowActivity extends NavBarActivity {
@@ -57,19 +60,42 @@ public class CreateChowActivity extends NavBarActivity {
                 noInputErrors = true;
             if (noInputErrors) {
                 ArrayList<String> categories = ChowHelper.getAllCategories();
-                Chows newChow = new Chows(-1, "Mobile Guest", String.valueOf(new Date()), false,
-                        String.valueOf(chowPostNameEditText.getText()).trim(), String.valueOf(new Date()),
-                        String.valueOf(chowPostLocationEditText.getText()).trim(),
-                        String.valueOf(chowPostDatePicker.getYear() + "-" + chowPostDatePicker.getMonth() + "-" + chowPostDatePicker.getDayOfMonth()
-                                + " " + chowPostTimePicker.getHour() + ":" + chowPostTimePicker.getMinute()),
-                        String.valueOf(chowPostDescriptionEditText.getText()).trim(), categories.get(categorySpinner.getSelectedItemPosition()), "Mobile Guest", "Mobile Guest User", "Poster has no phonenumber");
+                Chows chow = new Chows()
+                        .setId(-1)
+                        .setPosterUser(UserHelper.getUsername())
+                        .setPosterName(UserHelper.getUsersName())
+                        .setPosterEmail(UserHelper.getUserEmail())
+                        .setDeleted(false)
+                        .setFood(String.valueOf(chowPostNameEditText.getText()).trim())
+                        .setLastUpdated(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date()))
+                        .setMeetLocation(String.valueOf(chowPostLocationEditText.getText()).trim())
+                        .setMeetTime(getDataPickerString())
+                        .setNotes(String.valueOf(chowPostDescriptionEditText.getText()).trim())
+                        .setCategory(categories.get(categorySpinner.getSelectedItemPosition()));
+
                 Intent verifyChow = new Intent(this, VerifyChowActivity.class);
-                verifyChow.putExtra("Chow", newChow);
+                verifyChow.putExtra("Chow", chow);
                 startActivity(verifyChow);
             } else {
                 Toast.makeText(this, "Your Chow seems to be missing some information. Please fill out the empty fields.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private String getDataPickerString() {
+        if (chowPostDatePicker != null) {
+            int day = chowPostDatePicker.getDayOfMonth();
+            int month = chowPostDatePicker.getMonth();
+            int year =  chowPostDatePicker.getYear();
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(year, month, day);
+
+            Date dateObj = calendar.getTime();
+            return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(dateObj);
+        } else {
+            return "";
+        }
     }
 
 }

@@ -18,10 +18,7 @@ public class UserHelper {
     }
 
     public static void checkLoginAndStartActivity(Activity activity, Intent newActivity) {
-        if (isUserSignedIn())
-            activity.startActivity(newActivity);
-        else
-            showToast(activity);
+        checkLoginAndDoRunnable(activity, ()->activity.startActivity(newActivity));
     }
 
     public static void checkLoginAndDoRunnable(Activity activity, Runnable func) {
@@ -40,7 +37,7 @@ public class UserHelper {
     public static void showToast(Activity activity) {
         activity.runOnUiThread(()-> Toast.makeText(
                 activity.getApplicationContext(),
-                "You must be signed in first.",
+                "You must be signed in first to do this.",
                 Toast.LENGTH_SHORT
         ).show());
     }
@@ -58,12 +55,12 @@ public class UserHelper {
     }
 
     private static String getUsersName(GoogleSignInProvider provider) {
-        return provider.getSignedInAccount().getGivenName();
+        return provider == null ? null : provider.getSignedInAccount().getGivenName();
     }
 
     private static String getUsersName(ChowmeinUserPoolsSignInProvider provider) {
         // Synchronously get the users name from the user pool
-        final String[] username = {getUsername(provider)};
+        final String[] name = {null};
 
         Thread cognitoDetails = new Thread(() -> {
             CognitoUser user = provider.getCognitoUserPool().getCurrentUser();
@@ -71,7 +68,7 @@ public class UserHelper {
             user.getDetails(new GetDetailsHandler() {
                 @Override
                 public void onSuccess(CognitoUserDetails cognitoUserDetails) {
-                    username[0] = cognitoUserDetails.getAttributes().getAttributes().get("name");
+                    name[0] = cognitoUserDetails.getAttributes().getAttributes().get("name");
                 }
 
                 @Override
@@ -88,7 +85,7 @@ public class UserHelper {
             err.printStackTrace();
         }
 
-        return username[0];
+        return name[0];
     }
 
     public static String getUsername() {
@@ -104,11 +101,57 @@ public class UserHelper {
     }
 
     private static String getUsername(GoogleSignInProvider provider) {
-        return provider.getSignedInAccount().getId();
+        return provider == null ? null : "Google_" + provider.getSignedInAccount().getId();
     }
 
     private static String getUsername(ChowmeinUserPoolsSignInProvider provider) {
-        return provider.getCognitoUserPool().getCurrentUser().getUserId();
+        return provider == null ? null : provider.getCognitoUserPool().getCurrentUser().getUserId();
+    }
+
+    public static String getUserEmail() {
+        IdentityProvider provider = getIdentityProvider();
+        String email = null;
+
+        if(provider instanceof GoogleSignInProvider)
+            email = getUserEmail((GoogleSignInProvider) provider);
+        else if(provider instanceof ChowmeinUserPoolsSignInProvider)
+            email = getUserEmail((ChowmeinUserPoolsSignInProvider) provider);
+
+        return email;
+    }
+
+    private static String getUserEmail(GoogleSignInProvider provider) {
+        return provider == null ? null : provider.getSignedInAccount().getEmail();
+    }
+
+    private static String getUserEmail(ChowmeinUserPoolsSignInProvider provider) {
+        // Synchronously get the users email from the user pool
+        final String[] email = {null};
+
+        Thread cognitoDetails = new Thread(() -> {
+            CognitoUser user = provider.getCognitoUserPool().getCurrentUser();
+
+            user.getDetails(new GetDetailsHandler() {
+                @Override
+                public void onSuccess(CognitoUserDetails cognitoUserDetails) {
+                    email[0] = cognitoUserDetails.getAttributes().getAttributes().get("email");
+                }
+
+                @Override
+                public void onFailure(Exception exception) {
+                    exception.printStackTrace();
+                }
+            });
+        });
+
+        try {
+            cognitoDetails.start();
+            cognitoDetails.join();
+        } catch (InterruptedException err) {
+            err.printStackTrace();
+        }
+
+        return email[0];
     }
 
     private static IdentityProvider getIdentityProvider() {

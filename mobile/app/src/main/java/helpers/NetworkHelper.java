@@ -16,11 +16,6 @@ public class NetworkHelper {
         return networkInfo != null && networkInfo.isConnected();
     }
 
-    public static void checkConnectionAndNotify(Activity activity) {
-        if (!networkConnectionAvailable(activity))
-            showToast(activity);
-    }
-
     public static void showToast(Activity activity) {
         activity.runOnUiThread(()-> Toast.makeText(
                 activity.getApplicationContext(),
@@ -29,11 +24,12 @@ public class NetworkHelper {
         ).show());
     }
 
+    public static void checkConnectionAndNotify(Activity activity) {
+        checkConnectionAndDoRunnable(activity, ()-> {});
+    }
+
     public static void checkConnectionAndStartActivity(Activity activity, Intent newActivity) {
-        if (networkConnectionAvailable(activity))
-            activity.startActivity(newActivity);
-        else
-            showToast(activity);
+        checkConnectionAndDoRunnable(activity, ()->activity.startActivity(newActivity));
     }
 
     public static void checkConnectionAndDoRunnable(Activity activity, Runnable func) {

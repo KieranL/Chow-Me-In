@@ -73,10 +73,6 @@ public class SearchChowActivity extends NavBarActivity {
 
 
     private static Chows verifyChow(Chows currentChow) {
-        if (currentChow.getCreatedTime() == null) {
-            currentChow.setCreatedTime("");
-        }
-
         if (currentChow.getFood() == null) {
             currentChow.setFood("");
         }
@@ -99,10 +95,6 @@ public class SearchChowActivity extends NavBarActivity {
 
         if (currentChow.getCategory() == null) {
             currentChow.setCategory("None");
-        }
-
-        if (currentChow.getPosterPhone() == null) {
-            currentChow.setPosterPhone("");
         }
 
         if (currentChow.getPosterName() == null) {
