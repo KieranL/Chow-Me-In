@@ -8,23 +8,14 @@
 //
 package com.chowpals.chowmein;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
-import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.mobile.auth.core.IdentityManager;
 import com.amazonaws.mobile.auth.google.GoogleButton;
 import com.amazonaws.mobile.auth.ui.AuthUIConfiguration;
 import com.amazonaws.mobile.config.AWSConfiguration;
-import com.amazonaws.regions.Regions;
 import com.chowpals.chowmein.login.ChowmeinUserPoolsSignInProvider;
-import com.google.android.gms.auth.GoogleAuthUtil;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import business.AbstractApplicationLifeCycleHelper;
 
@@ -65,12 +56,6 @@ public class Application extends MultiDexApplication {
             final IdentityManager identityManager = new IdentityManager(getApplicationContext(), awsConfiguration);
             IdentityManager.setDefaultIdentityManager(identityManager);
         }
-
-        CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
-                getApplicationContext(),
-                "us-east-2:604611a6-7247-4cbf-8370-31b6ce36703f",
-                Regions.US_EAST_2
-        );
 
         // Add UserPools as an SignIn Provider.
         IdentityManager.getDefaultIdentityManager().addSignInProvider(ChowmeinUserPoolsSignInProvider.class);
