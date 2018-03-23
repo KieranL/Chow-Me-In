@@ -47,7 +47,7 @@ public class MainActivity extends NavBarActivity {
 
         View createChowConstraintView = findViewById(R.id.createChowConstraintView);
         TextView welcomeMsg = findViewById(R.id.welcomeMessageTextView);
-        if(UserHelper.isUserSignedIn()) {
+        if (UserHelper.isUserSignedIn()) {
             createChowConstraintView.setAlpha(1.0f);
 
             // async update the textview
@@ -58,7 +58,7 @@ public class MainActivity extends NavBarActivity {
                 sb.append(UserHelper.getUsersName());
                 sb.append("!");
 
-                runOnUiThread(()-> {
+                runOnUiThread(() -> {
                     welcomeMsg.setText(sb);
                 });
 
@@ -123,9 +123,11 @@ public class MainActivity extends NavBarActivity {
         apiClient.listChows().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe((List<Chows> response) -> {
                     for (Chows currentChow : response) {
-                        currentChow = (ensureChowFields(currentChow));
-                        chowsListedMain.add(currentChow);
-                        searchResultList.add(currentChow.getFood());
+                        if (currentChow.getJoinedUser() == (null)) {
+                            currentChow = (ensureChowFields(currentChow));
+                            chowsListedMain.add(currentChow);
+                            searchResultList.add(currentChow.getFood());
+                        }
                     }
                     masterChowListMain = chowsListedMain;
                     ArrayAdapter<? extends String> resultAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, searchResultList);
@@ -134,7 +136,7 @@ public class MainActivity extends NavBarActivity {
     }
 
     public void createChow(View view) {
-        NetworkHelper.checkConnectionAndDoRunnable(this, ()->
+        NetworkHelper.checkConnectionAndDoRunnable(this, () ->
                 UserHelper.checkLoginAndStartActivity(this, new Intent(getApplicationContext(), CreateChowActivity.class)));
     }
 }

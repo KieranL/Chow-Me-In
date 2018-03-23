@@ -15,6 +15,7 @@ public class Chows implements Serializable {
     private String posterUser;
     private String posterEmail;
     private String category;
+    private String joinedUser;
 
     public Chows() {
     }
@@ -125,6 +126,13 @@ public class Chows implements Serializable {
         return "Chow name: " + getFood() + "\nCategory: " + getCategory() + "\nMeet Location: " + getMeetLocation() + "\nMeet Time: " + getMeetTime() + "\nAdditional Notes: " + getNotes() + "\nContact Name: " + getPosterName();
     }
 
+    public String getJoinedUser() {
+        return joinedUser;
+    }
+
+    public void setJoinedUser(String joinedUser) {
+        this.joinedUser = joinedUser;
+    }
 }
 
 
