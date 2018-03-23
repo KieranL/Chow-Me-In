@@ -17,7 +17,7 @@ class ChowController():
         chows = db.scan_as_json('Chow')
 
         #remove chows that are marked as 'isDeleted'
-        chows = [chow for chow in chows if not (chow.has_key('deleted') and chow['deleted'] == 1)]
+        chows = [chow for chow in chows if not ('deleted' in chow and chow['deleted'] == 1)]
         
         response = jsonify(chows)
         return response
