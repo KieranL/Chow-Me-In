@@ -33,6 +33,14 @@ Once you have a local database up and running, you can start the server by runni
 
 `python server.py`
 
+Alternatively, you can start the server by running:
+
+`export FLASK_APP=server.py`
+
+`python -m flask run --host=0.0.0.0`
+
+This will start server with an option to listen on all interfaces on the system
+
 ## **Data Models**
 ---
 Currently we have 2 data models, a `user` and a `chow`.
