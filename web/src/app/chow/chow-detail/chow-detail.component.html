@@ -1,16 +1,23 @@
 <div class="chow">
-  <div *ngIf="!chow">Click a Chow to view details</div>
-  <div *ngIf="chow">
-    <span>{{chow.food}}</span>
-    <span class="right">Last updated: {{chow.lastUpdated}}</span>
-    <div>Location: {{chow.meetLocation}}</div>
-    <span class="right">Posted By: {{chow.posterName}}</span>
-    <div>Time: {{chow.meetTime}}</div>
-    <br>
-    <div class="include-newline">{{chow.notes}}</div>
-    <br>
-    <button>Chow Me-In!</button>
-    <button type="button" class="right" (click)="deleteChow(chow.id)">Delete</button>
-    <button type="button" class="right" routerLink="/chow-form/{{chow.id}}">Edit</button>
+  <div *ngIf="!chow" class="click-chow">
+    <img src="assets/images/chowy.png" class="chowmein-cat">
+    <h3 class="click-chow-msg">Click a Chow to view details</h3>
   </div>
+
+  <mat-card *ngIf="chow" class="chow-details">
+    <mat-card-title>{{chow.food}}</mat-card-title>
+    <mat-card-subtitle>{{chow.posterName}}</mat-card-subtitle>
+    <mat-card-content>
+      <span class="right">Last updated: {{chow.lastUpdated}}</span>
+      <div>Location: {{chow.meetLocation}}</div>
+      <div>Time: {{chow.meetTime}}</div>
+      <br>
+      <div class="include-newline">{{chow.notes}}</div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button type="button">Chow Me-In!</button>
+      <button mat-button type="button" class="right" (click)="deleteChow(chow.id)">Delete</button>
+      <button mat-button type="button" class="right" routerLink="/chow-form/{{chow.id}}">Edit</button>
+    </mat-card-actions>
+  </mat-card>
 </div>
