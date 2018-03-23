@@ -70,7 +70,8 @@ A `chow` consists of:
   posterUser:   the username of the user who posted this chow,
   posterName:   the name of the user who posted this chow,
   posterEmail:  the email of the user who posted this chow,
-  posterPhone:  the phone number of the user who posted this chow
+  posterPhone:  the phone number of the user who posted this chow,
+  joinedUser:   the username of the user who has "Chowed In"
 }
 ```
 
@@ -153,6 +154,17 @@ Deletes the `chow` with the given `id`
 ```
 Endpoint: /chow/{id}
 Method: DELETE
+Returns: {
+  "success": True/False
+}
+```
+
+###**Joining a chow**
+Adds the current `user` to the selected `chow`
+```$xslt
+Endpoint: /chow/{id}/join
+Method: POST
+Body: {}
 Returns: {
   "success": True/False
 }
