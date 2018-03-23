@@ -33,7 +33,7 @@ the app and after using the app is reduced by at least 10%.
 
 - Mobile client: Android (Java)
 - Web client: Angular 5 (JavaScript ES6)
-- Back end: Flask (Python)
+- Back end: Flask (Python 3)
 - Infrastructure: AWS
 - Database: DynamoDB (NoSQL)
 
