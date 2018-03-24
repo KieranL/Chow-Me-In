@@ -15,10 +15,8 @@
       <br>
       <div class="include-newline">{{chow.notes}}</div>
     </mat-card-content>
-    <mat-card-actions>
+    <mat-card-actions *ngIf="userService.getValidity();">
       <button mat-button color="primary" type="button" (click)="joinChow(chow.id)" routerLink="/my-chows">Chow Me-In!</button>
-      <button mat-button color="warn" type="button" class="right" (click)="deleteChow(chow.id)">Delete</button>
-      <button mat-button class="right" routerLink="/chow-form/{{chow.id}}">Edit</button>
     </mat-card-actions>
   </mat-card>
 </div>

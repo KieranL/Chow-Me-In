@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Chow} from "../chow";
 import {ChowService} from '../chow.service';
+import {UserService} from "../../auth/user.service";
 
 @Component({
   selector: 'app-chow-detail',
@@ -10,20 +11,10 @@ import {ChowService} from '../chow.service';
 export class ChowDetailComponent implements OnInit {
   @Input() chow: Chow;
 
-  constructor(private chowService: ChowService) {
+  constructor(private chowService: ChowService, private userService: UserService) {
   }
 
   ngOnInit() {
-  }
-
-  deleteChow(chowId: number): void {
-    if (!chowId) {
-      return;
-    }
-    this.chowService.deleteChow(chowId)
-      .subscribe(() => {
-        window.location.href = '/chow-list';
-      });
   }
 
   joinChow(chowId: number): void {
