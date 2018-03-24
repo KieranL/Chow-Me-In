@@ -26,6 +26,8 @@ public interface ChowMeInService {
 
     @DELETE("chow/{id}")
     Observable<APISuccessObject> deleteSelectChows(@Path("id") int id);
+
+
 }
 
 /*

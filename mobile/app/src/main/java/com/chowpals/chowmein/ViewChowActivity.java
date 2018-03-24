@@ -1,7 +1,6 @@
 package com.chowpals.chowmein;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,6 +22,8 @@ import objects.APISuccessObject;
 import objects.Chows;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.chowpals.chowmein.EditChowActivity.CHOW_EXTRA;
 
 public class ViewChowActivity extends NavBarActivity {
 
@@ -62,6 +63,30 @@ public class ViewChowActivity extends NavBarActivity {
         selectedChow = (Chows) searchChowResult.getSerializableExtra("Selected Chow");
         chowInfoTextView = findViewById(R.id.chowInfoTextView);
         acceptChowButton = findViewById(R.id.acceptChowButton);
+        acceptChowButton.setOnClickListener(view -> {
+            if (NetworkHelper.networkConnectionAvailable(this) && UserHelper.isUserSignedIn()) {
+                Retrofit.Builder builder = new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+
+                Retrofit retrofit = builder.build();
+                ChowMeInService apiClient = retrofit.create(ChowMeInService.class);
+
+                selectedChow.setJoinedUser(UserHelper.getUsername());
+                selectedChow.setJoinedName(UserHelper.getUsersName());
+                selectedChow.setJoinedEmail(UserHelper.getUserEmail());
+                apiClient.updateSelectChows(selectedChow.getId(), selectedChow).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                        .subscribe((APISuccessObject response) -> {
+                            if (response.isSuccess()) {
+                                Log.i("Success", "Success");
+                                Toast.makeText(ViewChowActivity.this, "You were Chowed in!", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(ViewChowActivity.this,MainActivity.class));
+                            } else {
+                                Log.i("error", "Error");
+                                Toast.makeText(ViewChowActivity.this, "You were not Chowed in. We are experiencing difficulties, please hold on!", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        });
+            }
+        });
     }
 
 
@@ -99,7 +124,7 @@ public class ViewChowActivity extends NavBarActivity {
 
     private void editChow() {
         Intent intent = new Intent(getApplicationContext(), EditChowActivity.class);
-        intent.putExtra(EditChowActivity.CHOW_EXTRA, selectedChow);
+        intent.putExtra(CHOW_EXTRA, selectedChow);
         NetworkHelper.checkConnectionAndDoRunnable(this, ()->
                 UserHelper.checkLoginAndStartActivityForResult(this, intent, REQUEST_CODE));
     }
@@ -132,7 +157,7 @@ public class ViewChowActivity extends NavBarActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                selectedChow = (Chows) data.getSerializableExtra(EditChowActivity.CHOW_EXTRA);
+                selectedChow = (Chows) data.getSerializableExtra(CHOW_EXTRA);
                 populateChowInfo();
             }
         }

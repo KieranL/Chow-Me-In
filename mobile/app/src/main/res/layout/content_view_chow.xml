@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,55 +10,43 @@
 
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="318dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="24dp"
-        card_view:cardCornerRadius="10dp"
-        card_view:layout_constraintBottom_toBottomOf="parent"
-        card_view:layout_constraintLeft_toLeftOf="parent"
-        card_view:layout_constraintRight_toRightOf="parent"
-        card_view:layout_constraintTop_toTopOf="parent">
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        card_view:cardCornerRadius="10dp">
 
-        <android.support.constraint.ConstraintLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/chowInfoTextView"
                 style="@style/ViewChowTextView"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="24dp"
                 android:gravity="center"
-                android:text="@string/food_post_name_here"
-                card_view:layout_constraintLeft_toLeftOf="parent"
-                card_view:layout_constraintRight_toRightOf="parent"
-                card_view:layout_constraintTop_toTopOf="parent" />
+                android:text="@string/food_post_name_here" />
 
             <Button
                 android:id="@+id/acceptChowButton"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
+                android:layout_below="@+id/chowInfoTextView"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="24dp"
                 android:layout_marginTop="24dp"
                 android:background="@android:color/holo_red_light"
                 android:text="@string/chow_me_in"
                 android:textSize="40sp"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                card_view:layout_constraintBottom_toBottomOf="parent"
-                card_view:layout_constraintTop_toBottomOf="@+id/chowInfoTextView" />
+                android:textStyle="bold" />
 
-        </android.support.constraint.ConstraintLayout>
+        </RelativeLayout>
     </android.support.v7.widget.CardView>
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

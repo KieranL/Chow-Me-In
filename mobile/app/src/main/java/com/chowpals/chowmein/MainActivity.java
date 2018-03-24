@@ -123,9 +123,11 @@ public class MainActivity extends NavBarActivity {
         apiClient.listChows().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe((List<Chows> response) -> {
                     for (Chows currentChow : response) {
-                        currentChow = (ensureChowFields(currentChow));
-                        chowsListedMain.add(currentChow);
-                        searchResultList.add(currentChow.getFood());
+                        if (currentChow.getJoinedUser() == (null)) {
+                            currentChow = (ensureChowFields(currentChow));
+                            chowsListedMain.add(currentChow);
+                            searchResultList.add(currentChow.getFood());
+                        }
                     }
                     masterChowListMain = chowsListedMain;
                     ArrayAdapter<? extends String> resultAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, searchResultList);
