@@ -83,10 +83,10 @@ public class EditChowActivity extends NavBarActivity {
 
                 if(isNewChow) {
                     selectedChow = new Chows();
+                    selectedChow.setId(-1);
                 }
 
                 selectedChow
-                        .setId(-1)
                         .setPosterUser(UserHelper.getUsername())
                         .setPosterName(UserHelper.getUsersName())
                         .setPosterEmail(UserHelper.getUserEmail())
@@ -115,14 +115,14 @@ public class EditChowActivity extends NavBarActivity {
                                     Toast.makeText(EditChowActivity.this, "Your Chow was updated!", Toast.LENGTH_SHORT).show();
                                     Intent data = new Intent();
                                     data.putExtra(CHOW_EXTRA, selectedChow);
-                                    setResult(ViewChowActivity.REQUEST_CODE, data);
+                                    setResult(RESULT_OK, data);
+                                    finish();
                                 } else {
                                     Log.i("error", "Error");
                                     Toast.makeText(EditChowActivity.this, "Your Chow was not updated. We are experiencing difficulties, please hold on!", Toast.LENGTH_SHORT).show();
                                     finish();
                                 }
                             });
-                    finish();
                 }
             } else {
                 Toast.makeText(this, "Your Chow seems to be missing some information. Please fill out the empty fields.", Toast.LENGTH_SHORT).show();
