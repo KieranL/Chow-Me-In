@@ -1,0 +1,18 @@
+.chow {
+  margin: 20px;
+  font-family: inherit;
+}
+
+.right {
+  float: right;
+}
+
+.posted-chows {
+  width: 50%;
+  float: left;
+}
+
+.joined-chows {
+  width: 50%;
+  float: right;
+}
