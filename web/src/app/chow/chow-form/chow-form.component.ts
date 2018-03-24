@@ -36,7 +36,7 @@ export class ChowFormComponent implements OnInit {
     }
   }
 
-  add(food: string, meetLocation: string, meetTime: string, notes: string): void {
+  add(food: string, meetLocation: string, meetTime: string, category: string, notes: string): void {
     const _this = this;
 
     let token = this.userService.getAuthTokenFromStorage();
@@ -60,10 +60,12 @@ export class ChowFormComponent implements OnInit {
           if (meetTime !== "") {
             newChow.meetTime = meetTime;
           }
+          if (category !== "") {
+            newChow.category = category;
+          }
           if (notes !== "") {
             newChow.notes = notes;
           }
-
 
           _this.chowService.addChow(newChow).subscribe(
             chow => {

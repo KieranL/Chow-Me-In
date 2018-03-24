@@ -16,13 +16,17 @@
     </mat-form-field>
 
     <mat-form-field class="chow-field">
+      <input matInput placeholder="Food Category" type="text" [value]="chow ? chow.category : ''" #category />
+    </mat-form-field>
+
+    <mat-form-field class="chow-field">
       <textarea matInput placeholder="Notes" [value]="chow ? chow.notes : ''" #notes></textarea>
     </mat-form-field>
 
-    <button *ngIf="!chow" mat-button color="primary" type="button" (click)="add(food.value, meetLocation.value, meetTime.value, notes.value)">
+    <button *ngIf="!chow" mat-button color="primary" type="button" (click)="add(food.value, meetLocation.value, meetTime.value, category.value, notes.value)">
       Create
     </button>
-    <button *ngIf="chow" mat-button color="primary" type="button" (click)="save(food.value, meetLocation.value, meetTime.value, notes.value)">
+    <button *ngIf="chow" mat-button color="primary" type="button" (click)="save(food.value, meetLocation.value, meetTime.value, category.value, notes.value)">
       Save
     </button>
     <button mat-button type="button" (click)="goBack()">Cancel</button>
