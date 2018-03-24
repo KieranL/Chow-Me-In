@@ -1,3 +1,8 @@
 .chow-form {
-  max-width: 100%;
+  max-width: 60%;
+}
+
+.chow-field {
+  width: 100%;
+  font-family: inherit;
 }

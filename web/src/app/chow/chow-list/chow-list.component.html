@@ -1,11 +1,17 @@
+<div class="banner">
+  <img src="assets/images/raccoons.png" class="banner-image">
+</div>
+
 <div class="chow-list">
-  <div class="chow" *ngFor="let chow of chows" (click)="onSelect(chow)">
-    <span>{{chow.food}}</span>
-    <span class="right">Last updated: {{chow.lastUpdated}}</span>
-    <div>Location: {{chow.meetLocation}}</div>
-    <span class="right">Posted By: {{chow.posterName}}</span>
-    <div>Time: {{chow.meetTime}}</div>
-  </div>
+  <mat-card class="chow clickable" *ngFor="let chow of chows" (click)="onSelect(chow)">
+    <mat-card-title>{{chow.food}}</mat-card-title>
+    <mat-card-subtitle>{{chow.posterName}}</mat-card-subtitle>
+    <mat-card-content>
+      <span class="right">Last updated: {{chow.lastUpdated}}</span>
+      <div>Location: {{chow.meetLocation}}</div>
+      <div>Time: {{chow.meetTime}}</div>
+    </mat-card-content>
+  </mat-card>
 </div>
 
 <app-chow-detail [chow]="selectedChow" *ngIf="showDetailPane"></app-chow-detail>
