@@ -3,9 +3,9 @@
   <mat-card class="chow" *ngFor="let chow of postedChows">
     <mat-card-title>{{chow.food}}</mat-card-title>
     <mat-card-content>
-      <span class="right">Last updated: {{chow.lastUpdated}}</span>
+      <span class="right">Last updated: {{formatDate(chow.lastUpdated)}}</span>
       <div>Location: {{chow.meetLocation}}</div>
-      <div>Time: {{chow.meetTime}}</div>
+      <div>Time: {{formatDate(chow.meetTime)}}</div>
       <div *ngIf="chow.category">Category: {{chow.category}}</div>
       <br *ngIf="chow.joinedUser">
       <div *ngIf="chow.joinedName">Contact Name: {{chow.joinedName}}</div>
@@ -25,9 +25,9 @@
   <mat-card class="chow" *ngFor="let chow of joinedChows">
     <mat-card-title>{{chow.food}}</mat-card-title>
     <mat-card-content>
-      <span class="right">Last updated: {{chow.lastUpdated}}</span>
+      <span class="right">Last updated: {{formatDate(chow.lastUpdated)}}</span>
       <div>Location: {{chow.meetLocation}}</div>
-      <div>Time: {{chow.meetTime}}</div>
+      <div>Time: {{formatDate(chow.meetTime)}}</div>
       <div *ngIf="chow.category">Category: {{chow.category}}</div>
       <br>
       <div>Contact Name: {{chow.posterName}}</div>

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Chow} from "../chow";
 import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
 import {ChowService} from "../chow.service";
+import moment = require("moment");
 
 @Component({
   selector: 'app-my-chows',
@@ -38,5 +39,13 @@ export class MyChowsComponent implements OnInit {
     this.chowService.deleteChow(chowId).subscribe(() => {
         window.location.href = '/my-chows';
       });
+  }
+
+  formatDate(date: string): string {
+    if (moment(date).isValid()) {
+      return moment.utc(date).local().format('MMMM DD, YYYY [at] h:mm a');
+    } else {
+      return date;
+    }
   }
 }

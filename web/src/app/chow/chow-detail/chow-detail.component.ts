@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Chow} from "../chow";
 import {ChowService} from '../chow.service';
 import {UserService} from "../../auth/user.service";
+import moment = require("moment");
 
 @Component({
   selector: 'app-chow-detail',
@@ -22,6 +23,14 @@ export class ChowDetailComponent implements OnInit {
       return;
     } else {
       this.chowService.joinChow(chowId).subscribe();
+    }
+  }
+
+  formatDate(date: string): string {
+    if (moment(date).isValid()) {
+      return moment.utc(date).local().format('MMMM DD, YYYY [at] h:mm a');
+    } else {
+      return date;
     }
   }
 }
