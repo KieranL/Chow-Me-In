@@ -1,5 +1,7 @@
 package com.chowpals.chowmein;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
+import helpers.NetworkHelper;
 import helpers.UserHelper;
 import interfaces.ChowMeInService;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -23,6 +26,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ViewChowActivity extends NavBarActivity {
 
+    public static final int REQUEST_CODE = 42069;
     TextView chowInfoTextView;
     Button acceptChowButton;
     Chows selectedChow;
@@ -78,11 +82,26 @@ public class ViewChowActivity extends NavBarActivity {
 
         if(id == R.id.action_delete_chow) {
             if(isUserChowOwner()) {
-                deleteChow();
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Are you sure you want to delete this chow?");
+                builder.setPositiveButton("Yes", (dialogInterface, i) -> deleteChow());
+                builder.setNegativeButton("No", (dialogInterface, i) ->{});
+                builder.show();
+            }
+        }else if(id == R.id.action_edit_chow) {
+            if(isUserChowOwner()) {
+                editChow();
             }
         }
 
         return true;
+    }
+
+    private void editChow() {
+        Intent intent = new Intent(getApplicationContext(), EditChowActivity.class);
+        intent.putExtra(EditChowActivity.CHOW_EXTRA, selectedChow);
+        NetworkHelper.checkConnectionAndDoRunnable(this, ()->
+                UserHelper.checkLoginAndStartActivityForResult(this, intent, REQUEST_CODE));
     }
 
     private boolean isUserChowOwner() {
@@ -107,6 +126,16 @@ public class ViewChowActivity extends NavBarActivity {
                         finish();
                     }
                 });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                selectedChow = (Chows) data.getSerializableExtra(EditChowActivity.CHOW_EXTRA);
+                populateChowInfo();
+            }
+        }
     }
 
 }

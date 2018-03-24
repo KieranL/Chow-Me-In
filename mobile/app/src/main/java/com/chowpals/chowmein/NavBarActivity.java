@@ -91,7 +91,7 @@ public class NavBarActivity extends AppCompatActivity
         if (id == R.id.nav_home)
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
         else if (id == R.id.nav_create_chow)
-            NetworkHelper.checkConnectionAndStartActivity(this, new Intent(getApplicationContext(), CreateChowActivity.class));
+            NetworkHelper.checkConnectionAndStartActivity(this, new Intent(getApplicationContext(), EditChowActivity.class));
         else if (id == R.id.nav_search_chow)
             NetworkHelper.checkConnectionAndStartActivity(this, new Intent(getApplicationContext(), SearchChowActivity.class));
         else if (id == R.id.nav_login) {
