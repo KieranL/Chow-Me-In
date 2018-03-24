@@ -21,6 +21,10 @@ public class UserHelper {
         checkLoginAndDoRunnable(activity, ()->activity.startActivity(newActivity));
     }
 
+    public static void checkLoginAndStartActivityForResult(Activity activity, Intent newActivity, int requestCode) {
+        checkLoginAndDoRunnable(activity, ()->activity.startActivityForResult(newActivity, requestCode));
+    }
+
     public static void checkLoginAndDoRunnable(Activity activity, Runnable func) {
         if (isUserSignedIn()) {
             try {

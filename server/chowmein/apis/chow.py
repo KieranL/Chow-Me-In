@@ -28,3 +28,13 @@ def delete_chow(chow_id):
 def join_chow(chow_id):
     token = request.headers['Access-Token']
     return ChowController.join_chow(chow_id, token)
+
+@chow_api_bp.route('/chow/poster', methods=['GET'])
+def get_created_chows():
+    token = request.headers['Access-Token']
+    return ChowController.get_created_chows(token)
+
+@chow_api_bp.route('/chow/joined', methods=['GET'])
+def get_joined_chows():
+    token = request.headers['Access-Token']
+    return ChowController.get_joined_chows(token)

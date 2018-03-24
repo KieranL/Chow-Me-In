@@ -9,4 +9,7 @@ export class Chow {
   posterName: string;
   posterEmail: string;
   category?: string;
+  joinedUser?: string;
+  joinedName?: string;
+  joinedEmail?: string;
 }

@@ -29,7 +29,7 @@
             android:label=""
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".CreateChowActivity"
+            android:name=".EditChowActivity"
             android:label="@string/title_activity_create_chow"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

@@ -7,19 +7,11 @@ def test_chow_api_get_all(myApp):
     data = json.loads(response.get_data(as_text=True))
     assert data == json.loads(json.dumps([
     {
-        'food': 'Trash',
-        'meetLocation': 'garbage can behind Franklin Bristow\'s place.',
-        'lastUpdated':'2018-02-08T01:55:00',
-        'id':2,
-        'meetTime':'now',
-        'notes':'Calling all raccoons, let\'s eat!'
-    },
-    {
         'food': 'Large Pep. Pizza',
         'meetLocation': 'Dominos down main',
         'lastUpdated':'2018-02-08T17:55:00',
         'id':1,
-        'meetTime':'6:30pm',
+        'meetTime':'2999-02-08T17:55:00',
         'notes':'I ordered this for 2 but my buddy bailed on me. We can work out payment later.'
     },
 ]))
@@ -37,7 +29,7 @@ def test_chow_api_get_specific(myApp):
             'meetLocation': 'Dominos down main',
             'lastUpdated':'2018-02-08T17:55:00',
             'id':1,
-            'meetTime':'6:30pm',
+            'meetTime':'2999-02-08T17:55:00',
             'notes':'I ordered this for 2 but my buddy bailed on me. We can work out payment later.'
         }
     ))

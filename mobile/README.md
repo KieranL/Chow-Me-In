@@ -14,3 +14,5 @@ Next go to the "Build Types" tab, for each of your build types you should update
 <br/>
 We should now be able to run our application in Android Studio like normal.<br/>
 You can also generate the release APK by going from Build > Generate Signed APK and using the same config as above.
+
+To see a diagram of our mobile client architecture, see [here](../doc/chowmein%20mobile%20client%20architecture%20diagram.pdf)

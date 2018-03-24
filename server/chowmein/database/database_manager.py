@@ -209,6 +209,24 @@ class DatabaseManager:
                         batch.put_item(Item=item)
                 return True
 
+        def soft_delete_item(self, table_name, key):
+            """
+            Soft delete item with the given key from the given table
+            by setting isDeleted = 1
+            """
+
+            table = self.get_table(table_name)
+            response = table.update_item(
+                    Key={
+                        'id': key
+                    },
+                    UpdateExpression='SET deleted = :softDelete',
+                    ExpressionAttributeValues={
+                        ':softDelete': 1
+                    }
+                )
+            return response['ResponseMetadata']['HTTPStatusCode'] == 200
+
         def delete_item(self, table_name, key):
             """ Delete item with the given key from the given table """
             table = self.get_table(table_name)
@@ -263,4 +281,12 @@ class DatabaseManager:
             for item in items:
                 response.append(json.loads(json.dumps(item, cls=DecimalEncoder)))
             
+            return response
+
+        def scan_as_json_with_criteria(self, table_name, column, value):
+            items = self.scan(table_name)
+            response = []
+            for item in items:
+                if column in item and item[column] == value:
+                    response.append(json.loads(json.dumps(item, cls=DecimalEncoder)))
             return response
