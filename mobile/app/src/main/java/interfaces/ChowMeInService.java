@@ -5,9 +5,11 @@ import java.util.List;
 import io.reactivex.Observable;
 import objects.APISuccessObject;
 import objects.Chows;
+import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -21,8 +23,16 @@ public interface ChowMeInService {
     @POST("/chow")
     Observable<APISuccessObject> createChows(@Body Chows chow);
 
+    @POST("/chow/{id}/join")
+    Call<APISuccessObject> joinChow(
+            @Header("Access-Token") String token,
+            @Path("id") int id
+    );
+
     @POST("chow/{id}")
-    Observable<APISuccessObject> updateSelectChows(@Path("id") int id);
+    Call<APISuccessObject> updateSelectChows(
+            @Path("id") int id,
+            @Body Chows chow);
 
     @DELETE("chow/{id}")
     Observable<APISuccessObject> deleteSelectChows(@Path("id") int id);

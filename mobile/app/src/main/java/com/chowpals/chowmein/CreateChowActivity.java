@@ -87,9 +87,11 @@ public class CreateChowActivity extends NavBarActivity {
             int day = chowPostDatePicker.getDayOfMonth();
             int month = chowPostDatePicker.getMonth();
             int year =  chowPostDatePicker.getYear();
+            int hour = chowPostTimePicker.getHour();
+            int min = chowPostTimePicker.getMinute();
 
             Calendar calendar = Calendar.getInstance();
-            calendar.set(year, month, day);
+            calendar.set(year, month, day,hour,min,0);
 
             Date dateObj = calendar.getTime();
             return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(dateObj);
