@@ -1,5 +1,5 @@
-import {Component, NgZone} from '@angular/core';
-import {Router} from '@angular/router';
+import {Component, NgZone, OnInit} from '@angular/core';
+import {Router, NavigationEnd} from '@angular/router';
 import {environment} from "../environments/environment";
 import {UserService} from "./auth/user.service";
 
@@ -8,10 +8,23 @@ import {UserService} from "./auth/user.service";
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
 	title = 'Chow Me-In';
 
   constructor(private router: Router, private ngZone: NgZone, public userService: UserService) {
+  }
+
+  ngOnInit() {
+    this.router.routeReuseStrategy.shouldReuseRoute = function(){
+        return false;
+    };
+
+    this.router.events.subscribe((evt) => {
+      if (evt instanceof NavigationEnd) {
+        this.router.navigated = false;
+        window.scrollTo(0, 0);
+      }
+    });
   }
 
   login(event) {

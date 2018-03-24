@@ -46,6 +46,12 @@ export class ChowService {
     return this.http.post<Chow>(url, {}, httpOptions);
   }
 
+  unjoinChow(chowId: number): Observable<Chow> {
+    const url = `${this.chowUrl}/${chowId}/unjoin`;
+    this.refreshHeaders();
+    return this.http.post<Chow>(url, {}, httpOptions);
+  }
+
   getJoinedChows(): Observable<Chow[]> {
     const url = `${this.chowUrl}/joined`;
     this.refreshHeaders();
@@ -56,6 +62,16 @@ export class ChowService {
     const url = `${this.chowUrl}/poster`;
     this.refreshHeaders();
     return this.http.get<Chow[]>(url, httpOptions);
+  }
+
+  prettyDate(dateString: string): string {
+    let date: Date = new Date(dateString);
+    let pretty: string = date.toLocaleDateString() + " " + date.toLocaleTimeString();
+
+    if(pretty.includes('Invalid'))
+      return dateString;
+    else
+      return pretty;
   }
 
   private refreshHeaders(): void {

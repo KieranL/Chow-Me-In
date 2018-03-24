@@ -7,9 +7,9 @@
     <mat-card-title>{{chow.food}}</mat-card-title>
     <mat-card-subtitle>{{chow.posterName}}</mat-card-subtitle>
     <mat-card-content>
-      <span class="right">Last updated: {{chow.lastUpdated}}</span>
+      <span class="right">Last updated: {{prettyDate(chow.lastUpdated)}}</span>
       <div>Location: {{chow.meetLocation}}</div>
-      <div>Time: {{chow.meetTime}}</div>
+      <div>Time: {{prettyDate(chow.meetTime)}}</div>
     </mat-card-content>
   </mat-card>
 </div>

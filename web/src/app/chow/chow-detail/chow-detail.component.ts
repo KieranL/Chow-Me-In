@@ -1,6 +1,8 @@
+import {Router} from '@angular/router';
 import {Component, Input, OnInit} from '@angular/core';
 import {Chow} from "../chow";
 import {ChowService} from '../chow.service';
+import {UserService} from '../../auth/user.service';
 
 @Component({
   selector: 'app-chow-detail',
@@ -9,11 +11,19 @@ import {ChowService} from '../chow.service';
 })
 export class ChowDetailComponent implements OnInit {
   @Input() chow: Chow;
+  username;
+  token;
 
-  constructor(private chowService: ChowService) {
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    private chowService: ChowService
+  ) {
   }
 
   ngOnInit() {
+    this.username = this.userService.getUsernameFromStorage();
+    this.token = this.userService.getAuthTokenFromStorage();
   }
 
   deleteChow(chowId: number): void {
@@ -22,7 +32,7 @@ export class ChowDetailComponent implements OnInit {
     }
     this.chowService.deleteChow(chowId)
       .subscribe(() => {
-        window.location.href = '/chow-list';
+        this.router.navigate(['chow-list']);
       });
   }
 
@@ -30,7 +40,13 @@ export class ChowDetailComponent implements OnInit {
     if (!chowId) {
       return;
     } else {
-      this.chowService.joinChow(chowId).subscribe();
+      this.chowService.joinChow(chowId).subscribe(() => {
+        this.router.navigate(['my-chows']);
+      });
     }
+  }
+
+  prettyDate(dateString: string): string {
+    return this.chowService.prettyDate(dateString);
   }
 }

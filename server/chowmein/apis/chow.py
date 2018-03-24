@@ -29,6 +29,11 @@ def join_chow(chow_id):
     token = request.headers['Access-Token']
     return ChowController.join_chow(chow_id, token)
 
+@chow_api_bp.route('/chow/<int:chow_id>/unjoin', methods=['POST'])
+def unjoin_chow(chow_id):
+    token = request.headers['Access-Token']
+    return ChowController.unjoin_chow(chow_id, token)
+
 @chow_api_bp.route('/chow/poster', methods=['GET'])
 def get_created_chows():
     token = request.headers['Access-Token']
