@@ -30,4 +30,13 @@ export class MyChowsComponent implements OnInit {
       });
     });
   }
+
+  deleteChow(chowId: number): void {
+    if (!chowId) {
+      return;
+    }
+    this.chowService.deleteChow(chowId).subscribe(() => {
+        window.location.href = '/my-chows';
+      });
+  }
 }
