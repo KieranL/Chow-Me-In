@@ -71,7 +71,9 @@ A `chow` consists of:
   posterName:   the name of the user who posted this chow,
   posterEmail:  the email of the user who posted this chow,
   posterPhone:  the phone number of the user who posted this chow,
-  joinedUser:   the username of the user who has "Chowed In"
+  joinedUser:   the username of the user who has "Chowed In",
+  joinedName:   the name of the user who has "Chowed In",
+  joinedEmail:  the email of the user who has "Chowed In"
 }
 ```
 
@@ -167,6 +169,30 @@ Method: POST
 Body: {}
 Returns: {
   "success": True/False
+}
+```
+
+### **Getting all chows I've posted**
+Gets all `chow`s posted by the current user
+```
+Endpoint: /chow/poster
+Method: GET
+Returns: {
+  ...
+  a list of all chows posted by the current user
+  ...
+}
+```
+
+### **Getting all chows I've joined**
+Gets all `chow`s joined by the current user
+```
+Endpoint: /chow/joined
+Method: GET
+Returns: {
+  ...
+  a list of all chows joined by the current user
+  ...
 }
 ```
 

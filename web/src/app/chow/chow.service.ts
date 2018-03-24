@@ -46,6 +46,18 @@ export class ChowService {
     return this.http.post<Chow>(url, {}, httpOptions);
   }
 
+  getJoinedChows(): Observable<Chow[]> {
+    const url = `${this.chowUrl}/joined`;
+    this.refreshHeaders();
+    return this.http.get<Chow[]>(url, httpOptions);
+  }
+
+  getPostedChows(): Observable<Chow[]> {
+    const url = `${this.chowUrl}/poster`;
+    this.refreshHeaders();
+    return this.http.get<Chow[]>(url, httpOptions);
+  }
+
   private refreshHeaders(): void {
     httpOptions.headers = new HttpHeaders({
       'Content-Type': 'application/json',

@@ -45,5 +45,23 @@ class ChowController():
         user = client.get_user(AccessToken=token)
         chow = db.get_item_as_json('Chow', chow_id)
         chow['joinedUser'] = user['Username']
+        chow['joinedName'] = user['UserAttributes'][2]['Value'] #username is stored here
+        chow['joinedEmail'] = user['UserAttributes'][3]['Value'] #email is stored here
         success = db.put_item('Chow', chow)
         return jsonify({"success":success})
+
+    @classmethod
+    def get_created_chows(cls, token):
+        db = database.getInstance()
+        client = boto3.client('cognito-idp', region_name='us-east-2')
+        user = client.get_user(AccessToken=token)
+        chows = db.scan_as_json_with_criteria('Chow', 'posterUser', user['Username'])
+        return jsonify(chows)
+
+    @classmethod
+    def get_joined_chows(cls, token):
+        db = database.getInstance()
+        client = boto3.client('cognito-idp', region_name='us-east-2')
+        user = client.get_user(AccessToken=token)
+        chows = db.scan_as_json_with_criteria('Chow', 'joinedUser', user['Username'])
+        return jsonify(chows)

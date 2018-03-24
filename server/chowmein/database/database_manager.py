@@ -264,3 +264,11 @@ class DatabaseManager:
                 response.append(json.loads(json.dumps(item, cls=DecimalEncoder)))
             
             return response
+
+        def scan_as_json_with_criteria(self, table_name, column, value):
+            items = self.scan(table_name)
+            response = []
+            for item in items:
+                if column in item and item[column] == value:
+                    response.append(json.loads(json.dumps(item, cls=DecimalEncoder)))
+            return response
