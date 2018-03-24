@@ -79,7 +79,7 @@ export class ChowFormComponent implements OnInit {
     );
   }
 
-  save(food: string, meetLocation: string, meetTime: string, notes: string): void {
+  save(food: string, meetLocation: string, meetTime: string, category: string, notes: string): void {
     const _this = this;
 
     let chow: Chow = {
@@ -96,6 +96,9 @@ export class ChowFormComponent implements OnInit {
     }
     if (meetTime !== "") {
       chow.meetTime = meetTime;
+    }
+    if (category !== "") {
+      chow.category = category;
     }
     if (notes !== "") {
       chow.notes = notes;

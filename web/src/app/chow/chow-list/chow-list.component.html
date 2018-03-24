@@ -10,6 +10,7 @@
       <span class="right">Last updated: {{chow.lastUpdated}}</span>
       <div>Location: {{chow.meetLocation}}</div>
       <div>Time: {{chow.meetTime}}</div>
+      <div *ngIf="chow.category">Category: {{chow.category}}</div>
     </mat-card-content>
   </mat-card>
 </div>
