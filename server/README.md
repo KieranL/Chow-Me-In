@@ -17,7 +17,6 @@
     * [Updating a chow](#updating-a-chow)
     * [Deleting a chow](#deleting-a-chow)
 * [Unit Testing](#unit-testing)
-  * [Database unit tests](#database-unit-tests)
 
 ## **How to setup server locally**
 ---
@@ -33,6 +32,14 @@ To setup one up, see [here](chowmein/database/README.md)
 Once you have a local database up and running, you can start the server by running:
 
 `python server.py`
+
+Alternatively, you can start the server by running:
+
+`export FLASK_APP=server.py`
+
+`python -m flask run --host=0.0.0.0`
+
+This will start server with an option to listen on all interfaces on the system
 
 ## **Data Models**
 ---
@@ -63,7 +70,8 @@ A `chow` consists of:
   posterUser:   the username of the user who posted this chow,
   posterName:   the name of the user who posted this chow,
   posterEmail:  the email of the user who posted this chow,
-  posterPhone:  the phone number of the user who posted this chow
+  posterPhone:  the phone number of the user who posted this chow,
+  joinedUser:   the username of the user who has "Chowed In"
 }
 ```
 
@@ -151,12 +159,28 @@ Returns: {
 }
 ```
 
+###**Joining a chow**
+Adds the current `user` to the selected `chow`
+```$xslt
+Endpoint: /chow/{id}/join
+Method: POST
+Body: {}
+Returns: {
+  "success": True/False
+}
+```
+
 ## Unit Testing
 ---
-### Database unit tests
 
 Make sure `DynamoDB Local` is running, see [here](chowmein/database/README.md).
-Then run:
 
-`python db_tests.py`
-`python api_tests.py`
+Make sure `Pytest` is installed.
+
+To run all backend unit tests, inside server/chowmein run:
+
+`python -m pytest`
+
+To run a specific backend unit test:
+
+`python -m pytest -k <test_name>.py`

@@ -25,4 +25,12 @@ export class ChowDetailComponent implements OnInit {
         window.location.href = '/chow-list';
       });
   }
+
+  joinChow(chowId: number): void {
+    if (!chowId) {
+      return;
+    } else {
+      this.chowService.joinChow(chowId).subscribe();
+    }
+  }
 }

@@ -1,5 +1,6 @@
 from flask import jsonify
 import json
+import boto3
 from database.database_manager import DatabaseManager as database
 
 class ChowController():
@@ -35,4 +36,14 @@ class ChowController():
     def delete_chow(cls, chow_id):
         db = database.getInstance()
         success = db.delete_item('Chow', chow_id)
+        return jsonify({"success":success})
+
+    @classmethod
+    def join_chow(cls, chow_id, token):
+        db = database.getInstance()
+        client = boto3.client('cognito-idp', region_name='us-east-2')
+        user = client.get_user(AccessToken=token)
+        chow = db.get_item_as_json('Chow', chow_id)
+        chow['joinedUser'] = user['Username']
+        success = db.put_item('Chow', chow)
         return jsonify({"success":success})

@@ -3,15 +3,7 @@ package com.chowpals.chowmein;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -20,14 +12,16 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
-import business.ChowHandler;
+import helpers.ChowHelper;
+import helpers.UserHelper;
 import objects.Chows;
 
-public class CreateChowActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class CreateChowActivity extends NavBarActivity {
 
     EditText chowPostNameEditText;
     EditText chowPostLocationEditText;
@@ -43,17 +37,8 @@ public class CreateChowActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_chow);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        initVariables();
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        initVariables();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -65,7 +50,7 @@ public class CreateChowActivity extends AppCompatActivity
         chowPostDescriptionEditText = findViewById(R.id.chowPostDescriptionEditText);
         createChowButton = findViewById(R.id.createChowButton);
         categorySpinner = findViewById(R.id.categorySpinner);
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, ChowHandler.getAllCategories());
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, ChowHelper.getAllCategories());
         categorySpinner.setAdapter(categoryAdapter);
         createChowButton.setOnClickListener(view -> {
             boolean noInputErrors = false;
@@ -74,15 +59,22 @@ public class CreateChowActivity extends AppCompatActivity
                     && !String.valueOf(chowPostLocationEditText.getText()).equals(""))
                 noInputErrors = true;
             if (noInputErrors) {
-                ArrayList<String> categories = ChowHandler.getAllCategories();
-                Chows newChow = new Chows(-1, "Mobile Guest", String.valueOf(new Date()), false,
-                        String.valueOf(chowPostNameEditText.getText()).trim(), String.valueOf(new Date()),
-                        String.valueOf(chowPostLocationEditText.getText()).trim(),
-                        String.valueOf(chowPostDatePicker.getYear() + "-" + chowPostDatePicker.getMonth() + "-" + chowPostDatePicker.getDayOfMonth()
-                                + " " + chowPostTimePicker.getHour() + ":" + chowPostTimePicker.getMinute()),
-                        String.valueOf(chowPostDescriptionEditText.getText()).trim(), categories.get(categorySpinner.getSelectedItemPosition()), "Mobile Guest", "Mobile Guest User", "Poster has no phonenumber");
+                ArrayList<String> categories = ChowHelper.getAllCategories();
+                Chows chow = new Chows()
+                        .setId(-1)
+                        .setPosterUser(UserHelper.getUsername())
+                        .setPosterName(UserHelper.getUsersName())
+                        .setPosterEmail(UserHelper.getUserEmail())
+                        .setDeleted(false)
+                        .setFood(String.valueOf(chowPostNameEditText.getText()).trim())
+                        .setLastUpdated(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date()))
+                        .setMeetLocation(String.valueOf(chowPostLocationEditText.getText()).trim())
+                        .setMeetTime(getDataPickerString())
+                        .setNotes(String.valueOf(chowPostDescriptionEditText.getText()).trim())
+                        .setCategory(categories.get(categorySpinner.getSelectedItemPosition()));
+
                 Intent verifyChow = new Intent(this, VerifyChowActivity.class);
-                verifyChow.putExtra("Chow", newChow);
+                verifyChow.putExtra("Chow", chow);
                 startActivity(verifyChow);
             } else {
                 Toast.makeText(this, "Your Chow seems to be missing some information. Please fill out the empty fields.", Toast.LENGTH_SHORT).show();
@@ -90,28 +82,20 @@ public class CreateChowActivity extends AppCompatActivity
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+    private String getDataPickerString() {
+        if (chowPostDatePicker != null) {
+            int day = chowPostDatePicker.getDayOfMonth();
+            int month = chowPostDatePicker.getMonth();
+            int year =  chowPostDatePicker.getYear();
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(year, month, day);
+
+            Date dateObj = calendar.getTime();
+            return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(dateObj);
+        } else {
+            return "";
         }
-        startActivity(new Intent(this,MainActivity.class));
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-        if (id == R.id.nav_home) {
-            startActivity(new Intent(this, MainActivity.class));
-        } else if (id == R.id.nav_search_chow) {
-            startActivity(new Intent(this, SearchChowActivity.class));
-        }
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
 }
