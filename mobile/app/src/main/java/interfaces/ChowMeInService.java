@@ -25,12 +25,14 @@ public interface ChowMeInService {
 
     @POST("/chow/{id}/join")
     Call<APISuccessObject> joinChow(
-            @Header("AccessToken") String AccessToken,
+            @Header("Access-Token") String token,
             @Path("id") int id
     );
 
     @POST("chow/{id}")
-    Observable<APISuccessObject> updateSelectChows(@Path("id") int id);
+    Call<APISuccessObject> updateSelectChows(
+            @Path("id") int id,
+            @Body Chows chow);
 
     @DELETE("chow/{id}")
     Observable<APISuccessObject> deleteSelectChows(@Path("id") int id);
