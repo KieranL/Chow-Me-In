@@ -86,7 +86,7 @@ First, we need to get `DynamoDB Local` running.
 To do so, use a separate console and navigate to where `DynamoDB Local` was downloaded, then run:
 
 ```
-java -Djava.library.pathh=./DynamoDBLocal_lib/ -jar DynamoDBLocal.jar -sharedDb
+java -Djava.library.path=./DynamoDBLocal_lib/ -jar DynamoDBLocal.jar -sharedDb
 ```
 
 ## **Initializing your database**
