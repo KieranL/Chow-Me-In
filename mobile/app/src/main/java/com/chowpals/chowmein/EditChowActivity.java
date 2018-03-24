@@ -129,8 +129,10 @@ public class EditChowActivity extends NavBarActivity {
             }
         });
 
-        if(!isNewChow)
+        if(!isNewChow) {
             setChowFields();
+            createChowButton.setText("Save Chow");
+        }
     }
 
     private void setChowFields() {
