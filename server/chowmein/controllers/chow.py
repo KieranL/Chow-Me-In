@@ -24,7 +24,7 @@ class ChowController():
             #remove chows that are expired
             currTime = datetime.datetime.now().isoformat()
             chows = [chow for chow in chows if not ('meetTime' in chow and chow['meetTime'] < currTime)]
-
+          
         response = jsonify(chows)
         return response
     

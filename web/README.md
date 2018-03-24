@@ -1,5 +1,7 @@
 # Web
 
+To see a diagram of our web client architecture, see [here](../doc/chowmein%20web%20client%20architecture%20diagram.pdf)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.4.
 
 ## Development server
