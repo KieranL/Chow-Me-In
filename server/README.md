@@ -1,5 +1,6 @@
 # **Server**
 
+* [Server architecture diagram](#server-architecture-diagram)
 * [How to setup server locally](#how-to-setup-server-locally)
   * [Installation](#installation)
   * [Local database setup](#local-database-setup)
@@ -18,8 +19,12 @@
     * [Deleting a chow](#deleting-a-chow)
 * [Unit Testing](#unit-testing)
 
+## **Server architecture diagram**
+
+To see a diagram of our server architecture, see [here](../doc/chowmein%20server%20architecture.pdf)
+
 ## **How to setup server locally**
----
+
 ### **Installation**
 
 `pip install -r requirements.txt`
@@ -33,8 +38,16 @@ Once you have a local database up and running, you can start the server by runni
 
 `python server.py`
 
+Alternatively, you can start the server by running:
+
+`export FLASK_APP=server.py`
+
+`python -m flask run --host=0.0.0.0`
+
+This will start server with an option to listen on all interfaces on the system
+
 ## **Data Models**
----
+
 Currently we have 2 data models, a `user` and a `chow`.
 A `chow` means an offer to share food (see [here](../README.md))
 
@@ -62,12 +75,17 @@ A `chow` consists of:
   posterUser:   the username of the user who posted this chow,
   posterName:   the name of the user who posted this chow,
   posterEmail:  the email of the user who posted this chow,
-  posterPhone:  the phone number of the user who posted this chow
+  posterPhone:  the phone number of the user who posted this chow,
+  joinedUser:   the username of the user who has "Chowed In",
+  joinedName:   the name of the user who has "Chowed In",
+  joinedEmail:  the email of the user who has "Chowed In"
 }
 ```
 
+To see a diagram of the chow data model, see [here](../doc/chowmein%20domain%20model%20diagram.pdf)
+
 ## **API**
----
+
 Our API consists of various endpoints of which can be hit to perform CRUD operations on our database.
 
 Currently our 2 endpoints are:
@@ -140,7 +158,7 @@ Returns: {
 }  
 ```
 
-### **deleting a chow**
+### **Deleting a chow**
 Deletes the `chow` with the given `id`
 ```
 Endpoint: /chow/{id}
@@ -150,12 +168,47 @@ Returns: {
 }
 ```
 
+### **Joining a chow**
+Adds the current `user` to the selected `chow`
+```$xslt
+Endpoint: /chow/{id}/join
+Method: POST
+Body: {}
+Returns: {
+  "success": True/False
+}
+```
+
+### **Getting all chows I've posted**
+Gets all `chow`s posted by the current user
+```
+Endpoint: /chow/poster
+Method: GET
+Returns: {
+  ...
+  a list of all chows posted by the current user
+  ...
+}
+```
+
+### **Getting all chows I've joined**
+Gets all `chow`s joined by the current user
+```
+Endpoint: /chow/joined
+Method: GET
+Returns: {
+  ...
+  a list of all chows joined by the current user
+  ...
+}
+```
+
 ## Unit Testing
----
+
 
 Make sure `DynamoDB Local` is running, see [here](chowmein/database/README.md).
 
-Make sure `Pytest` is installed.
+Make sure `Pytest` is installed (can be installed with `pip`)
 
 To run all backend unit tests, inside server/chowmein run:
 

@@ -1,7 +1,5 @@
 .chow {
-  background-color: lightgray;
   margin: 20px;
-  padding: 0.666%;
 }
 
 .right {
@@ -11,4 +9,23 @@
 
 .include-newline {
   white-space: pre-wrap;
+}
+
+.chow-details {
+  font-family: inherit;
+}
+
+.click-chow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: dashed 2px black;
+}
+
+.click-chow-msg {
+  margin-top: 0;
+}
+
+.chowmein-cat {
+  max-width: 30%;
 }

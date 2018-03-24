@@ -31,14 +31,14 @@ def initialize_local_database(require_db_confirm = False):
         {
             'food': 'Large Pep. Pizza',
             'meetLocation': 'Dominos down main',
-            'meetTime':'6:30pm',
+            'meetTime':'2999-02-08T17:55:00',
             'lastUpdated':'2018-02-08T17:55:00',
             'notes':'I ordered this for 2 but my buddy bailed on me. We can work out payment later.'
         },
         {
             'food': 'Trash',
             'meetLocation': 'garbage can behind Franklin Bristow\'s place.',
-            'meetTime':'now',
+            'meetTime':'1234-02-08T01:55:00',
             'lastUpdated':'2018-02-08T01:55:00',
             'notes':'Calling all raccoons, let\'s eat!'
         },

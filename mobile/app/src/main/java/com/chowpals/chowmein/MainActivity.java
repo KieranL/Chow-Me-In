@@ -135,6 +135,6 @@ public class MainActivity extends NavBarActivity {
 
     public void createChow(View view) {
         NetworkHelper.checkConnectionAndDoRunnable(this, ()->
-                UserHelper.checkLoginAndStartActivity(this, new Intent(getApplicationContext(), CreateChowActivity.class)));
+                UserHelper.checkLoginAndStartActivity(this, new Intent(getApplicationContext(), EditChowActivity.class)));
     }
 }
