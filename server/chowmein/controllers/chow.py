@@ -1,6 +1,7 @@
 from flask import jsonify
 import json
 import boto3
+import datetime
 from database.database_manager import DatabaseManager as database
 
 class ChowController():
@@ -12,13 +13,18 @@ class ChowController():
         return response
 
     @classmethod
-    def get_chows(cls):
+    def get_chows(cls, remove_expired=True):
         db = database.getInstance()
         chows = db.scan_as_json('Chow')
 
         #remove chows that are marked as 'isDeleted'
         chows = [chow for chow in chows if not ('deleted' in chow and chow['deleted'] == 1)]
         
+        if (remove_expired):
+            #remove chows that are expired
+            currTime = datetime.datetime.now().isoformat()
+            chows = [chow for chow in chows if not ('meetTime' in chow and chow['meetTime'] < currTime)]
+          
         response = jsonify(chows)
         return response
     

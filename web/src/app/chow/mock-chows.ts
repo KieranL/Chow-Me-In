@@ -28,7 +28,7 @@ export const CHOWS: Chow[] = [
     id: 3,
     food: "trash",
     meetLocation: "dunno lol",
-    meetTime: "now",
+    meetTime: "1234-02-08T01:55:00",
     lastUpdated: "now",
     notes: "Posted by Raccon\nPhone: 722-2666\nEmail: fbristow@cs.umanitoba.ca",
     posterUser: "Raccon",
