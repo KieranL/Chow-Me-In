@@ -1,28 +1,30 @@
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <ul class="nav navbar-nav navbar-left">
-      <li><a routerLink="/chow-list">Home</a></li>
+      <li><a routerLink="/chow-list">View Chows</a></li>
+      <li *ngIf="userService.getValidity()"><a routerLink="/my-chows">My Chows</a></li>
     </ul>
 
     <ul class="nav navbar-nav navbar-right">
 
       <div *ngIf="userService.getValidity(); then logmeout else logmein"></div>
 
-      <ng-template #logmein><li><a (click)="login($event)">Login</a></li></ng-template>
+      <ng-template #logmein><li><a class="clickable" (click)="login($event)">Login</a></li></ng-template>
       <ng-template #logmeout>
         <li><a routerLink="/chow-form">Create a New Chow</a></li>
-        <li><a (click)="logout($event)">Logout</a></li>
-      </ng-template>
 
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            {{ userService.getUsersNameFromStorage() }} <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="clickable" (click)="logout($event)">Logout</a></li>
+          </ul>
+        </li>
+      </ng-template>
     </ul>
   </div>
 </nav>
-
-<h1>
-  <div *ngIf="userService.getValidity(); then user else nouser"></div>
-  <ng-template #user>Howdy, {{ userService.getUsersNameFromStorage() }}!</ng-template>
-  <ng-template #nouser>Welcome to {{ title }}!</ng-template>
-</h1>
 
 <ng4-loading-spinner style="opacity:0.25;"> </ng4-loading-spinner>
 

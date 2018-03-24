@@ -1,28 +1,30 @@
 <div class="container chow-form">
-  <form>
-    <div class="form-group">
-      <label for="food">Food</label>
-      <input type="text" class="form-control" [value]="chow ? chow.food : ''" #food />
-    </div>
-    <div class="form-group">
-      <label for="meetLocation">Meeting Location</label>
-      <input type="text" class="form-control" [value]="chow ? chow.meetLocation : ''" #meetLocation />
-    </div>
-    <div class="form-group">
-      <label for="meetTime">Meeting Time</label>
-      <input type="text" class="form-control" [value]="chow ? chow.meetTime : ''" #meetTime />
-    </div>
-    <div class="form-group">
-      <label for="notes">Notes and Contact Information</label>
-      <textarea class="form-control" rows="5" [value]="chow ? chow.notes : ''" #notes></textarea>
-    </div>
-  </form>
+  <h2 *ngIf="!chow" class="text-center">Create a New Chow</h2>
+  <h2 *ngIf="chow" class="text-center">Edit Chow</h2>
 
-  <button *ngIf="!chow" class="btn btn-success" (click)="add(food.value, meetLocation.value, meetTime.value, notes.value)">
-    Create
-  </button>
-  <button *ngIf="chow" class="btn btn-primary" (click)="save(food.value, meetLocation.value, meetTime.value, notes.value)">
-    Save
-  </button>
-  <button class="btn btn-default" (click)="goBack()">Cancel</button>
+  <form>
+    <mat-form-field class="chow-field">
+      <input matInput placeholder="Food" type="text" [value]="chow ? chow.food : ''" #food />
+    </mat-form-field>
+
+    <mat-form-field class="chow-field">
+      <input matInput placeholder="Meeting Location" type="text" [value]="chow ? chow.meetLocation : ''" #meetLocation />
+    </mat-form-field>
+
+    <mat-form-field class="chow-field">
+      <input matInput placeholder="Meeting Time" type="text" [value]="chow ? chow.meetTime : ''" #meetTime />
+    </mat-form-field>
+
+    <mat-form-field class="chow-field">
+      <textarea matInput placeholder="Notes" [value]="chow ? chow.notes : ''" #notes></textarea>
+    </mat-form-field>
+
+    <button *ngIf="!chow" mat-button color="primary" type="button" (click)="add(food.value, meetLocation.value, meetTime.value, notes.value)">
+      Create
+    </button>
+    <button *ngIf="chow" mat-button color="primary" type="button" (click)="save(food.value, meetLocation.value, meetTime.value, notes.value)">
+      Save
+    </button>
+    <button mat-button type="button" (click)="goBack()">Cancel</button>
+  </form>
 </div>
