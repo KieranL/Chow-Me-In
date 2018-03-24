@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.group7.myapplication.MainActivity">
+    <item
+        android:id="@+id/action_edit_chow"
+        android:orderInCategory="100"
+        android:title="Edit"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_edit_24dp"/>
+    <item
+        android:id="@+id/action_delete_chow"
+        android:orderInCategory="100"
+        android:title="Delete"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_delete_24dp"/>
+</menu>

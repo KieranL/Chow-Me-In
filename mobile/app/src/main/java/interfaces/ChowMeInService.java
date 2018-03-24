@@ -22,7 +22,7 @@ public interface ChowMeInService {
     Observable<APISuccessObject> createChows(@Body Chows chow);
 
     @POST("chow/{id}")
-    Observable<APISuccessObject> updateSelectChows(@Path("id") int id);
+    Observable<APISuccessObject> updateSelectChows(@Path("id") int id, @Body Chows chow);
 
     @DELETE("chow/{id}")
     Observable<APISuccessObject> deleteSelectChows(@Path("id") int id);
