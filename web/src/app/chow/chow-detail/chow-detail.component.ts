@@ -1,3 +1,4 @@
+import {Router} from '@angular/router';
 import {Component, Input, OnInit} from '@angular/core';
 import {Chow} from "../chow";
 import {ChowService} from '../chow.service';
@@ -11,26 +12,42 @@ import moment = require("moment");
 })
 export class ChowDetailComponent implements OnInit {
   @Input() chow: Chow;
+  username;
+  token;
 
-  constructor(private chowService: ChowService, private userService: UserService) {
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    private chowService: ChowService
+  ) {
   }
 
   ngOnInit() {
+    this.username = this.userService.getUsernameFromStorage();
+    this.token = this.userService.getAuthTokenFromStorage();
+  }
+
+  deleteChow(chowId: number): void {
+    if (!chowId) {
+      return;
+    }
+    this.chowService.deleteChow(chowId)
+      .subscribe(() => {
+        this.router.navigate(['chow-list']);
+      });
   }
 
   joinChow(chowId: number): void {
     if (!chowId) {
       return;
     } else {
-      this.chowService.joinChow(chowId).subscribe();
+      this.chowService.joinChow(chowId).subscribe(() => {
+        this.router.navigate(['my-chows']);
+      });
     }
   }
 
-  formatDate(date: string): string {
-    if (moment(date).isValid()) {
-      return moment.utc(date).local().format('MMMM DD, YYYY [at] h:mm a');
-    } else {
-      return date;
-    }
+  prettyDate(dateString: string): string {
+    return this.chowService.prettyDate(dateString);
   }
 }

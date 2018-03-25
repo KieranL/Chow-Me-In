@@ -53,11 +53,7 @@ export class ChowListComponent implements OnInit {
     }
   }
 
-  formatDate(date: string): string {
-    if (moment(date).isValid()) {
-      return moment.utc(date).local().format('MMMM DD, YYYY [at] h:mm a');
-    } else {
-      return date;
-    }
+  prettyDate(dateString: string): string {
+    return this.chowService.prettyDate(dateString);
   }
 }

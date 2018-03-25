@@ -1,3 +1,4 @@
+import {Router} from '@angular/router';
 import {Component, OnInit} from '@angular/core';
 import {Chow} from "../chow";
 import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
@@ -13,8 +14,11 @@ export class MyChowsComponent implements OnInit {
   postedChows: Chow[];
   joinedChows: Chow[];
 
-  constructor(private spinnerService: Ng4LoadingSpinnerService,
-              private chowService: ChowService) {
+  constructor(
+    private router: Router,
+    private spinnerService: Ng4LoadingSpinnerService,
+    private chowService: ChowService
+  ) {
   }
 
   ngOnInit() {
@@ -37,15 +41,21 @@ export class MyChowsComponent implements OnInit {
       return;
     }
     this.chowService.deleteChow(chowId).subscribe(() => {
-        window.location.href = '/my-chows';
+        this.router.navigate(['my-chows']);
       });
   }
 
-  formatDate(date: string): string {
-    if (moment(date).isValid()) {
-      return moment.utc(date).local().format('MMMM DD, YYYY [at] h:mm a');
+  unjoinChow(chowId: number): void {
+    if (!chowId) {
+      return;
     } else {
-      return date;
+      this.chowService.unjoinChow(chowId).subscribe(() => {
+        this.router.navigate(['my-chows']);
+      });
     }
+  }
+
+  prettyDate(dateString: string): string {
+    return this.chowService.prettyDate(dateString);
   }
 }
