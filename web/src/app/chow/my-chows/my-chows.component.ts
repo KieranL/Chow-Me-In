@@ -3,7 +3,6 @@ import {Component, OnInit} from '@angular/core';
 import {Chow} from "../chow";
 import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
 import {ChowService} from "../chow.service";
-import moment = require("moment");
 
 @Component({
   selector: 'app-my-chows',
