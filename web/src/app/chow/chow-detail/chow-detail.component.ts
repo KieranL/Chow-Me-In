@@ -2,7 +2,7 @@ import {Router} from '@angular/router';
 import {Component, Input, OnInit} from '@angular/core';
 import {Chow} from "../chow";
 import {ChowService} from '../chow.service';
-import {UserService} from '../../auth/user.service';
+import {UserService} from "../../auth/user.service";
 
 @Component({
   selector: 'app-chow-detail',

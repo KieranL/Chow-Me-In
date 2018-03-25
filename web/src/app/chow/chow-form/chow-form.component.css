@@ -1,8 +1,13 @@
 .chow-form {
   max-width: 60%;
+  margin-bottom: 20px;
 }
 
 .chow-field {
   width: 100%;
   font-family: inherit;
+}
+
+.meeting-time {
+  margin: 20px 0;
 }

@@ -11,6 +11,7 @@
       <span class="right">Last updated: {{prettyDate(chow.lastUpdated)}}</span>
       <div>Location: {{chow.meetLocation}}</div>
       <div>Time: {{prettyDate(chow.meetTime)}}</div>
+      <div *ngIf="chow.category">Category: {{chow.category}}</div>
       <br>
       <div class="include-newline">{{chow.notes}}</div>
     </mat-card-content>

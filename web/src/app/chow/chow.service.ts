@@ -4,6 +4,7 @@ import {Observable} from "rxjs/Observable";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {UserService} from "../auth/user.service";
+import moment = require("moment");
 
 let httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -65,13 +66,11 @@ export class ChowService {
   }
 
   prettyDate(dateString: string): string {
-    let date: Date = new Date(dateString);
-    let pretty: string = date.toLocaleDateString() + " " + date.toLocaleTimeString();
-
-    if(pretty.includes('Invalid'))
+    if (moment(dateString).isValid()) {
+      return moment.utc(dateString).local().format('MMMM DD, YYYY [at] h:mm a');
+    } else {
       return dateString;
-    else
-      return pretty;
+    }
   }
 
   private refreshHeaders(): void {

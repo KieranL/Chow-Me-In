@@ -3,6 +3,13 @@
 </div>
 
 <div class="chow-list">
+  <div class="search-bar">
+    <mat-form-field class="search-input">
+      <input matInput placeholder="Search for food" type="text" (input)="searchChows($event.target.value)"/>
+    </mat-form-field>
+    <mat-icon>search</mat-icon>
+  </div>
+
   <mat-card class="chow clickable" *ngFor="let chow of chows" (click)="onSelect(chow)">
     <mat-card-title>{{chow.food}}</mat-card-title>
     <mat-card-subtitle>{{chow.posterName}}</mat-card-subtitle>
@@ -10,6 +17,7 @@
       <span class="right">Last updated: {{prettyDate(chow.lastUpdated)}}</span>
       <div>Location: {{chow.meetLocation}}</div>
       <div>Time: {{prettyDate(chow.meetTime)}}</div>
+      <div *ngIf="chow.category">Category: {{chow.category}}</div>
     </mat-card-content>
   </mat-card>
 </div>
