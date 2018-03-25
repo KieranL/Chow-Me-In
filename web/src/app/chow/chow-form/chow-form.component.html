@@ -4,25 +4,30 @@
 
   <form>
     <mat-form-field class="chow-field">
-      <input matInput placeholder="Food" type="text" [value]="chow ? chow.food : ''" #food />
+      <input matInput placeholder="Food" type="text" [value]="(chow && chow.food) ? chow.food : ''" #food required/>
     </mat-form-field>
 
     <mat-form-field class="chow-field">
-      <input matInput placeholder="Meeting Location" type="text" [value]="chow ? chow.meetLocation : ''" #meetLocation />
+      <input matInput placeholder="Meeting Location" type="text" [value]="(chow && chow.meetLocation) ? chow.meetLocation : ''" #meetLocation required/>
+    </mat-form-field>
+
+    <div class="meeting-time">
+      <p>Meeting Time *</p>
+      <p-calendar [(ngModel)]="meetTime" [ngModelOptions]="{standalone: true}" [inline]="true" showTime="true" hourFormat="12"></p-calendar>
+    </div>
+
+    <mat-form-field class="chow-field">
+      <input matInput placeholder="Food Category" type="text" [value]="(chow && chow.category)  ? chow.category : ''" #category />
     </mat-form-field>
 
     <mat-form-field class="chow-field">
-      <input matInput placeholder="Meeting Time" type="text" [value]="chow ? chow.meetTime : ''" #meetTime />
+      <textarea matInput placeholder="Notes" [value]="(chow && chow.notes)  ? chow.notes : ''" #notes></textarea>
     </mat-form-field>
 
-    <mat-form-field class="chow-field">
-      <textarea matInput placeholder="Notes" [value]="chow ? chow.notes : ''" #notes></textarea>
-    </mat-form-field>
-
-    <button *ngIf="!chow" mat-button color="primary" type="button" (click)="add(food.value, meetLocation.value, meetTime.value, notes.value)">
+    <button *ngIf="!chow" mat-button color="primary" type="button" (click)="add(food.value, meetLocation.value, category.value, notes.value)">
       Create
     </button>
-    <button *ngIf="chow" mat-button color="primary" type="button" (click)="save(food.value, meetLocation.value, meetTime.value, notes.value)">
+    <button *ngIf="chow" mat-button color="primary" type="button" (click)="save(food.value, meetLocation.value, category.value, notes.value)">
       Save
     </button>
     <button mat-button type="button" (click)="goBack()">Cancel</button>
