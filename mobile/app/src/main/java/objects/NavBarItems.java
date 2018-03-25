@@ -5,5 +5,6 @@ public enum NavBarItems {
     CREATE_CHOW,
     SEARCH_CHOW,
     LOGIN,
-    LOGOUT
+    LOGOUT,
+    MY_CHOWS
 }

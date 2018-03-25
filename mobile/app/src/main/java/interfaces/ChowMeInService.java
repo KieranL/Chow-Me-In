@@ -1,13 +1,17 @@
 package interfaces;
 
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Observable;
 import objects.APISuccessObject;
 import objects.Chows;
+import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -17,6 +21,12 @@ public interface ChowMeInService {
 
     @GET("chow/{id}")
     Observable<Chows> listSelectChows(@Path("id") int id);
+
+    @GET("chow/joined")
+    Call<APISuccessObject> getJoinedChows(@HeaderMap Map<String, String> headers);
+
+    @GET("chow/poster")
+    Observable<APISuccessObject> getPostedChows(@Header("Access-Token") String token);
 
     @POST("/chow")
     Observable<APISuccessObject> createChows(@Body Chows chow);

@@ -97,7 +97,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/welcomeMessageTextView2"
+                android:id="@+id/chowsCreatedByUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -109,10 +109,10 @@
                 android:textStyle="bold|italic" />
 
             <SearchView
-                android:id="@+id/chowSearchViewMain"
+                android:id="@+id/chowsSearchViewMain"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/welcomeMessageTextView2"
+                android:layout_below="@+id/chowsCreatedByUser"
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0" />
@@ -121,7 +121,7 @@
                 android:id="@+id/searchChowListViewMain"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/chowSearchViewMain"
+                android:layout_below="@id/chowsSearchViewMain"
                 android:layout_marginBottom="8dp" />
 
         </RelativeLayout>

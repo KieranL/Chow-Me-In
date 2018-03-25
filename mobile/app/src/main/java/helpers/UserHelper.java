@@ -1,7 +1,9 @@
 package helpers;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.amazonaws.mobile.auth.core.IdentityManager;
@@ -10,7 +12,19 @@ import com.amazonaws.mobile.auth.google.GoogleSignInProvider;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
+import com.chowpals.chowmein.MainActivity;
 import com.chowpals.chowmein.login.ChowmeinUserPoolsSignInProvider;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+
+import interfaces.ChowMeInService;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import objects.APISuccessObject;
+import objects.Chows;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.chowpals.chowmein.NavBarActivity.baseUrl;
 
 public class UserHelper {
     public static boolean isUserSignedIn() {
@@ -23,6 +37,31 @@ public class UserHelper {
 
     public static void checkLoginAndStartActivityForResult(Activity activity, Intent newActivity, int requestCode) {
         checkLoginAndDoRunnable(activity, ()->activity.startActivityForResult(newActivity, requestCode));
+    }
+
+    public static Runnable chowMeIn(Activity activity, Context context, Chows selectedChow) {
+        return () -> {
+            Retrofit.Builder builder = new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+
+            Retrofit retrofit = builder.build();
+            ChowMeInService apiClient = retrofit.create(ChowMeInService.class);
+
+            selectedChow.setJoinedUser(UserHelper.getUsername());
+            selectedChow.setJoinedName(UserHelper.getUsersName());
+            selectedChow.setJoinedEmail(UserHelper.getUserEmail());
+            apiClient.updateSelectChows(selectedChow.getId(), selectedChow).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe((APISuccessObject response) -> {
+                        if (response.isSuccess()) {
+                            Log.i("Success", "Success");
+                            Toast.makeText(context, "You were Chowed in!", Toast.LENGTH_SHORT).show();
+                            activity.startActivity(new Intent(context, MainActivity.class));
+                        } else {
+                            Log.i("error", "Error");
+                            Toast.makeText(context, "You were not Chowed in. We are experiencing difficulties, please hold on!", Toast.LENGTH_SHORT).show();
+                            activity.finish();
+                        }
+                    });
+        };
     }
 
     public static void checkLoginAndDoRunnable(Activity activity, Runnable func) {

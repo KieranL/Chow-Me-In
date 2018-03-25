@@ -268,7 +268,7 @@ public class CreateChowFromMainActivityWithLoginTest {
                         childAtPosition(
                                 allOf(withClassName(is("android.widget.LinearLayout")),
                                         childAtPosition(
-                                                withId(R.id.chowSearchViewMain),
+                                                withId(R.id.chowsSearchViewMain),
                                                 0)),
                                 1),
                         isDisplayed()));

@@ -64,37 +64,16 @@ public class ViewChowActivity extends NavBarActivity {
         chowInfoTextView = findViewById(R.id.chowInfoTextView);
         acceptChowButton = findViewById(R.id.acceptChowButton);
         acceptChowButton.setOnClickListener(view -> {
-            if (NetworkHelper.networkConnectionAvailable(this) && UserHelper.isUserSignedIn()) {
-                Retrofit.Builder builder = new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJava2CallAdapterFactory.create());
-
-                Retrofit retrofit = builder.build();
-                ChowMeInService apiClient = retrofit.create(ChowMeInService.class);
-
-                selectedChow.setJoinedUser(UserHelper.getUsername());
-                selectedChow.setJoinedName(UserHelper.getUsersName());
-                selectedChow.setJoinedEmail(UserHelper.getUserEmail());
-                apiClient.updateSelectChows(selectedChow.getId(), selectedChow).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                        .subscribe((APISuccessObject response) -> {
-                            if (response.isSuccess()) {
-                                Log.i("Success", "Success");
-                                Toast.makeText(ViewChowActivity.this, "You were Chowed in!", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(ViewChowActivity.this,MainActivity.class));
-                            } else {
-                                Log.i("error", "Error");
-                                Toast.makeText(ViewChowActivity.this, "You were not Chowed in. We are experiencing difficulties, please hold on!", Toast.LENGTH_SHORT).show();
-                                finish();
-                            }
-                        });
-            }
+            NetworkHelper.checkConnectionAndDoRunnable(
+                    this, () -> UserHelper.checkLoginAndDoRunnable(this, UserHelper.chowMeIn(this, this, selectedChow)));
         });
     }
-
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        if(isUserChowOwner() ) {
+        if (isUserChowOwner()) {
             getMenuInflater().inflate(R.menu.menu_view_chow, menu);
         }
 
@@ -105,16 +84,17 @@ public class ViewChowActivity extends NavBarActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        if(id == R.id.action_delete_chow) {
-            if(isUserChowOwner()) {
+        if (id == R.id.action_delete_chow) {
+            if (isUserChowOwner()) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Are you sure you want to delete this chow?");
                 builder.setPositiveButton("Yes", (dialogInterface, i) -> deleteChow());
-                builder.setNegativeButton("No", (dialogInterface, i) ->{});
+                builder.setNegativeButton("No", (dialogInterface, i) -> {
+                });
                 builder.show();
             }
-        }else if(id == R.id.action_edit_chow) {
-            if(isUserChowOwner()) {
+        } else if (id == R.id.action_edit_chow) {
+            if (isUserChowOwner()) {
                 editChow();
             }
         }
@@ -125,7 +105,7 @@ public class ViewChowActivity extends NavBarActivity {
     private void editChow() {
         Intent intent = new Intent(getApplicationContext(), EditChowActivity.class);
         intent.putExtra(CHOW_EXTRA, selectedChow);
-        NetworkHelper.checkConnectionAndDoRunnable(this, ()->
+        NetworkHelper.checkConnectionAndDoRunnable(this, () ->
                 UserHelper.checkLoginAndStartActivityForResult(this, intent, REQUEST_CODE));
     }
 

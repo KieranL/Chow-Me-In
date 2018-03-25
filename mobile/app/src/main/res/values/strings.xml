@@ -96,4 +96,5 @@
     <string name="verify_chow">Verify Chow</string>
     <string name="title_activity_login">login</string>
     <string name="login_username">User Name</string>
+    <string name="title_activity_view_my_chows">ViewMyChowsActivity</string>
 </resources>
