@@ -35,4 +35,8 @@ export class ChowListComponent implements OnInit {
   onSelect(chow: Chow): void {
     this.selectedChow = chow;
   }
+
+  prettyDate(dateString: string): string {
+    return this.chowService.prettyDate(dateString);
+  }
 }
