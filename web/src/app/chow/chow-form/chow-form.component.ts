@@ -37,7 +37,7 @@ export class ChowFormComponent implements OnInit {
         this.spinnerService.hide();
         this.chow = chow;
         if (chow.meetTime && moment(chow.meetTime).isValid()) {
-          this.meetTime = moment(chow.meetTime).toDate();
+          this.meetTime = moment.utc(chow.meetTime).local().toDate();
         }
       });
     }
@@ -65,7 +65,7 @@ export class ChowFormComponent implements OnInit {
             newChow.meetLocation = meetLocation;
           }
           if (_this.meetTime) {
-            newChow.meetTime = moment(_this.meetTime).toISOString().substr(0,-5);
+            newChow.meetTime = moment(_this.meetTime).toISOString().slice(0,-5);
           }
           if (category !== "") {
             newChow.category = category;
@@ -102,7 +102,7 @@ export class ChowFormComponent implements OnInit {
       chow.meetLocation = meetLocation;
     }
     if (_this.meetTime) {
-      chow.meetTime = moment(_this.meetTime).toISOString().substr(0,-5);
+      chow.meetTime = moment(_this.meetTime).toISOString().slice(0,-5);
     }
     if (category !== "") {
       chow.category = category;
