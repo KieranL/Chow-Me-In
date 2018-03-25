@@ -65,7 +65,7 @@ export class ChowFormComponent implements OnInit {
             newChow.meetLocation = meetLocation;
           }
           if (_this.meetTime) {
-            newChow.meetTime = moment(_this.meetTime).toISOString();
+            newChow.meetTime = moment(_this.meetTime).toISOString().substr(0,-5);
           }
           if (category !== "") {
             newChow.category = category;
@@ -102,7 +102,7 @@ export class ChowFormComponent implements OnInit {
       chow.meetLocation = meetLocation;
     }
     if (_this.meetTime) {
-      chow.meetTime = moment(_this.meetTime).toISOString();
+      chow.meetTime = moment(_this.meetTime).toISOString().substr(0,-5);
     }
     if (category !== "") {
       chow.category = category;
