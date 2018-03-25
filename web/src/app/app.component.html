@@ -3,6 +3,7 @@
     <ul class="nav navbar-nav navbar-left">
       <li><a routerLink="/chow-list">View Chows</a></li>
       <li *ngIf="userService.getValidity()"><a routerLink="/my-chows">My Chows</a></li>
+      <li *ngIf="userService.getValidity()"><a routerLink="/chow-form">Create a New Chow</a></li>
     </ul>
 
     <ul class="nav navbar-nav navbar-right">
@@ -11,8 +12,6 @@
 
       <ng-template #logmein><li><a class="clickable" (click)="login($event)">Login</a></li></ng-template>
       <ng-template #logmeout>
-        <li><a routerLink="/chow-form">Create a New Chow</a></li>
-
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
             {{ userService.getUsersNameFromStorage() }} <span class="caret"></span>

@@ -12,6 +12,7 @@ export class ChowListComponent implements OnInit {
   chows: Chow[];
   selectedChow: Chow;
   showDetailPane: boolean;
+  allChows: Chow[];
 
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
@@ -29,10 +30,29 @@ export class ChowListComponent implements OnInit {
       this.spinnerService.hide();
       this.showDetailPane = true;
       this.chows = chows;
+      this.allChows = chows;
     });
   }
 
   onSelect(chow: Chow): void {
     this.selectedChow = chow;
+  }
+
+  searchChows(searchString: string): void {
+    let chowResults = [];
+    if (!searchString) {
+      this.chows = this.allChows;
+    } else {
+      for (let chow of this.allChows) {
+        if (chow.food && chow.food.toLowerCase().indexOf(searchString.toLowerCase()) !== -1) {
+          chowResults.push(chow);
+        }
+      }
+      this.chows = chowResults;
+    }
+  }
+
+  prettyDate(dateString: string): string {
+    return this.chowService.prettyDate(dateString);
   }
 }

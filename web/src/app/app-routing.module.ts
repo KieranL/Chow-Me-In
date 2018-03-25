@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: 'chow-list', component: ChowListComponent },
   { path: 'chow-form', component: ChowFormComponent, canActivate: [AuthGuard] },
   { path: 'chow-form/:id', component: ChowFormComponent, canActivate: [AuthGuard] },
-  { path: 'my-chows', component: MyChowsComponent, canActivate: [AuthGuard]},
+  { path: 'my-chows', component: MyChowsComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent }
 ];
 
