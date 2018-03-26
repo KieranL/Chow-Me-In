@@ -18,6 +18,8 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.Chal
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
+import com.chowpals.chowmein.MainActivity;
+import com.chowpals.chowmein.ViewMyChowsActivity;
 import com.chowpals.chowmein.login.ChowmeinUserPoolsSignInProvider;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
@@ -58,7 +60,32 @@ public class UserHelper {
                 @Override
                 public void onResponse(@NonNull Call<APISuccessObject> call, @NonNull Response<APISuccessObject> response) {
                     Toast.makeText(context, "You Chowed in!", Toast.LENGTH_SHORT).show();
+                    activity.startActivity(new Intent(activity, MainActivity.class));
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<APISuccessObject> call, @NonNull Throwable t) {
+                    Toast.makeText(context, "An error occurred.", Toast.LENGTH_SHORT).show();
                     activity.finish();
+                }
+            });
+        };
+    }
+
+    public static Runnable chowMeOut(Activity activity, Context context, Chows selectedChow) {
+        return () -> {
+            Retrofit.Builder builder = new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+
+            Retrofit retrofit = builder.build();
+            ChowMeInService apiClient = retrofit.create(ChowMeInService.class);
+            String token = getAccessToken();
+            Call<APISuccessObject> unJoinUser = apiClient.unJoinChow(token, selectedChow.getId());
+
+            unJoinUser.enqueue(new Callback<APISuccessObject>() {
+                @Override
+                public void onResponse(@NonNull Call<APISuccessObject> call, @NonNull Response<APISuccessObject> response) {
+                    Toast.makeText(context, "You were removed from the Chowed successfully!", Toast.LENGTH_SHORT).show();
+                    activity.startActivity(new Intent(activity, ViewMyChowsActivity.class));
                 }
 
                 @Override

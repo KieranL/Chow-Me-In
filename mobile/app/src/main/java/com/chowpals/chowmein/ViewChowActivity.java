@@ -65,15 +65,24 @@ public class ViewChowActivity extends NavBarActivity {
         chowInfoTextView = findViewById(R.id.chowInfoTextView);
         acceptChowButton = findViewById(R.id.acceptChowButton);
 
-        if (searchChowResult.hasExtra(getResources().getString(R.string.CALLING_CLASS)) && searchChowResult.getStringExtra(getResources().getString(R.string.CALLING_CLASS)).equals("ViewMyChowsActivity")) {
+        if (searchChowResult.hasExtra(getResources().getString(R.string.CALLING_CLASS)) && searchChowResult.getStringExtra(getResources().getString(R.string.CALLING_CLASS)).equals("ViewMyChowsActivityPosted")) {
             acceptChowButton.setVisibility(View.INVISIBLE);
+        } else if (searchChowResult.hasExtra(getResources().getString(R.string.CALLING_CLASS)) && searchChowResult.getStringExtra(getResources().getString(R.string.CALLING_CLASS)).equals("ViewMyChowsActivityJoined")) {
+            acceptChowButton.setVisibility(View.VISIBLE);
+            acceptChowButton.setText("Chow Me Out");
+            acceptChowButton.setOnClickListener(view -> {
+                NetworkHelper.checkConnectionAndDoRunnable(
+                        this, () -> UserHelper.checkLoginAndDoRunnable(this, UserHelper.chowMeOut(this, this, selectedChow)));
+            });
         } else {
             acceptChowButton.setVisibility(View.VISIBLE);
+            acceptChowButton.setText("Chow Me In");
+            acceptChowButton.setOnClickListener(view -> {
+                NetworkHelper.checkConnectionAndDoRunnable(
+                        this, () -> UserHelper.checkLoginAndDoRunnable(this, UserHelper.chowMeIn(this, this, selectedChow)));
+            });
         }
-        acceptChowButton.setOnClickListener(view -> {
-            NetworkHelper.checkConnectionAndDoRunnable(
-                    this, () -> UserHelper.checkLoginAndDoRunnable(this, UserHelper.chowMeIn(this, this, selectedChow)));
-        });
+
     }
 
 

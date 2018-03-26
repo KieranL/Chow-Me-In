@@ -71,7 +71,7 @@ public class ViewMyChowsActivity extends NavBarActivity {
                     chowsJoinedByMeSearchResultsMain.setAdapter(resultAdapter);
                     chowsJoinedByMeSearchResultsMain.setOnItemClickListener((adapterView, view, i, l) -> {
                         Chows selectedChow = masterchowsJoinedByMeChowListMain.get(i);
-                        viewChow(selectedChow);
+                        viewChow(selectedChow,"Joined");
                     });
                 } else {
                     searchResultList.add("You haven't joined any Chows!");
@@ -112,7 +112,7 @@ public class ViewMyChowsActivity extends NavBarActivity {
                     chowsPostedByMeSearchResultsMain.setAdapter(resultAdapter);
                     chowsPostedByMeSearchResultsMain.setOnItemClickListener((adapterView, view, i, l) -> {
                         Chows selectedChow = masterchowsPostedByMeChowListMain.get(i);
-                        viewChow(selectedChow);
+                        viewChow(selectedChow,"Posted");
                     });
                 } else {
                     searchResultList.add("You haven't posted any Chows!");
@@ -155,8 +155,9 @@ public class ViewMyChowsActivity extends NavBarActivity {
         });
         chowsPostedByMeSearchResultsMain.setOnItemClickListener((adapterView, view, i, l) -> {
             Chows selectedChow = masterchowsPostedByMeChowListMain.get(i);
-            viewChow(selectedChow);
+            viewChow(selectedChow,"");
         });
+
         chowsJoinedByMeSearchViewMain.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -172,10 +173,10 @@ public class ViewMyChowsActivity extends NavBarActivity {
         });
     }
 
-    private void viewChow(Chows selectedChow) {
+    private void viewChow(Chows selectedChow,String activity) {
         Intent viewSelectedChow = new Intent(this, ViewChowActivity.class);
         viewSelectedChow.putExtra("Selected Chow", selectedChow);
-        viewSelectedChow.putExtra("Calling Class", "ViewMyChowsActivity");
+        viewSelectedChow.putExtra(getResources().getString(R.string.CALLING_CLASS), "ViewMyChowsActivity" + activity);
         NetworkHelper.checkConnectionAndStartActivity(this, viewSelectedChow);
     }
 

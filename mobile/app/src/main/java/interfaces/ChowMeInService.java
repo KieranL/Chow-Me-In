@@ -29,6 +29,9 @@ public interface ChowMeInService {
     @POST("chow/{id}/join")
     Call<APISuccessObject> joinChow(@Header("Access-Token") String token, @Path("id") int id);
 
+    @POST("chow/{id}/unjoin")
+    Call<APISuccessObject> unJoinChow(@Header("Access-Token") String token, @Path("id") int id);
+
 
     @POST("/chow")
     Observable<APISuccessObject> createChows(@Body Chows chow);
