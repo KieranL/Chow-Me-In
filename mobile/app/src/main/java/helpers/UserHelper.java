@@ -9,8 +9,15 @@ import android.widget.Toast;
 import com.amazonaws.mobile.auth.core.IdentityManager;
 import com.amazonaws.mobile.auth.core.IdentityProvider;
 import com.amazonaws.mobile.auth.google.GoogleSignInProvider;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ChallengeContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
 import com.chowpals.chowmein.MainActivity;
 import com.chowpals.chowmein.login.ChowmeinUserPoolsSignInProvider;
@@ -195,6 +202,52 @@ public class UserHelper {
         }
 
         return email[0];
+    }
+
+    public static String getAccessToken() {
+        final String[] token = {"INVALIDTOKEN"};
+
+        IdentityProvider provider = getIdentityProvider();
+
+        if(provider instanceof ChowmeinUserPoolsSignInProvider) {
+            Thread cognitoDetails = new Thread(() -> ((ChowmeinUserPoolsSignInProvider) provider).getCognitoUserPool().getCurrentUser().getSession(new AuthenticationHandler() {
+                @Override
+                public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
+                    token[0] = userSession.getAccessToken().getJWTToken();
+                }
+
+                @Override
+                public void getAuthenticationDetails(AuthenticationContinuation authenticationContinuation, String userId) {
+
+                }
+
+                @Override
+                public void getMFACode(MultiFactorAuthenticationContinuation continuation) {
+
+                }
+
+                @Override
+                public void authenticationChallenge(ChallengeContinuation continuation) {
+
+                }
+
+                @Override
+                public void onFailure(Exception exception) {
+
+                }
+            }));
+
+            try {
+                cognitoDetails.start();
+                cognitoDetails.join();
+            } catch (InterruptedException err) {
+                err.printStackTrace();
+            }
+        }
+
+
+
+        return token[0];
     }
 
     private static IdentityProvider getIdentityProvider() {

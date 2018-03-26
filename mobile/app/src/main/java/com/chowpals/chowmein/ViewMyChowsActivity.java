@@ -9,12 +9,14 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.amazonaws.mobile.auth.core.IdentityManager;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import helpers.NetworkHelper;
+import helpers.UserHelper;
 import interfaces.ChowMeInService;
 import objects.Chows;
 import retrofit2.Call;
@@ -23,10 +25,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.chowpals.chowmein.NavBarActivity.baseUrl;
 import static helpers.ChowHelper.ensureChowFields;
 
-public class ViewMyChowsActivity extends AppCompatActivity {
+public class ViewMyChowsActivity extends NavBarActivity {
 
     SearchView chowsPostedByMeSearchViewMain;
     ListView chowsPostedByMeSearchResultsMain;
@@ -131,7 +132,8 @@ public class ViewMyChowsActivity extends AppCompatActivity {
     }
 
     private void initVariables() {
-        token = "";
+        token = UserHelper.getAccessToken();
+
         chowsPostedByMeListedMain = new ArrayList<>();
         masterchowsPostedByMeChowListMain = new ArrayList<>();
         chowsJoinedByMeListedMain = new ArrayList<>();

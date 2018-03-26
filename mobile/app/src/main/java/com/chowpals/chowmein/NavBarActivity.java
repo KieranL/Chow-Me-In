@@ -62,7 +62,8 @@ public class NavBarActivity extends AppCompatActivity
         super.onStart();
         Toolbar toolbar = findViewById(R.id.toolbar);
 
-        setSupportActionBar(toolbar);
+        if (getSupportActionBar() == null)
+            setSupportActionBar(toolbar);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

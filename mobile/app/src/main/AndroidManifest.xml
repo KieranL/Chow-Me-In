@@ -44,7 +44,10 @@
         <activity
             android:name=".login.SignUpActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ViewMyChowsActivity"></activity>
+        <activity
+            android:name=".ViewMyChowsActivity"
+            android:label="My Chows"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

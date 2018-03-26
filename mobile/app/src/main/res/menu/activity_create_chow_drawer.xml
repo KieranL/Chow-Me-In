@@ -14,15 +14,15 @@
             android:id="@+id/nav_search_chow"
             android:title="Search for a Chow" />
         <item
+            android:id="@+id/nav_my_chows"
+            android:title="My Chows" />
+        <item
             android:id="@+id/nav_login"
             android:title="Login" />
         <item
             android:id="@+id/nav_logout"
             android:title="Logout" />
-        <item
-            android:id="@+id/nav_my_chows"
-            android:title="My Chows" />
-    </group>
 
+    </group>
 
 </menu>
