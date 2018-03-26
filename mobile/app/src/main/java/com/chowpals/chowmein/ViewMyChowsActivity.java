@@ -3,13 +3,11 @@ package com.chowpals.chowmein;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.amazonaws.mobile.auth.core.IdentityManager;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.ArrayList;
@@ -37,7 +35,7 @@ public class ViewMyChowsActivity extends NavBarActivity {
     ListView chowsJoinedByMeSearchResultsMain;
     ArrayList<Chows> chowsJoinedByMeListedMain;
     ArrayList<Chows> masterchowsJoinedByMeChowListMain;
-    private String token ;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +83,7 @@ public class ViewMyChowsActivity extends NavBarActivity {
 
             @Override
             public void onFailure(Call<List<Chows>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"There was an issue getting your Chows back",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "There was an issue getting your Chows back", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -126,7 +124,7 @@ public class ViewMyChowsActivity extends NavBarActivity {
 
             @Override
             public void onFailure(Call<List<Chows>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"There was an issue getting your Chows back",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "There was an issue getting your Chows back", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -177,7 +175,7 @@ public class ViewMyChowsActivity extends NavBarActivity {
     private void viewChow(Chows selectedChow) {
         Intent viewSelectedChow = new Intent(this, ViewChowActivity.class);
         viewSelectedChow.putExtra("Selected Chow", selectedChow);
-        viewSelectedChow.putExtra("Calling Class","ViewMyChowsActivity");
+        viewSelectedChow.putExtra("Calling Class", "ViewMyChowsActivity");
         NetworkHelper.checkConnectionAndStartActivity(this, viewSelectedChow);
     }
 

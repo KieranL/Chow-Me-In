@@ -3,7 +3,7 @@ package helpers;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
+import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import com.amazonaws.mobile.auth.core.IdentityManager;
@@ -12,22 +12,21 @@ import com.amazonaws.mobile.auth.google.GoogleSignInProvider;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ChallengeContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
-import com.chowpals.chowmein.MainActivity;
 import com.chowpals.chowmein.login.ChowmeinUserPoolsSignInProvider;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import interfaces.ChowMeInService;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import objects.APISuccessObject;
 import objects.Chows;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -39,11 +38,11 @@ public class UserHelper {
     }
 
     public static void checkLoginAndStartActivity(Activity activity, Intent newActivity) {
-        checkLoginAndDoRunnable(activity, ()->activity.startActivity(newActivity));
+        checkLoginAndDoRunnable(activity, () -> activity.startActivity(newActivity));
     }
 
     public static void checkLoginAndStartActivityForResult(Activity activity, Intent newActivity, int requestCode) {
-        checkLoginAndDoRunnable(activity, ()->activity.startActivityForResult(newActivity, requestCode));
+        checkLoginAndDoRunnable(activity, () -> activity.startActivityForResult(newActivity, requestCode));
     }
 
     public static Runnable chowMeIn(Activity activity, Context context, Chows selectedChow) {
@@ -52,22 +51,22 @@ public class UserHelper {
 
             Retrofit retrofit = builder.build();
             ChowMeInService apiClient = retrofit.create(ChowMeInService.class);
+            String token = getAccessToken();
+            Call<APISuccessObject> joinUser = apiClient.joinChow(token, selectedChow.getId());
 
-            selectedChow.setJoinedUser(UserHelper.getUsername());
-            selectedChow.setJoinedName(UserHelper.getUsersName());
-            selectedChow.setJoinedEmail(UserHelper.getUserEmail());
-            apiClient.updateSelectChows(selectedChow.getId(), selectedChow).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                    .subscribe((APISuccessObject response) -> {
-                        if (response.isSuccess()) {
-                            Log.i("Success", "Success");
-                            Toast.makeText(context, "You were Chowed in!", Toast.LENGTH_SHORT).show();
-                            activity.startActivity(new Intent(context, MainActivity.class));
-                        } else {
-                            Log.i("error", "Error");
-                            Toast.makeText(context, "You were not Chowed in. We are experiencing difficulties, please hold on!", Toast.LENGTH_SHORT).show();
-                            activity.finish();
-                        }
-                    });
+            joinUser.enqueue(new Callback<APISuccessObject>() {
+                @Override
+                public void onResponse(@NonNull Call<APISuccessObject> call, @NonNull Response<APISuccessObject> response) {
+                    Toast.makeText(context, "You Chowed in!", Toast.LENGTH_SHORT).show();
+                    activity.finish();
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<APISuccessObject> call, @NonNull Throwable t) {
+                    Toast.makeText(context, "An error occurred.", Toast.LENGTH_SHORT).show();
+                    activity.finish();
+                }
+            });
         };
     }
 
@@ -85,7 +84,7 @@ public class UserHelper {
     }
 
     public static void showToast(Activity activity) {
-        activity.runOnUiThread(()-> Toast.makeText(
+        activity.runOnUiThread(() -> Toast.makeText(
                 activity.getApplicationContext(),
                 "You must be signed in first to do this.",
                 Toast.LENGTH_SHORT
@@ -96,9 +95,9 @@ public class UserHelper {
         IdentityProvider provider = getIdentityProvider();
         String name = null;
 
-        if(provider instanceof GoogleSignInProvider)
+        if (provider instanceof GoogleSignInProvider)
             name = getUsersName((GoogleSignInProvider) provider);
-        else if(provider instanceof ChowmeinUserPoolsSignInProvider)
+        else if (provider instanceof ChowmeinUserPoolsSignInProvider)
             name = getUsersName((ChowmeinUserPoolsSignInProvider) provider);
 
         return name;
@@ -142,9 +141,9 @@ public class UserHelper {
         IdentityProvider provider = getIdentityProvider();
         String username = null;
 
-        if(provider instanceof GoogleSignInProvider)
+        if (provider instanceof GoogleSignInProvider)
             username = getUsername((GoogleSignInProvider) provider);
-        else if(provider instanceof ChowmeinUserPoolsSignInProvider)
+        else if (provider instanceof ChowmeinUserPoolsSignInProvider)
             username = getUsername((ChowmeinUserPoolsSignInProvider) provider);
 
         return username;
@@ -162,9 +161,9 @@ public class UserHelper {
         IdentityProvider provider = getIdentityProvider();
         String email = null;
 
-        if(provider instanceof GoogleSignInProvider)
+        if (provider instanceof GoogleSignInProvider)
             email = getUserEmail((GoogleSignInProvider) provider);
-        else if(provider instanceof ChowmeinUserPoolsSignInProvider)
+        else if (provider instanceof ChowmeinUserPoolsSignInProvider)
             email = getUserEmail((ChowmeinUserPoolsSignInProvider) provider);
 
         return email;
@@ -209,7 +208,7 @@ public class UserHelper {
 
         IdentityProvider provider = getIdentityProvider();
 
-        if(provider instanceof ChowmeinUserPoolsSignInProvider) {
+        if (provider instanceof ChowmeinUserPoolsSignInProvider) {
             Thread cognitoDetails = new Thread(() -> ((ChowmeinUserPoolsSignInProvider) provider).getCognitoUserPool().getCurrentUser().getSession(new AuthenticationHandler() {
                 @Override
                 public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
@@ -244,7 +243,6 @@ public class UserHelper {
                 err.printStackTrace();
             }
         }
-
 
 
         return token[0];
