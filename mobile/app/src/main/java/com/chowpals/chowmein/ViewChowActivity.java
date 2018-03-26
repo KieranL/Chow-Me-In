@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -63,6 +64,12 @@ public class ViewChowActivity extends NavBarActivity {
         selectedChow = (Chows) searchChowResult.getSerializableExtra("Selected Chow");
         chowInfoTextView = findViewById(R.id.chowInfoTextView);
         acceptChowButton = findViewById(R.id.acceptChowButton);
+
+        if (searchChowResult.hasExtra(getResources().getString(R.string.CALLING_CLASS)) && searchChowResult.getStringExtra(getResources().getString(R.string.CALLING_CLASS)).equals("ViewMyChowsActivity")) {
+            acceptChowButton.setVisibility(View.INVISIBLE);
+        } else {
+            acceptChowButton.setVisibility(View.VISIBLE);
+        }
         acceptChowButton.setOnClickListener(view -> {
             NetworkHelper.checkConnectionAndDoRunnable(
                     this, () -> UserHelper.checkLoginAndDoRunnable(this, UserHelper.chowMeIn(this, this, selectedChow)));

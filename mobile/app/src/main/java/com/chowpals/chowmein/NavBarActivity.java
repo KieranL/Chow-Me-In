@@ -48,7 +48,7 @@ public class NavBarActivity extends AppCompatActivity
             navigationView.getMenu().getItem(NavBarItems.CREATE_CHOW.ordinal()).setVisible(true);
             navigationView.getMenu().getItem(NavBarItems.LOGIN.ordinal()).setVisible(false);
             navigationView.getMenu().getItem(NavBarItems.LOGOUT.ordinal()).setVisible(true);
-            navigationView.getMenu().getItem(NavBarItems.MY_CHOWS.ordinal()).setVisible(false);
+            navigationView.getMenu().getItem(NavBarItems.MY_CHOWS.ordinal()).setVisible(true);
         } else {
             navigationView.getMenu().getItem(NavBarItems.CREATE_CHOW.ordinal()).setVisible(false);
             navigationView.getMenu().getItem(NavBarItems.LOGIN.ordinal()).setVisible(true);
@@ -125,7 +125,7 @@ public class NavBarActivity extends AppCompatActivity
 
             // refresh the activity -- easier to reinit everything this way
             this.finish();
-            startActivity(this.getIntent());
+            startActivity(new Intent(getApplicationContext(),MainActivity.class));
         } else if (id == R.id.nav_my_chows) {
             NetworkHelper.checkConnectionAndStartActivity(this, new Intent(getApplicationContext(), ViewMyChowsActivity.class));
         }

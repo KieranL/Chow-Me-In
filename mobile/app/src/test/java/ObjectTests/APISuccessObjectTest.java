@@ -33,7 +33,7 @@ public class APISuccessObjectTest {
                 .setMeetLocation("Here")
                 .setMeetTime(ISO_DATA_FORMAT.format(new Date()))
                 .setNotes("No notes")
-                .setCategory("American"), null);
+                .setCategory("American"));
     }
 
     @Test
@@ -56,7 +56,7 @@ public class APISuccessObjectTest {
                 .setMeetLocation("Here")
                 .setMeetTime(ISO_DATA_FORMAT.format(new Date()))
                 .setNotes("No notes")
-                .setCategory("American"), null);
+                .setCategory("American"));
         assertEquals(true, testAPISuccessObject.isSuccess());
         assertNotNull(testAPISuccessObject.getChow());
     }
@@ -74,21 +74,21 @@ public class APISuccessObjectTest {
                 .setMeetLocation("Here")
                 .setMeetTime(ISO_DATA_FORMAT.format(new Date()))
                 .setNotes("No notes")
-                .setCategory("American"), null);
+                .setCategory("American"));
         assertEquals(false, testAPISuccessObject.isSuccess());
         assertNotNull(testAPISuccessObject.getChow());
     }
 
     @Test
     public void testSuccessNull() {
-        testAPISuccessObject = new APISuccessObject(true, null, null);
+        testAPISuccessObject = new APISuccessObject(true, null);
         assertEquals(true, testAPISuccessObject.isSuccess());
         assertNull(testAPISuccessObject.getChow());
     }
 
     @Test
     public void testFailureNull() {
-        testAPISuccessObject = new APISuccessObject(false, null, null);
+        testAPISuccessObject = new APISuccessObject(false, null);
         assertEquals(false, testAPISuccessObject.isSuccess());
         assertNull(testAPISuccessObject.getChow());
     }

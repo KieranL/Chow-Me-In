@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import com.amazonaws.mobile.auth.core.IdentityManager;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -41,6 +43,9 @@ public class LoginAndOutTest {
 
     @Test
     public void loginAndOutTest() {
+
+        if (UserHelper.isUserSignedIn())
+            IdentityManager.getDefaultIdentityManager().signOut();
         sleep();
 
         ViewInteraction appCompatImageButton = onView(

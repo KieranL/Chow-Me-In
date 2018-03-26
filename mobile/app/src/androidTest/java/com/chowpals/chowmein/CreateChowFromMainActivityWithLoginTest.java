@@ -236,17 +236,6 @@ public class CreateChowFromMainActivityWithLoginTest {
 
         sleep();
 
-        /*
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.chowInfoTextView), withText("Chow name: Chowtestname\nCategory: Chinese\nMeet Location: Chowtestloc\nMeet Time: " + date +"\nAdditional Notes: Chowtestdesc\nContact Name: postTester"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.card_view),
-                                        0),
-                                0),
-                        isDisplayed()));
-        textView.check(matches(withText("Chow name: Chowtestname Category: Chinese Meet Location: Chowtestloc Meet Time: " + date + "Additional Notes: Chowtestdesc Contact Name: postTester")));
-*/
         onView(allOf(withId(R.id.chowInfoTextView), withText("Chow name: Chowtestname\nCategory: Chinese\nMeet Location: Chowtestloc\nMeet Time: " + date + "\nAdditional Notes: Chowtestdesc\nContact Name: postTester")));
 
         sleep();
@@ -262,6 +251,7 @@ public class CreateChowFromMainActivityWithLoginTest {
         appCompatButton3.perform(click());
 
         sleep();
+        sleep();
 
         ViewInteraction appCompatImageView = onView(
                 allOf(withClassName(is("android.support.v7.widget.AppCompatImageView")), withContentDescription("Search"),
@@ -274,6 +264,7 @@ public class CreateChowFromMainActivityWithLoginTest {
                         isDisplayed()));
         appCompatImageView.perform(click());
 
+        sleep();
         sleep();
 
         ViewInteraction searchAutoComplete = onView(
@@ -288,6 +279,7 @@ public class CreateChowFromMainActivityWithLoginTest {
         searchAutoComplete.perform(replaceText("Chowtestname"), closeSoftKeyboard());
 
         sleep();
+        sleep();
 
         DataInteraction textView2 = onData(anything())
                 .inAdapterView(allOf(withId(R.id.searchChowListViewMain),
@@ -299,17 +291,6 @@ public class CreateChowFromMainActivityWithLoginTest {
 
         sleep();
 
-        /*
-        ViewInteraction textView3 = onView(
-                allOf(withId(R.id.chowInfoTextView), withText("Chow name: Chowtestname\nCategory: Chinese\nMeet Location: Chowtestloc\nMeet Time: " + date + "\nAdditional Notes: Chowtestdesc\nContact Name: postTester"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.card_view),
-                                        0),
-                                0),
-                        isDisplayed()));
-        textView3.check(matches(withText("Chow name: Chowtestname Category: Chinese Meet Location: Chowtestloc Meet Time: " + date + "Additional Notes: Chowtestdesc Contact Name: postTester")));
-*/
         onView(allOf(withId(R.id.chowInfoTextView), withText("Chow name: Chowtestname\nCategory: Chinese\nMeet Location: Chowtestloc\nMeet Time: " + date + "\nAdditional Notes: Chowtestdesc\nContact Name: postTester")));
 
         sleep();
