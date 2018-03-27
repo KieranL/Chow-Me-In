@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import com.amazonaws.mobile.auth.core.IdentityManager;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -21,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import helpers.UserHelper;
 import objects.TestNavBarLoggedOut;
 
 import static android.support.test.espresso.Espresso.onData;
@@ -49,6 +52,8 @@ public class SearchFromMainActivityLoginTest {
     @Test
     public void searchFromMainActivityNoLoginTest() {
 
+        if (UserHelper.isUserSignedIn())
+            IdentityManager.getDefaultIdentityManager().signOut();
         sleep();
 
         ViewInteraction appCompatImageButton = onView(
@@ -172,6 +177,8 @@ public class SearchFromMainActivityLoginTest {
         sleep();
 
         onView(allOf(withId(R.id.chowInfoTextView), withText("Chow name: Chowtestname\nCategory: Chinese\nMeet Location: Chowtestloc\nMeet Time: " + date + "\nAdditional Notes: Chowtestdesc\nContact Name: postTester")));
+
+        IdentityManager.getDefaultIdentityManager().signOut();
     }
 
     /**************sleep

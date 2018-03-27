@@ -162,7 +162,6 @@ public class LoginAndOutTest {
         navigationMenuItemView2.perform(click());
 
         sleep();
-        sleep();
 
         ViewInteraction textView2 = onView(
                 allOf(withId(R.id.welcomeMessageTextView), withText("Welcome to Chow Me In!"),

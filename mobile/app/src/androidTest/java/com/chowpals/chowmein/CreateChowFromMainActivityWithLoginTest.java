@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import helpers.UserHelper;
 import objects.TestNavBarLoggedOut;
 
 import static android.support.test.espresso.Espresso.onData;
@@ -54,6 +55,9 @@ public class CreateChowFromMainActivityWithLoginTest {
 
     @Test
     public void createChowFromMainActivityWithLoginTest() {
+
+        if (UserHelper.isUserSignedIn())
+            IdentityManager.getDefaultIdentityManager().signOut();
         sleep();
 
         ViewInteraction appCompatImageButton = onView(
@@ -253,7 +257,6 @@ public class CreateChowFromMainActivityWithLoginTest {
         appCompatButton3.perform(click());
 
         sleep();
-        sleep();
 
         ViewInteraction appCompatImageView = onView(
                 allOf(withClassName(is("android.support.v7.widget.AppCompatImageView")), withContentDescription("Search"),
@@ -267,7 +270,6 @@ public class CreateChowFromMainActivityWithLoginTest {
         appCompatImageView.perform(click());
 
         sleep();
-        sleep();
 
         ViewInteraction searchAutoComplete = onView(
                 allOf(withClassName(is("android.widget.SearchView$SearchAutoComplete")),
@@ -280,7 +282,6 @@ public class CreateChowFromMainActivityWithLoginTest {
                         isDisplayed()));
         searchAutoComplete.perform(replaceText("Chowtestname"), closeSoftKeyboard());
 
-        sleep();
         sleep();
 
         DataInteraction textView2 = onData(anything())
