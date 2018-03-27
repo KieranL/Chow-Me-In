@@ -1,5 +1,6 @@
 package com.chowpals.chowmein;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -55,8 +56,16 @@ public class ViewChowActivity extends NavBarActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void populateChowInfo() {
-        chowInfoTextView.setText(selectedChow.toString());
+        Intent searchChowResult = getIntent();
+        if (searchChowResult.hasExtra(getResources().getString(R.string.CALLING_CLASS)) && searchChowResult.getStringExtra(getResources().getString(R.string.CALLING_CLASS)).equals("ViewMyChowsActivityPosted")) {
+            if (selectedChow.getJoinedUser() == null)
+                chowInfoTextView.setText(selectedChow.toString());
+            else
+                chowInfoTextView.setText(selectedChow.toString() + "\nJoined User:" + selectedChow.getJoinedUser() + "\nJoined User's Name:" + selectedChow.getJoinedName() + "\nJoined User's email:" + selectedChow.getJoinedEmail());
+
+        }
     }
 
     private void initVariables() {
