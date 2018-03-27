@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+
+import com.amazonaws.mobile.auth.core.IdentityManager;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -20,6 +23,8 @@ import org.junit.runner.RunWith;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import helpers.UserHelper;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -46,6 +51,9 @@ public class SearchFromMainActivityNoLoginTest {
 
     @Test
     public void searchFromMainActivityNoLoginTest() {
+
+        if (UserHelper.isUserSignedIn())
+            IdentityManager.getDefaultIdentityManager().signOut();
 
         sleep();
 
@@ -99,6 +107,8 @@ public class SearchFromMainActivityNoLoginTest {
         sleep();
 
         onView(allOf(withId(R.id.chowInfoTextView), withText("Chow name: Chowtestname\nCategory: Chinese\nMeet Location: Chowtestloc\nMeet Time: " + date + "\nAdditional Notes: Chowtestdesc\nContact Name: postTester")));
+
+        IdentityManager.getDefaultIdentityManager().signOut();
     }
 
     /**************sleep

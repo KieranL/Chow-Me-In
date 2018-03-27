@@ -1,6 +1,7 @@
 package com.chowpals.chowmein;
 
 
+import android.support.test.espresso.DataInteraction;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -22,32 +23,34 @@ import helpers.UserHelper;
 import objects.TestNavBarLoggedIn;
 import objects.TestNavBarLoggedOut;
 
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.replaceText;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class LoginAndOutTest {
+public class DeleteChowTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void loginAndOutTest() {
+    public void deleteChowTest() {
 
         if (UserHelper.isUserSignedIn())
             IdentityManager.getDefaultIdentityManager().signOut();
+
         sleep();
 
         ViewInteraction appCompatImageButton = onView(
@@ -121,23 +124,6 @@ public class LoginAndOutTest {
 
         sleep();
 
-        assertEquals(true, UserHelper.isUserSignedIn());
-
-        sleep();
-
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.welcomeMessageTextView), withText("Howdy, postTester!"),
-                        childAtPosition(
-                                allOf(withId(R.id.welcomeMessageConstraintView),
-                                        childAtPosition(
-                                                withId(R.id.welcomeMessageCardView),
-                                                0)),
-                                0),
-                        isDisplayed()));
-        textView.check(matches(withText("Howdy, postTester!")));
-
-        sleep();
-
         ViewInteraction appCompatImageButton2 = onView(
                 allOf(withContentDescription("Open navigation drawer"),
                         childAtPosition(
@@ -157,26 +143,96 @@ public class LoginAndOutTest {
                                 childAtPosition(
                                         withId(R.id.nav_view),
                                         0)),
-                        TestNavBarLoggedIn.LOGOUT.ordinal() + 1),
+                        TestNavBarLoggedIn.MY_CHOWS.ordinal() + 1),
                         isDisplayed()));
         navigationMenuItemView2.perform(click());
 
         sleep();
 
-        ViewInteraction textView2 = onView(
-                allOf(withId(R.id.welcomeMessageTextView), withText("Welcome to Chow Me In!"),
+        ViewInteraction appCompatImageView = onView(
+                allOf(withClassName(is("android.support.v7.widget.AppCompatImageView")), withContentDescription("Search"),
                         childAtPosition(
-                                allOf(withId(R.id.welcomeMessageConstraintView),
+                                allOf(withClassName(is("android.widget.LinearLayout")),
                                         childAtPosition(
-                                                withId(R.id.welcomeMessageCardView),
+                                                withId(R.id.chowsSearchViewMain),
                                                 0)),
-                                0),
+                                1),
                         isDisplayed()));
-        textView2.check(matches(withText("Welcome to Chow Me In!")));
+        appCompatImageView.perform(click());
 
         sleep();
 
-        assertEquals(false, UserHelper.isUserSignedIn());
+        ViewInteraction searchAutoComplete = onView(
+                allOf(withClassName(is("android.widget.SearchView$SearchAutoComplete")), withContentDescription("Search query"),
+                        childAtPosition(
+                                allOf(withClassName(is("android.widget.LinearLayout")),
+                                        childAtPosition(
+                                                withClassName(is("android.widget.LinearLayout")),
+                                                1)),
+                                0),
+                        isDisplayed()));
+        searchAutoComplete.perform(replaceText("Chowtestname"), closeSoftKeyboard());
+
+        sleep();
+
+        DataInteraction textView2 = onData(anything())
+                .inAdapterView(allOf(withId(R.id.searchChowsCreatedByUserListViewMain),
+                        childAtPosition(
+                                withId(R.id.searchChowsCreatedByUserConstraintView),
+                                2)))
+                .atPosition(0);
+        textView2.perform(click());
+
+        sleep();
+
+        ViewInteraction actionMenuItemView = onView(
+                allOf(withId(R.id.action_delete_chow), withContentDescription("Delete"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.toolbar),
+                                        1),
+                                1),
+                        isDisplayed()));
+        actionMenuItemView.perform(click());
+
+        sleep();
+
+        ViewInteraction appCompatButton = onView(
+                allOf(withId(android.R.id.button1), withText("Yes"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.ScrollView")),
+                                        0),
+                                3)));
+        appCompatButton.perform(scrollTo(), click());
+
+        sleep();
+
+        ViewInteraction appCompatImageButton3 = onView(
+                allOf(withContentDescription("Open navigation drawer"),
+                        childAtPosition(
+                                allOf(withId(R.id.toolbar),
+                                        childAtPosition(
+                                                withClassName(is("android.support.design.widget.AppBarLayout")),
+                                                0)),
+                                1),
+                        isDisplayed()));
+        appCompatImageButton3.perform(click());
+
+        sleep();
+
+        ViewInteraction navigationMenuItemView3 = onView(
+                allOf(childAtPosition(
+                        allOf(withId(R.id.design_navigation_view),
+                                childAtPosition(
+                                        withId(R.id.nav_view),
+                                        0)),
+                        TestNavBarLoggedIn.LOGOUT.ordinal() + 1),
+                        isDisplayed()));
+        navigationMenuItemView3.perform(click());
+
+        IdentityManager.getDefaultIdentityManager().signOut();
+
     }
 
     /**************sleep
