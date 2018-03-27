@@ -107,7 +107,7 @@ public class SearchFromMainActivityNoLoginTest {
      */
     private static void sleep() {
         try {
-            Thread.sleep(1250);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
