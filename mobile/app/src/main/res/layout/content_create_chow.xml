@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.chowpals.chowmein.EditChowActivity"
+    tools:context="com.chowpals.chowmein.CreateChowActivity"
     tools:showIn="@layout/app_bar_create_chow">
 
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
@@ -27,14 +27,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.constraint.ConstraintLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <EditText
                     android:id="@+id/chowPostNameEditText"
                     style="@style/ViewChowEditText"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_marginLeft="16dp"
@@ -43,98 +43,74 @@
                     android:hint="@string/food_post_name_here"
                     android:inputType="textCapWords|textAutoCorrect|textAutoComplete"
                     android:labelFor="@+id/chowInfoTextView"
-                    card_view:layout_constraintBottom_toTopOf="@+id/chowPostLocationEditText"
-                    card_view:layout_constraintLeft_toLeftOf="parent"
-                    card_view:layout_constraintRight_toRightOf="parent"
-                    card_view:layout_constraintTop_toTopOf="parent"
                     tools:ignore="LabelFor" />
-
-                <EditText
-                    android:id="@+id/chowPostLocationEditText"
-                    style="@style/ViewChowEditText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:hint="@string/food_post_location_here"
-                    android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
-                    android:labelFor="@+id/chowPostLocationTextView"
-                    card_view:layout_constraintBottom_toTopOf="@+id/chowPostTimeEditText"
-                    card_view:layout_constraintLeft_toLeftOf="parent"
-                    card_view:layout_constraintRight_toRightOf="parent"
-                    card_view:layout_constraintTop_toBottomOf="@+id/chowPostNameEditText"
-                    tools:ignore="LabelFor" />
-
-                <android.support.constraint.ConstraintLayout
-                    android:id="@+id/chowPostTimeEditText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    card_view:layout_constraintBottom_toTopOf="@+id/chowPostDescriptionEditText"
-                    card_view:layout_constraintLeft_toLeftOf="parent"
-                    card_view:layout_constraintRight_toRightOf="parent"
-                    card_view:layout_constraintTop_toBottomOf="@+id/chowPostLocationEditText"
-                    tools:ignore="LabelFor">
-
-                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:padding="8dp">
-
-                        <DatePicker
-                            android:id="@+id/chowPostDatePicker"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="4"
-                            android:calendarViewShown="true"
-                            android:spinnersShown="false" />
-
-                        <TimePicker
-                            android:id="@+id/chowPostTimePicker"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="4" />
-                    </LinearLayout>
-
-                </android.support.constraint.ConstraintLayout>
 
                 <EditText
                     android:id="@+id/chowPostDescriptionEditText"
                     style="@style/ViewChowEditText"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/chowPostNameEditText"
                     android:layout_marginBottom="8dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:hint="@string/food_post_description_here"
                     android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
-                    card_view:layout_constraintBottom_toTopOf="@+id/categorySpinner"
-                    card_view:layout_constraintLeft_toLeftOf="parent"
-                    card_view:layout_constraintRight_toRightOf="parent"
-                    card_view:layout_constraintTop_toBottomOf="@+id/chowPostTimeEditText"
+                    tools:ignore="LabelFor" />
+
+                <EditText
+                    android:id="@+id/chowPostLocationEditText"
+                    style="@style/ViewChowEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/chowPostNameEditText"
+                    android:layout_below="@+id/chowPostDescriptionEditText"
+                    android:hint="@string/food_post_location_here"
+                    android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
+                    android:labelFor="@+id/chowPostLocationTextView"
                     tools:ignore="LabelFor" />
 
                 <Spinner
                     android:id="@+id/categorySpinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/chowPostLocationEditText"
                     android:layout_marginBottom="8dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:layout_marginTop="8dp"
-                    card_view:layout_constraintBottom_toTopOf="@+id/createChowButton"
-                    card_view:layout_constraintLeft_toLeftOf="parent"
-                    card_view:layout_constraintRight_toRightOf="parent"
-                    card_view:layout_constraintTop_toBottomOf="@+id/chowPostDescriptionEditText" />
+                    android:layout_marginTop="8dp" />
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/meetingLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/categorySpinner"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <DatePicker
+                        android:id="@+id/chowPostDatePicker"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:calendarViewShown="true"
+                        android:spinnersShown="false" />
+
+                    <TimePicker
+                        android:id="@+id/chowPostTimePicker"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4" />
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/createChowButton"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/meetingLayout"
                     android:layout_marginBottom="40dp"
                     android:layout_marginLeft="40dp"
                     android:layout_marginRight="40dp"
@@ -142,16 +118,12 @@
                     android:background="@android:color/holo_red_light"
                     android:text="@string/verify_chow"
                     android:textSize="40sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/chowPostDescriptionEditText" />
+                    android:textStyle="bold" />
 
-            </android.support.constraint.ConstraintLayout>
+            </RelativeLayout>
 
         </ScrollView>
 
     </android.support.v7.widget.CardView>
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

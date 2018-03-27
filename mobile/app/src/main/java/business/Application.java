@@ -13,6 +13,7 @@ import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.amazonaws.mobile.auth.core.IdentityManager;
+import com.amazonaws.mobile.auth.google.GoogleSignInProvider;
 import com.amazonaws.mobile.auth.ui.AuthUIConfiguration;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.chowpals.chowmein.login.ChowmeinUserPoolsSignInProvider;
@@ -53,7 +54,7 @@ public class Application extends MultiDexApplication {
 
         // Add UserPools as an SignIn Provider.
         IdentityManager.getDefaultIdentityManager().addSignInProvider(ChowmeinUserPoolsSignInProvider.class);
-        IdentityManager.getDefaultIdentityManager().addSignInProvider(com.amazonaws.mobile.auth.google.GoogleSignInProvider.class);
+//        IdentityManager.getDefaultIdentityManager().addSignInProvider(GoogleSignInProvider.class);
     }
 
     @Override
