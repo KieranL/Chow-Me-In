@@ -21,6 +21,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import objects.TestNavBarLoggedOut;
+
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -68,7 +70,7 @@ public class SearchFromMainActivityLoginTest {
                                 childAtPosition(
                                         withId(R.id.nav_view),
                                         0)),
-                        3),
+                        TestNavBarLoggedOut.LOGIN.ordinal() + 1),
                         isDisplayed()));
         navigationMenuItemView.perform(click());
 

@@ -26,6 +26,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import objects.TestNavBarLoggedOut;
+
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -73,7 +75,7 @@ public class CreateChowFromMainActivityWithLoginTest {
                                 childAtPosition(
                                         withId(R.id.nav_view),
                                         0)),
-                        3),
+                        TestNavBarLoggedOut.LOGIN.ordinal() + 1),
                         isDisplayed()));
         navigationMenuItemView.perform(click());
 
@@ -209,11 +211,11 @@ public class CreateChowFromMainActivityWithLoginTest {
         int month = cal.get(Calendar.MONTH) + 1;
         int day = cal.get(Calendar.DATE) + 2;
 
-        int[] validDate = validateDate(day,month,year);
+        int[] validDate = validateDate(day, month, year);
 
         onView(withId(Matchers.equalTo(R.id.chowPostDatePicker))).perform(PickerActions.setDate(validDate[2], validDate[1], validDate[0]));
 
-        String date = getDate(validDate[0],validDate[1],validDate[2]);
+        String date = getDate(validDate[0], validDate[1], validDate[2]);
 
         sleep();
 
@@ -338,13 +340,13 @@ public class CreateChowFromMainActivityWithLoginTest {
                 }
         }
 
-        return new int[] {day,month,year};
+        return new int[]{day, month, year};
     }
 
     private String getDate(int dayParm, int monthParm, int yearParm) {
 
         Calendar calendar = Calendar.getInstance();
-        calendar.set(yearParm, monthParm-1, dayParm, 12, 0, 0);
+        calendar.set(yearParm, monthParm - 1, dayParm, 12, 0, 0);
 
         Date dateObj = calendar.getTime();
         return ISO_DATA_FORMAT.format(dateObj);
