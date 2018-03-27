@@ -18,9 +18,15 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Running system tests
 
-To run system tests please first make sure that your local DynamoDb and server are running.
+To run the system tests please first make sure that your local [database](https://github.com/KieranL/Chow-Me-In/blob/master/server/chowmein/database/README.md) and [server](https://github.com/KieranL/Chow-Me-In/blob/master/server/README.md#how-to-setup-server-locally) are running.
 
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
+*NOTE*
+
+```
+We had to limit the number of system tests we could write for the web locally because a lot of functionality relies on the user being signed in which in our app makes use of the external service Cognito. We cannot test this locally especially due to the hacky way we have to get login to work locally (which is not possible with automated UI tests). So currently our system tests for web tests the functionalities that are available everyone but not logged in users, such as viewing chows. We also tried connecting Protractor to the prod URL but couldn't get username and password input working in the Cognito sign in page.
+```
 
 ## Further help
 
