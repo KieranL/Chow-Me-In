@@ -9,38 +9,47 @@ export class ViewChowsPage {
     return element(by.css('.chow'));
   }
 
-  async checkChowListInfo() {
-    await expect(element(by.id('food')).isDisplayed()).toBeTruthy();
-    await expect(element(by.id('posterName')).isDisplayed()).toBeTruthy();
-    await expect(element(by.cssContainingText('span', 'Last updated')).isDisplayed()).toBeTruthy();
-    await expect(element(by.cssContainingText('div', 'Location')).isDisplayed()).toBeTruthy();
-    await expect(element(by.cssContainingText('div', 'Time')).isDisplayed()).toBeTruthy();
+  getChowFood() {
+    return element(by.id('food'));
   }
 
-  async checkChowDetailInfo() {
-    //Text
-    await expect(element(by.id('food')).isDisplayed()).toBeTruthy();
-    await expect(element(by.id('posterName')).isDisplayed()).toBeTruthy();
-    await expect(element(by.cssContainingText('span', 'Last updated')).isDisplayed()).toBeTruthy();
-    await expect(element(by.cssContainingText('div', 'Location')).isDisplayed()).toBeTruthy();
-    await expect(element(by.cssContainingText('div', 'Time')).isDisplayed()).toBeTruthy();
-    await expect(element(by.id('notes')).isDisplayed()).toBeTruthy();
-
-    //Buttons
-    await expect(element(by.buttonText('Chow Me-In!')).isDisplayed()).toBeTruthy();
-    await expect(element(by.buttonText('Edit')).isDisplayed()).toBeTruthy();
-    await expect(element(by.buttonText('Delete')).isDisplayed()).toBeTruthy();
+  getChowPosterName() {
+    return element(by.id('posterName'));
   }
 
-  async checkButtonsDisabled() {
-    await expect(element(by.buttonText('Chow Me-In!')).isEnabled()).toBeFalsy();
-    await expect(element(by.buttonText('Edit')).isEnabled()).toBeFalsy();
-    await expect(element(by.buttonText('Delete')).isEnabled()).toBeFalsy();
+  getChowLastUpdated() {
+    return element(by.cssContainingText('span', 'Last updated'));
   }
 
-  async checkSearch() {
-    let food = await element(by.id('food')).getText();
+  getChowLocation() {
+    return element(by.cssContainingText('div', 'Location'));
+  }
+
+  getChowTime() {
+    return element(by.cssContainingText('div', 'Time'));
+  }
+
+  getChowNotes() {
+    return element(by.id('notes'));
+  }
+
+  getChowMeInButton() {
+    return element(by.buttonText('Chow Me-In!'));
+  }
+
+  getEditButton() {
+    return element(by.buttonText('Edit'));
+  }
+
+  getDeleteButton() {
+    return element(by.buttonText('Delete'));
+  }
+
+  searchForFood(food: string) {
     element(by.id('search')).sendKeys(food);
-    expect(element(by.cssContainingText('#food', food)).isDisplayed()).toBeTruthy();
+  }
+
+  getByFood(food: string) {
+    return element(by.cssContainingText('#food', food));
   }
 }

@@ -8,7 +8,7 @@ describe('web App', () => {
   });
 
   it('should have a title', async function() {
-    await page.navigateTo();
-    expect(page.getTitle()).toEqual('Chow Me-In');
+    page.navigateTo();
+    await expect(page.getTitle()).toEqual('Chow Me-In');
   });
 });

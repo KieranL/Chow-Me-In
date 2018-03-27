@@ -8,7 +8,7 @@ describe('web App', () => {
   });
 
   it('should navigate to right pages', async function() {
-    await page.getViewChowsButton().click();
+    page.getViewChowsButton().click();
     await expect(page.getCurrentUrl()).toContain('/chow-list');
   });
 });

@@ -1,6 +1,6 @@
 import { ViewChowsPage } from './view-chows.po';
 
-describe('View chows page', () => {
+describe('View Chows page', () => {
   let page: ViewChowsPage;
 
   beforeEach(() => {
@@ -9,27 +9,47 @@ describe('View chows page', () => {
 
   it ('should show appropriate information in chows list',async function() {
     if(page.getFirstChow()) {
-      await page.checkChowListInfo();
+      await expect(page.getChowFood().isDisplayed()).toBeTruthy();
+      await expect(page.getChowPosterName().isDisplayed()).toBeTruthy();
+      await expect(page.getChowLastUpdated().isDisplayed()).toBeTruthy();
+      await expect(page.getChowLocation().isDisplayed()).toBeTruthy();
+      await expect(page.getChowTime().isDisplayed()).toBeTruthy();
     }
   });
 
   it ('should show chow details when click on chow',async function() {
-    if (page.getFirstChow()) {
+    if(page.getFirstChow()) {
       page.clickOnChow();
-      await page.checkChowDetailInfo();
+
+      //Text
+      await expect(page.getChowFood().isDisplayed()).toBeTruthy();
+      await expect(page.getChowPosterName().isDisplayed()).toBeTruthy();
+      await expect(page.getChowLastUpdated().isDisplayed()).toBeTruthy();
+      await expect(page.getChowLocation().isDisplayed()).toBeTruthy();
+      await expect(page.getChowTime().isDisplayed()).toBeTruthy();
+      await expect(page.getChowNotes().isDisplayed()).toBeTruthy();
+
+      //Buttons
+      await expect(page.getChowMeInButton().isDisplayed()).toBeTruthy();
+      await expect(page.getEditButton().isDisplayed()).toBeTruthy();
+      await expect(page.getDeleteButton().isDisplayed()).toBeTruthy();
     }
   });
 
   it ('should disable buttons when not logged in',async function() {
-    if (page.getFirstChow()) {
+    if(page.getFirstChow()) {
       page.clickOnChow();
-      await page.checkButtonsDisabled();
+      await expect(page.getChowMeInButton().isEnabled()).toBeFalsy();
+      await expect(page.getEditButton().isEnabled()).toBeFalsy();
+      await expect(page.getDeleteButton().isEnabled()).toBeFalsy();
     }
   });
 
   it ('should be able to search by food name',async function() {
-    if (page.getFirstChow()) {
-      await page.checkSearch();
+    if(page.getFirstChow()) {
+      let food = await page.getChowFood().getText();
+      page.searchForFood(food);
+      await expect(page.getByFood(food).isDisplayed()).toBeTruthy();
     }
   });
 });
