@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+
 import com.amazonaws.mobile.auth.core.IdentityManager;
 
 import org.hamcrest.Description;
@@ -53,6 +54,7 @@ public class SearchFromMainActivityNoLoginTest {
 
         if (UserHelper.isUserSignedIn())
             IdentityManager.getDefaultIdentityManager().signOut();
+
         sleep();
 
         ViewInteraction appCompatImageView = onView(

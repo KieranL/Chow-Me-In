@@ -54,6 +54,7 @@ public class SearchFromMainActivityLoginTest {
 
         if (UserHelper.isUserSignedIn())
             IdentityManager.getDefaultIdentityManager().signOut();
+
         sleep();
 
         ViewInteraction appCompatImageButton = onView(

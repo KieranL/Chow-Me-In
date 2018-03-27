@@ -55,9 +55,10 @@ public class CreateChowFromMainActivityWithLoginTest {
 
     @Test
     public void createChowFromMainActivityWithLoginTest() {
-
+      
         if (UserHelper.isUserSignedIn())
             IdentityManager.getDefaultIdentityManager().signOut();
+
         sleep();
 
         ViewInteraction appCompatImageButton = onView(
