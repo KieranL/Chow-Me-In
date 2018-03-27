@@ -63,7 +63,7 @@ public class SearchFromMainActivityNoLoginTest {
         sleep();
 
         ViewInteraction searchAutoComplete = onView(
-                allOf(withClassName(is("android.widget.SearchView$SearchAutoComplete")), withContentDescription("Search query"),
+                allOf(withClassName(is("android.widget.SearchView$SearchAutoComplete")),
                         childAtPosition(
                                 allOf(withClassName(is("android.widget.LinearLayout")),
                                         childAtPosition(
