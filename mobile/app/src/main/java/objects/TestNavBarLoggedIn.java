@@ -1,10 +1,9 @@
 package objects;
 
-public enum NavBarItems {
+public enum TestNavBarLoggedIn {
     HOME,
     CREATE_CHOW,
     SEARCH_CHOW,
     MY_CHOWS,
-    LOGIN,
     LOGOUT
 }
