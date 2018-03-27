@@ -72,6 +72,7 @@ A `chow` consists of:
   meetLocation: a description of where to meet in person,
   meetTime:     the time to meet in the format: "yyyy-mm-ddThh:mm:ss",
   notes:        any additional notes the poster of the chow may want to share,
+  category      the category of the food
   posterUser:   the username of the user who posted this chow,
   posterName:   the name of the user who posted this chow,
   posterEmail:  the email of the user who posted this chow,

@@ -7,8 +7,8 @@ describe('web App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  it('should have a title', async function() {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to app!');
+    await expect(page.getTitle()).toEqual('Chow Me-In');
   });
 });

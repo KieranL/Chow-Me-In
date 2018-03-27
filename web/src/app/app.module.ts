@@ -14,6 +14,8 @@ import { LoginComponent } from './auth/login/login.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { MaterialModule } from './material/material.module';
 import { MyChowsComponent } from './chow/my-chows/my-chows.component';
+import { FormsModule } from '@angular/forms';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { MyChowsComponent } from './chow/my-chows/my-chows.component';
     HttpClientModule,
     AppRoutingModule,
     Ng4LoadingSpinnerModule.forRoot(),
-    MaterialModule
+    MaterialModule,
+    FormsModule,
+    CalendarModule
   ],
   providers: [ChowService, UserService, AuthGuardService],
   bootstrap: [AppComponent]

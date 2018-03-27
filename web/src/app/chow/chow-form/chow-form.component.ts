@@ -5,6 +5,7 @@ import {UserService} from '../../auth/user.service';
 import {Chow} from '../chow';
 import {Location} from '@angular/common';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import moment = require("moment");
 
 @Component({
   selector: 'app-chow-form',
@@ -13,6 +14,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 })
 export class ChowFormComponent implements OnInit {
   @Input() chow: Chow;
+  meetTime: Date;
 
   constructor(
     private router: Router,
@@ -25,6 +27,8 @@ export class ChowFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.meetTime = new Date();
+
     const id = +this.route.snapshot.paramMap.get('id');
     if (id) {
       this.spinnerService.show();
@@ -32,11 +36,14 @@ export class ChowFormComponent implements OnInit {
       this.chowService.getChowById(id).subscribe((chow) => {
         this.spinnerService.hide();
         this.chow = chow;
+        if (chow.meetTime && moment(chow.meetTime).isValid()) {
+          this.meetTime = moment.utc(chow.meetTime).local().toDate();
+        }
       });
     }
   }
 
-  add(food: string, meetLocation: string, meetTime: string, notes: string): void {
+  add(food: string, meetLocation: string, category: string, notes: string): void {
     const _this = this;
 
     let token = this.userService.getAuthTokenFromStorage();
@@ -57,13 +64,15 @@ export class ChowFormComponent implements OnInit {
           if (meetLocation !== "") {
             newChow.meetLocation = meetLocation;
           }
-          if (meetTime !== "") {
-            newChow.meetTime = meetTime;
+          if (_this.meetTime) {
+            newChow.meetTime = moment(_this.meetTime).toISOString().slice(0,-5);
+          }
+          if (category !== "") {
+            newChow.category = category;
           }
           if (notes !== "") {
             newChow.notes = notes;
           }
-
 
           _this.chowService.addChow(newChow).subscribe(
             chow => {
@@ -77,7 +86,7 @@ export class ChowFormComponent implements OnInit {
     );
   }
 
-  save(food: string, meetLocation: string, meetTime: string, notes: string): void {
+  save(food: string, meetLocation: string, category: string, notes: string): void {
     const _this = this;
 
     let chow: Chow = {
@@ -92,15 +101,18 @@ export class ChowFormComponent implements OnInit {
     if (meetLocation !== "") {
       chow.meetLocation = meetLocation;
     }
-    if (meetTime !== "") {
-      chow.meetTime = meetTime;
+    if (_this.meetTime) {
+      chow.meetTime = moment(_this.meetTime).toISOString().slice(0,-5);
+    }
+    if (category !== "") {
+      chow.category = category;
     }
     if (notes !== "") {
       chow.notes = notes;
     }
     this.chowService.editChow(this.chow.id, chow)
       .subscribe(updatedChow => {
-        _this.router.navigate(['chow-list']);
+        _this.router.navigate(['my-chows']);
       });
   }
 

@@ -4,6 +4,7 @@ import {Observable} from "rxjs/Observable";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {UserService} from "../auth/user.service";
+import moment = require("moment");
 
 let httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -46,6 +47,12 @@ export class ChowService {
     return this.http.post<Chow>(url, {}, httpOptions);
   }
 
+  unjoinChow(chowId: number): Observable<Chow> {
+    const url = `${this.chowUrl}/${chowId}/unjoin`;
+    this.refreshHeaders();
+    return this.http.post<Chow>(url, {}, httpOptions);
+  }
+
   getJoinedChows(): Observable<Chow[]> {
     const url = `${this.chowUrl}/joined`;
     this.refreshHeaders();
@@ -56,6 +63,14 @@ export class ChowService {
     const url = `${this.chowUrl}/poster`;
     this.refreshHeaders();
     return this.http.get<Chow[]>(url, httpOptions);
+  }
+
+  prettyDate(dateString: string): string {
+    if (moment(dateString).isValid()) {
+      return moment.utc(dateString).local().format('MMMM DD, YYYY [at] h:mm a');
+    } else {
+      return dateString;
+    }
   }
 
   private refreshHeaders(): void {

@@ -16,13 +16,21 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
-## Running unit tests
+## Running system tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
+To run the system tests please first make sure that your local [database](https://github.com/KieranL/Chow-Me-In/blob/master/server/chowmein/database/README.md#putting-it-all-together) and [server](https://github.com/KieranL/Chow-Me-In/blob/master/server/README.md#running-the-server) are running.
 
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
+*NOTE*
+
+```
+We had to limit the number of system tests we could write for the web because a lot of functionality relies on the user being signed in
+which in our app makes use of the external service Cognito.
+We cannot test this locally especially due to the hacky way we have to get login to work locally (which is not possible to do with automated UI tests).
+So currently our system tests for web tests the functionalities that are available everyone but not logged in users, such as viewing chows.
+We also tried connecting Protractor to the prod URL but couldn't get username and password input working in the Cognito sign in page.
+```
 
 ## Further help
 

@@ -10,6 +10,7 @@ public class APISuccessObject {
     public APISuccessObject(boolean success, Chows chow) {
         this.success = success;
         this.chow = chow;
+
     }
 
     public boolean isSuccess() {
