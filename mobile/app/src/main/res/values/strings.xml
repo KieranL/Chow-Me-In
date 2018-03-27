@@ -20,6 +20,7 @@
 
     <!-- Strings related to config -->
     <string name="base_url">https://api.chowme-in.com</string>
+    <string name="CALLING_CLASS">Calling Class</string>
 
     <!-- Example General settings -->
     <string name="pref_header_general">User Settings</string>
@@ -96,4 +97,7 @@
     <string name="verify_chow">Verify Chow</string>
     <string name="title_activity_login">login</string>
     <string name="login_username">User Name</string>
+    <string name="title_activity_view_my_chows">ViewMyChowsActivity</string>
+    <string name="chows_you_have_joined">Chows you have joined!</string>
+    <string name="chows_created_by_you">Chows created by you!</string>
 </resources>

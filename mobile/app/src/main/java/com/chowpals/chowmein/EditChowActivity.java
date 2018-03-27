@@ -53,7 +53,7 @@ public class EditChowActivity extends NavBarActivity {
         setContentView(R.layout.activity_create_chow);
         Intent intent = getIntent();
 
-        if(intent.hasExtra(CHOW_EXTRA)) {
+        if (intent.hasExtra(CHOW_EXTRA)) {
             isNewChow = false;
             selectedChow = (Chows) intent.getSerializableExtra(CHOW_EXTRA);
         }
@@ -81,7 +81,7 @@ public class EditChowActivity extends NavBarActivity {
             if (noInputErrors) {
                 ArrayList<String> categories = ChowHelper.getAllCategories();
 
-                if(isNewChow) {
+                if (isNewChow) {
                     selectedChow = new Chows();
                     selectedChow.setId(-1);
                 }
@@ -98,11 +98,11 @@ public class EditChowActivity extends NavBarActivity {
                         .setNotes(String.valueOf(chowPostDescriptionEditText.getText()).trim())
                         .setCategory(categories.get(categorySpinner.getSelectedItemPosition()));
 
-                if(isNewChow) {
+                if (isNewChow) {
                     Intent verifyChow = new Intent(this, VerifyChowActivity.class);
                     verifyChow.putExtra("Chow", selectedChow);
                     startActivity(verifyChow);
-                }else {
+                } else {
                     Retrofit.Builder builder = new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJava2CallAdapterFactory.create());
 
                     Retrofit retrofit = builder.build();
@@ -129,7 +129,7 @@ public class EditChowActivity extends NavBarActivity {
             }
         });
 
-        if(!isNewChow) {
+        if (!isNewChow) {
             setChowFields();
             createChowButton.setText("Save Chow");
         }
@@ -157,12 +157,12 @@ public class EditChowActivity extends NavBarActivity {
         if (chowPostDatePicker != null) {
             int day = chowPostDatePicker.getDayOfMonth();
             int month = chowPostDatePicker.getMonth();
-            int year =  chowPostDatePicker.getYear();
+            int year = chowPostDatePicker.getYear();
             int hour = chowPostTimePicker.getHour();
             int minute = chowPostTimePicker.getMinute();
 
             Calendar calendar = Calendar.getInstance();
-            calendar.set(year, month, day, hour, minute);
+            calendar.set(year, month, day, hour, minute, 0);
 
             Date dateObj = calendar.getTime();
             return ISO_DATA_FORMAT.format(dateObj);

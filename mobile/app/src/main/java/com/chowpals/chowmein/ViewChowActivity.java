@@ -1,13 +1,13 @@
 package com.chowpals.chowmein;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +23,8 @@ import objects.APISuccessObject;
 import objects.Chows;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.chowpals.chowmein.EditChowActivity.CHOW_EXTRA;
 
 public class ViewChowActivity extends NavBarActivity {
 
@@ -62,14 +64,32 @@ public class ViewChowActivity extends NavBarActivity {
         selectedChow = (Chows) searchChowResult.getSerializableExtra("Selected Chow");
         chowInfoTextView = findViewById(R.id.chowInfoTextView);
         acceptChowButton = findViewById(R.id.acceptChowButton);
-    }
 
+        if (searchChowResult.hasExtra(getResources().getString(R.string.CALLING_CLASS)) && searchChowResult.getStringExtra(getResources().getString(R.string.CALLING_CLASS)).equals("ViewMyChowsActivityPosted")) {
+            acceptChowButton.setVisibility(View.INVISIBLE);
+        } else if (searchChowResult.hasExtra(getResources().getString(R.string.CALLING_CLASS)) && searchChowResult.getStringExtra(getResources().getString(R.string.CALLING_CLASS)).equals("ViewMyChowsActivityJoined")) {
+            acceptChowButton.setVisibility(View.VISIBLE);
+            acceptChowButton.setText("Chow Me Out");
+            acceptChowButton.setOnClickListener(view -> {
+                NetworkHelper.checkConnectionAndDoRunnable(
+                        this, () -> UserHelper.checkLoginAndDoRunnable(this, UserHelper.chowMeOut(this, this, selectedChow)));
+            });
+        } else {
+            acceptChowButton.setVisibility(View.VISIBLE);
+            acceptChowButton.setText("Chow Me In");
+            acceptChowButton.setOnClickListener(view -> {
+                NetworkHelper.checkConnectionAndDoRunnable(
+                        this, () -> UserHelper.checkLoginAndDoRunnable(this, UserHelper.chowMeIn(this, this, selectedChow)));
+            });
+        }
+
+    }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        if(isUserChowOwner() ) {
+        if (isUserChowOwner()) {
             getMenuInflater().inflate(R.menu.menu_view_chow, menu);
         }
 
@@ -80,16 +100,17 @@ public class ViewChowActivity extends NavBarActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        if(id == R.id.action_delete_chow) {
-            if(isUserChowOwner()) {
+        if (id == R.id.action_delete_chow) {
+            if (isUserChowOwner()) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Are you sure you want to delete this chow?");
                 builder.setPositiveButton("Yes", (dialogInterface, i) -> deleteChow());
-                builder.setNegativeButton("No", (dialogInterface, i) ->{});
+                builder.setNegativeButton("No", (dialogInterface, i) -> {
+                });
                 builder.show();
             }
-        }else if(id == R.id.action_edit_chow) {
-            if(isUserChowOwner()) {
+        } else if (id == R.id.action_edit_chow) {
+            if (isUserChowOwner()) {
                 editChow();
             }
         }
@@ -99,8 +120,8 @@ public class ViewChowActivity extends NavBarActivity {
 
     private void editChow() {
         Intent intent = new Intent(getApplicationContext(), EditChowActivity.class);
-        intent.putExtra(EditChowActivity.CHOW_EXTRA, selectedChow);
-        NetworkHelper.checkConnectionAndDoRunnable(this, ()->
+        intent.putExtra(CHOW_EXTRA, selectedChow);
+        NetworkHelper.checkConnectionAndDoRunnable(this, () ->
                 UserHelper.checkLoginAndStartActivityForResult(this, intent, REQUEST_CODE));
     }
 
@@ -132,7 +153,7 @@ public class ViewChowActivity extends NavBarActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                selectedChow = (Chows) data.getSerializableExtra(EditChowActivity.CHOW_EXTRA);
+                selectedChow = (Chows) data.getSerializableExtra(CHOW_EXTRA);
                 populateChowInfo();
             }
         }
