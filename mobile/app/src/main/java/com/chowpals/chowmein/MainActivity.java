@@ -47,7 +47,7 @@ public class MainActivity extends NavBarActivity {
 
         View createChowConstraintView = findViewById(R.id.createChowConstraintView);
         TextView welcomeMsg = findViewById(R.id.welcomeMessageTextView);
-        if(UserHelper.isUserSignedIn()) {
+        if (UserHelper.isUserSignedIn()) {
             createChowConstraintView.setAlpha(1.0f);
 
             // async update the textview
@@ -58,7 +58,7 @@ public class MainActivity extends NavBarActivity {
                 sb.append(UserHelper.getUsersName());
                 sb.append("!");
 
-                runOnUiThread(()-> {
+                runOnUiThread(() -> {
                     welcomeMsg.setText(sb);
                 });
 
@@ -72,7 +72,7 @@ public class MainActivity extends NavBarActivity {
         chowsListedMain = new ArrayList<>();
         masterChowListMain = new ArrayList<>();
         chowSearchResultsMain = findViewById(R.id.searchChowListViewMain);
-        chowSearchViewMain = findViewById(R.id.chowSearchViewMain);
+        chowSearchViewMain = findViewById(R.id.chowsSearchViewMain);
         chowSearchViewMain.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -134,7 +134,7 @@ public class MainActivity extends NavBarActivity {
     }
 
     public void createChow(View view) {
-        NetworkHelper.checkConnectionAndDoRunnable(this, ()->
+        NetworkHelper.checkConnectionAndDoRunnable(this, () ->
                 UserHelper.checkLoginAndStartActivity(this, new Intent(getApplicationContext(), EditChowActivity.class)));
     }
 }
